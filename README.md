@@ -28,19 +28,27 @@ Needs Node.js 18 or newer. Nothing else to install.
 npm start            # http://localhost:3000
 ```
 
+The browser asks you to sign in. The default login is:
+
+- **Email:** `bhavansharora21@gmail.com`
+- **Password:** `Kanha@26`
+
+To use a different login without editing the code, set `PANEL_USER` and `PANEL_PASSWORD`.
+
 Data is saved to `data/db.json`. Back up this file, or use Settings → Download backup.
 
 | Environment variable | Purpose |
 |---|---|
 | `PORT` | Port to listen on (default `3000`) |
 | `DATA_FILE` | Where to store data (default `data/db.json`) |
-| `PANEL_PASSWORD` | If set, the browser asks for a login (any username, this password) |
+| `PANEL_USER` | Login email (default `bhavansharora21@gmail.com`) |
+| `PANEL_PASSWORD` | Login password (default `Kanha@26`) |
 
-To use it from your phone, run it on a computer or server on the same network and open `http://<computer-ip>:3000`. If it's reachable from the internet, set `PANEL_PASSWORD`.
+To use it from your phone, run it on a computer or server on the same network and open `http://<computer-ip>:3000`. If it's reachable from the internet, use HTTPS (for example behind a hosting provider or reverse proxy), because basic auth sends the login with every request.
 
 ### Without a server
 
-The `public/` folder also works on its own, for example on GitHub Pages or opened from a static host. In that case data is saved **only in that browser** (localStorage), so download a backup regularly from Settings.
+The `public/` folder also works on its own, for example on GitHub Pages or opened from a static host. In that case data is saved **only in that browser** (localStorage), so download a backup regularly from Settings. The login only works when running `npm start`: a static host has no server to check it.
 
 ## Development
 

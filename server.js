@@ -9,6 +9,9 @@ const DEFAULTS = require('./public/defaults.js');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const COLLECTIONS = ['orders', 'menu', 'societies'];
 const MAX_BODY = 20 * 1024 * 1024;
+// Login for the panel. Override with the PANEL_USER / PANEL_PASSWORD environment variables.
+const DEFAULT_USER = 'bhavansharora21@gmail.com';
+const DEFAULT_PASSWORD = 'Kanha@26';
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
@@ -97,14 +100,21 @@ function readJson(req) {
   });
 }
 
-function checkAuth(req, password) {
-  if (!password) return true;
+const safeEqual = (x, y) => {
+  const a = Buffer.from(x);
+  const b = Buffer.from(y);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+};
+
+function checkAuth(req, user, password) {
+  if (!user && !password) return true;
   const header = req.headers.authorization || '';
   if (!header.startsWith('Basic ')) return false;
-  const [, pass = ''] = Buffer.from(header.slice(6), 'base64').toString('utf8').split(/:(.*)/s);
-  const a = Buffer.from(pass);
-  const b = Buffer.from(password);
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
+  const [name = '', pass = ''] = Buffer.from(header.slice(6), 'base64').toString('utf8').split(/:(.*)/s);
+  // Evaluate both so timing doesn't reveal which part was wrong.
+  const userOk = safeEqual(name.trim().toLowerCase(), user.trim().toLowerCase());
+  const passOk = safeEqual(pass, password);
+  return userOk && passOk;
 }
 
 function serveStatic(req, res) {
@@ -119,11 +129,11 @@ function serveStatic(req, res) {
   });
 }
 
-function createServer({ dataFile, password = '' } = {}) {
+function createServer({ dataFile, user = '', password = '' } = {}) {
   const store = createStore(dataFile);
 
   return http.createServer(async (req, res) => {
-    if (!checkAuth(req, password)) {
+    if (!checkAuth(req, user, password)) {
       res.writeHead(401, { 'WWW-Authenticate': 'Basic realm="Kanhas Kitchen"' });
       return res.end('Login required');
     }
@@ -163,11 +173,13 @@ function createServer({ dataFile, password = '' } = {}) {
 if (require.main === module) {
   const port = Number(process.env.PORT) || 3000;
   const dataFile = process.env.DATA_FILE || path.join(__dirname, 'data', 'db.json');
-  createServer({ dataFile, password: process.env.PANEL_PASSWORD || '' }).listen(port, () => {
+  const user = process.env.PANEL_USER || DEFAULT_USER;
+  const password = process.env.PANEL_PASSWORD || DEFAULT_PASSWORD;
+  createServer({ dataFile, user, password }).listen(port, () => {
     console.log(`Kanha's Kitchen panel running at http://localhost:${port}`);
     console.log(`Data file: ${dataFile}`);
-    if (!process.env.PANEL_PASSWORD) console.log('Tip: set PANEL_PASSWORD to require a login.');
+    console.log(`Login: ${user}`);
   });
 }
 
-module.exports = { createServer };
+module.exports = { createServer, DEFAULT_USER, DEFAULT_PASSWORD };

@@ -3,7 +3,7 @@ const assert = require('node:assert');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const { createServer } = require('../server.js');
+const { createServer, DEFAULT_USER, DEFAULT_PASSWORD } = require('../server.js');
 
 async function start(opts = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kk-'));
@@ -47,12 +47,19 @@ test('creates, updates, deletes orders and persists them', async () => {
   }
 });
 
-test('requires the password when PANEL_PASSWORD is set', async () => {
-  const { server, base } = await start({ password: 's3cret' });
+test('requires the email and password login', async () => {
+  const { server, base } = await start({ user: DEFAULT_USER, password: DEFAULT_PASSWORD });
+  const basic = (u, p) => ({ Authorization: 'Basic ' + Buffer.from(`${u}:${p}`).toString('base64') });
   try {
-    assert.strictEqual((await fetch(`${base}/api/state`)).status, 401);
-    const auth = { Authorization: 'Basic ' + Buffer.from('admin:s3cret').toString('base64') };
-    assert.strictEqual((await fetch(`${base}/api/state`, { headers: auth })).status, 200);
+    const res = await fetch(`${base}/api/state`);
+    assert.strictEqual(res.status, 401);
+    assert.match(res.headers.get('www-authenticate'), /^Basic /);
+    assert.strictEqual((await fetch(`${base}/`)).status, 401);
+    assert.strictEqual((await fetch(`${base}/api/state`, { headers: basic(DEFAULT_USER, 'wrong') })).status, 401);
+    assert.strictEqual((await fetch(`${base}/api/state`, { headers: basic('someone@else.com', DEFAULT_PASSWORD) })).status, 401);
+    assert.strictEqual((await fetch(`${base}/api/state`, { headers: basic(DEFAULT_USER, DEFAULT_PASSWORD) })).status, 200);
+    // Email is matched case-insensitively.
+    assert.strictEqual((await fetch(`${base}/`, { headers: basic(DEFAULT_USER.toUpperCase(), DEFAULT_PASSWORD) })).status, 200);
   } finally {
     server.close();
   }
