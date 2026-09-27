@@ -9,7 +9,7 @@ const DEFAULTS = require('./public/defaults.js');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const COLLECTIONS = ['orders', 'menu', 'societies'];
 const MAX_BODY = 20 * 1024 * 1024;
-// Login for the panel. Override with the PANEL_USER / PANEL_PASSWORD environment variables.
+// Sign-in for the panel. Override with the PANEL_USER / PANEL_PASSWORD environment variables.
 const DEFAULT_USER = 'bhavansharora21@gmail.com';
 const DEFAULT_PASSWORD = 'Kanha@26';
 const MIME = {
@@ -101,45 +101,167 @@ function readJson(req) {
 }
 
 const safeEqual = (x, y) => {
-  const a = Buffer.from(x);
-  const b = Buffer.from(y);
+  const a = Buffer.from(String(x));
+  const b = Buffer.from(String(y));
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 };
 
-function checkAuth(req, user, password) {
-  if (!user && !password) return true;
-  const header = req.headers.authorization || '';
-  if (!header.startsWith('Basic ')) return false;
-  const [name = '', pass = ''] = Buffer.from(header.slice(6), 'base64').toString('utf8').split(/:(.*)/s);
-  // Evaluate both so timing doesn't reveal which part was wrong.
-  const userOk = safeEqual(name.trim().toLowerCase(), user.trim().toLowerCase());
-  const passOk = safeEqual(pass, password);
-  return userOk && passOk;
+// ---------- sign-in sessions ----------
+// A session is a signed cookie "<email>|<expiry>|<hmac>", so it survives server restarts
+// without storing anything. The signing secret lives next to the data file.
+const COOKIE = 'kk_session';
+const REMEMBER_MS = 30 * 24 * 60 * 60 * 1000;
+const SHORT_MS = 12 * 60 * 60 * 1000;
+const PUBLIC_PATHS = new Set(['/login', '/login.js', '/styles.css', '/icon.svg', '/logo.png']);
+const MAX_FAILS = 5;
+const FAIL_WINDOW_MS = 15 * 60 * 1000;
+
+function loadSecret(dataFile) {
+  if (process.env.SESSION_SECRET) return process.env.SESSION_SECRET;
+  const file = path.join(path.dirname(dataFile), '.session-secret');
+  try {
+    return fs.readFileSync(file, 'utf8').trim();
+  } catch {
+    const secret = crypto.randomBytes(32).toString('hex');
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, secret, { mode: 0o600 });
+    return secret;
+  }
+}
+
+function parseCookies(req) {
+  const out = {};
+  for (const part of (req.headers.cookie || '').split(';')) {
+    const i = part.indexOf('=');
+    if (i > 0) out[part.slice(0, i).trim()] = decodeURIComponent(part.slice(i + 1).trim());
+  }
+  return out;
+}
+
+function createAuth({ user, password, secret }) {
+  const enabled = Boolean(user || password);
+  const email = (user || '').trim().toLowerCase();
+  const sign = (payload) => crypto.createHmac('sha256', secret).update(payload).digest('base64url');
+  const fails = new Map(); // ip -> { count, since }
+
+  function cookie(req, value, maxAgeMs) {
+    const secure = req.socket.encrypted || req.headers['x-forwarded-proto'] === 'https';
+    return [
+      `${COOKIE}=${encodeURIComponent(value)}`,
+      'Path=/',
+      'HttpOnly',
+      'SameSite=Lax',
+      secure ? 'Secure' : '',
+      maxAgeMs === undefined ? '' : `Max-Age=${Math.floor(maxAgeMs / 1000)}`,
+    ]
+      .filter(Boolean)
+      .join('; ');
+  }
+
+  return {
+    enabled,
+    session(req) {
+      if (!enabled) return { user: null };
+      const token = parseCookies(req)[COOKIE];
+      if (!token) return null;
+      const [who, exp, mac] = token.split('|');
+      if (!who || !exp || !mac || !safeEqual(mac, sign(`${who}|${exp}`))) return null;
+      if (Number(exp) < Date.now() || who !== email) return null;
+      return { user: who };
+    },
+    // Returns { status, body, headers } for POST /api/login.
+    login(req, body) {
+      const ip = req.socket.remoteAddress || '';
+      const f = fails.get(ip);
+      if (f && Date.now() - f.since > FAIL_WINDOW_MS) fails.delete(ip);
+      if ((fails.get(ip)?.count || 0) >= MAX_FAILS) {
+        return { status: 429, body: { error: 'Too many attempts. Please wait 15 minutes and try again.' } };
+      }
+      // Evaluate both so timing doesn't reveal which part was wrong.
+      const userOk = safeEqual(String(body.email || '').trim().toLowerCase(), email);
+      const passOk = safeEqual(String(body.password || ''), password);
+      if (!(userOk && passOk)) {
+        const cur = fails.get(ip) || { count: 0, since: Date.now() };
+        cur.count += 1;
+        fails.set(ip, cur);
+        return { status: 401, body: { error: 'Incorrect email or password.' } };
+      }
+      fails.delete(ip);
+      const ttl = body.remember ? REMEMBER_MS : SHORT_MS;
+      const exp = Date.now() + ttl;
+      const token = `${email}|${exp}|${sign(`${email}|${exp}`)}`;
+      return {
+        status: 200,
+        body: { user: email },
+        headers: { 'Set-Cookie': cookie(req, token, body.remember ? ttl : undefined) },
+      };
+    },
+    logoutCookie: (req) => cookie(req, '', 0),
+  };
+}
+
+// Cross-site form posts can't carry our SameSite cookie, but reject foreign origins anyway.
+function sameOrigin(req) {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    return new URL(origin).host === req.headers.host;
+  } catch {
+    return false;
+  }
+}
+
+function redirect(res, location) {
+  res.writeHead(302, { Location: location, 'Cache-Control': 'no-store' });
+  res.end();
 }
 
 function serveStatic(req, res) {
   const urlPath = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-  const rel = urlPath === '/' ? 'index.html' : urlPath.replace(/^\/+/, '');
+  const rel = urlPath === '/' ? 'index.html' : urlPath === '/login' ? 'login.html' : urlPath.replace(/^\/+/, '');
   const file = path.normalize(path.join(PUBLIC_DIR, rel));
   if (!file.startsWith(PUBLIC_DIR + path.sep)) return send(res, 403, { error: 'Forbidden' });
   fs.readFile(file, (err, data) => {
     if (err) return send(res, 404, { error: 'Not found' });
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream' });
+    const headers = { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream' };
+    if (file.endsWith('.html')) headers['Cache-Control'] = 'no-store';
+    res.writeHead(200, headers);
     res.end(data);
   });
 }
 
-function createServer({ dataFile, user = '', password = '' } = {}) {
+function createServer({ dataFile, user = '', password = '', secret } = {}) {
   const store = createStore(dataFile);
+  const auth = createAuth({ user, password, secret: secret || loadSecret(dataFile) });
 
   return http.createServer(async (req, res) => {
-    if (!checkAuth(req, user, password)) {
-      res.writeHead(401, { 'WWW-Authenticate': 'Basic realm="Kanhas Kitchen"' });
-      return res.end('Login required');
+    const { pathname, search } = new URL(req.url, 'http://x');
+    const isApi = pathname.startsWith('/api/');
+    if (req.method !== 'GET' && req.method !== 'HEAD' && !sameOrigin(req)) return send(res, 403, { error: 'Forbidden' });
+
+    if (pathname === '/api/login' && req.method === 'POST') {
+      try {
+        const r = auth.login(req, await readJson(req));
+        res.writeHead(r.status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...r.headers });
+        return res.end(JSON.stringify(r.body));
+      } catch (err) {
+        return send(res, err.status || 400, { error: err.message });
+      }
+    }
+    if (pathname === '/api/logout' && req.method === 'POST') {
+      res.writeHead(204, { 'Set-Cookie': auth.logoutCookie(req), 'Cache-Control': 'no-store' });
+      return res.end();
     }
 
-    const { pathname } = new URL(req.url, 'http://x');
-    if (!pathname.startsWith('/api/')) {
+    const session = auth.session(req);
+    if (!session && !PUBLIC_PATHS.has(pathname)) {
+      if (isApi) return send(res, 401, { error: 'Please sign in' });
+      return redirect(res, '/login' + (pathname === '/' ? '' : '?next=' + encodeURIComponent(pathname + search)));
+    }
+    if (pathname === '/login' && (!auth.enabled || session)) return redirect(res, '/');
+    if (pathname === '/api/session' && req.method === 'GET') return send(res, 200, { user: session.user, auth: auth.enabled });
+
+    if (!isApi) {
       if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, { error: 'Method not allowed' });
       return serveStatic(req, res);
     }

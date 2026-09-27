@@ -47,19 +47,70 @@ test('creates, updates, deletes orders and persists them', async () => {
   }
 });
 
-test('requires the email and password login', async () => {
-  const { server, base } = await start({ user: DEFAULT_USER, password: DEFAULT_PASSWORD });
-  const basic = (u, p) => ({ Authorization: 'Basic ' + Buffer.from(`${u}:${p}`).toString('base64') });
+test('sign-in page, session cookie and sign-out', async () => {
+  const { server, base } = await start({ user: DEFAULT_USER, password: DEFAULT_PASSWORD, secret: 'test-secret' });
+  const json = { 'Content-Type': 'application/json' };
+  const login = (email, password, remember = true) =>
+    fetch(`${base}/api/login`, { method: 'POST', headers: json, body: JSON.stringify({ email, password, remember }) });
   try {
-    const res = await fetch(`${base}/api/state`);
-    assert.strictEqual(res.status, 401);
-    assert.match(res.headers.get('www-authenticate'), /^Basic /);
-    assert.strictEqual((await fetch(`${base}/`)).status, 401);
-    assert.strictEqual((await fetch(`${base}/api/state`, { headers: basic(DEFAULT_USER, 'wrong') })).status, 401);
-    assert.strictEqual((await fetch(`${base}/api/state`, { headers: basic('someone@else.com', DEFAULT_PASSWORD) })).status, 401);
-    assert.strictEqual((await fetch(`${base}/api/state`, { headers: basic(DEFAULT_USER, DEFAULT_PASSWORD) })).status, 200);
-    // Email is matched case-insensitively.
-    assert.strictEqual((await fetch(`${base}/`, { headers: basic(DEFAULT_USER.toUpperCase(), DEFAULT_PASSWORD) })).status, 200);
+    // Signed out: pages redirect to the sign-in page, the API refuses.
+    const home = await fetch(`${base}/`, { redirect: 'manual' });
+    assert.strictEqual(home.status, 302);
+    assert.strictEqual(home.headers.get('location'), '/login');
+    const deep = await fetch(`${base}/app.js`, { redirect: 'manual' });
+    assert.strictEqual(deep.headers.get('location'), '/login?next=%2Fapp.js');
+    assert.strictEqual((await fetch(`${base}/api/state`)).status, 401);
+    const page = await fetch(`${base}/login`);
+    assert.strictEqual(page.status, 200);
+    assert.match(await page.text(), /id="login-form"/);
+    assert.strictEqual((await fetch(`${base}/styles.css`)).status, 200);
+
+    // Wrong details are rejected without a cookie.
+    const bad = await login(DEFAULT_USER, 'wrong');
+    assert.strictEqual(bad.status, 401);
+    assert.strictEqual(bad.headers.get('set-cookie'), null);
+    assert.strictEqual((await login('someone@else.com', DEFAULT_PASSWORD)).status, 401);
+
+    // Right details (email in any case) give an HttpOnly session cookie.
+    const ok = await login(DEFAULT_USER.toUpperCase(), DEFAULT_PASSWORD);
+    assert.strictEqual(ok.status, 200);
+    const setCookie = ok.headers.get('set-cookie');
+    assert.match(setCookie, /HttpOnly/);
+    assert.match(setCookie, /SameSite=Lax/);
+    assert.match(setCookie, /Max-Age=2592000/);
+    const cookie = { Cookie: setCookie.split(';')[0] };
+    assert.strictEqual((await fetch(`${base}/api/state`, { headers: cookie })).status, 200);
+    assert.deepStrictEqual(await (await fetch(`${base}/api/session`, { headers: cookie })).json(), { user: DEFAULT_USER, auth: true });
+    assert.strictEqual((await fetch(`${base}/`, { headers: cookie })).status, 200);
+    assert.strictEqual((await fetch(`${base}/login`, { headers: cookie, redirect: 'manual' })).status, 302);
+
+    // Without "keep me signed in" the cookie ends with the browser session.
+    assert.doesNotMatch((await login(DEFAULT_USER, DEFAULT_PASSWORD, false)).headers.get('set-cookie'), /Max-Age/);
+
+    // A tampered cookie is refused.
+    const tampered = { Cookie: cookie.Cookie.replace(/.$/, (c) => (c === 'A' ? 'B' : 'A')) };
+    assert.strictEqual((await fetch(`${base}/api/state`, { headers: tampered })).status, 401);
+
+    // Requests from another site are refused.
+    const foreign = await fetch(`${base}/api/orders`, { method: 'POST', headers: { ...json, ...cookie, Origin: 'https://evil.example' }, body: '{}' });
+    assert.strictEqual(foreign.status, 403);
+
+    // Sign-out clears the cookie.
+    const out = await fetch(`${base}/api/logout`, { method: 'POST', headers: cookie });
+    assert.strictEqual(out.status, 204);
+    assert.match(out.headers.get('set-cookie'), /Max-Age=0/);
+  } finally {
+    server.close();
+  }
+});
+
+test('blocks repeated wrong passwords', async () => {
+  const { server, base } = await start({ user: DEFAULT_USER, password: DEFAULT_PASSWORD, secret: 'test-secret' });
+  const attempt = (password) =>
+    fetch(`${base}/api/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: DEFAULT_USER, password }) });
+  try {
+    for (let i = 0; i < 5; i++) assert.strictEqual((await attempt('nope')).status, 401);
+    assert.strictEqual((await attempt(DEFAULT_PASSWORD)).status, 429);
   } finally {
     server.close();
   }

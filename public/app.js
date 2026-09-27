@@ -60,14 +60,28 @@ const OUTSIDE = 'outside';
 const LS_KEY = 'kanhas-kitchen-data-v1';
 let S = { orders: [], menu: [], societies: [] };
 
+function goToLogin() {
+  location.href = 'login?next=' + encodeURIComponent(location.pathname + location.hash);
+  return new Promise(() => {}); // stop here while the browser navigates
+}
+
 const Store = {
   mode: 'server',
+  user: null,
   async init() {
+    let res;
     try {
-      const res = await fetch('api/state', { cache: 'no-store' });
-      if (!res.ok || !(res.headers.get('content-type') || '').includes('json')) throw new Error('no api');
+      res = await fetch('api/state', { cache: 'no-store' });
+    } catch {}
+    if (res && res.status === 401) return goToLogin();
+    try {
+      if (!res || !res.ok || !(res.headers.get('content-type') || '').includes('json')) throw new Error('no api');
       S = await res.json();
       this.mode = 'server';
+      try {
+        const me = await (await fetch('api/session', { cache: 'no-store' })).json();
+        this.user = me.auth ? me.user : null;
+      } catch {}
     } catch {
       this.mode = 'local';
       let saved = null;
@@ -91,6 +105,10 @@ const Store = {
       headers: { 'Content-Type': 'application/json' },
       body: body === undefined ? undefined : JSON.stringify(body),
     });
+    if (res.status === 401) {
+      goToLogin();
+      throw new Error('Signed out — please sign in again');
+    }
     if (!res.ok) {
       let msg = res.statusText;
       try {
@@ -342,6 +360,9 @@ function render() {
   const v = currentView();
   $$('#nav a').forEach((a) => a.classList.toggle('active', a.dataset.view === v));
   $('#view').innerHTML = views[v]();
+  const signedIn = Store.mode === 'server' && Store.user;
+  $('#account-who').textContent = signedIn ? `Signed in as ${Store.user}` : '';
+  $$('[data-act="sign-out"], #account-who').forEach((el) => (el.hidden = !signedIn));
   $('#storage-badge').innerHTML =
     Store.mode === 'server'
       ? 'Data saved on server'
@@ -1321,6 +1342,12 @@ const actions = {
     await guarded(() => Store.remove('societies', s.id), 'Deleted');
     render();
   },
+  'sign-out': async () => {
+    try {
+      await fetch('api/logout', { method: 'POST' });
+    } catch {}
+    location.href = 'login';
+  },
   'export-json': () => download(`kanhas-kitchen-backup-${today()}.json`, JSON.stringify(S, null, 2), 'application/json'),
   'export-csv': () => download(`kanhas-kitchen-orders-${today()}.csv`, toCsv(), 'text/csv'),
 };
@@ -1328,7 +1355,7 @@ const actions = {
 document.addEventListener('click', async (e) => {
   const el = e.target.closest('[data-act]');
   if (!el || !actions[el.dataset.act]) return;
-  if (el.tagName === 'BUTTON' && el.type !== 'submit') e.preventDefault();
+  if (el.tagName === 'A' || (el.tagName === 'BUTTON' && el.type !== 'submit')) e.preventDefault();
   try {
     await actions[el.dataset.act](el, e);
   } catch (err) {
