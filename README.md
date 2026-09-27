@@ -79,7 +79,7 @@ The `public/` folder also works on its own, for example on GitHub Pages or opene
 
 ### Logo
 
-Put the logo at `public/logo.png` (a square PNG, ideally with a transparent background). It appears on the sign-in page, in the sidebar and as the home-screen icon on phones. Until then, the built-in icon is used.
+The logo is `public/logo.png` (transparent background), shown on the sign-in page and in the sidebar. `public/favicon.png` is the browser-tab icon and `public/apple-touch-icon.png` the phone home-screen icon. To change the logo, replace these files (keep the names) and rebuild.
 
 ## Development
 

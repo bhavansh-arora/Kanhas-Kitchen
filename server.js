@@ -112,7 +112,7 @@ const safeEqual = (x, y) => {
 const COOKIE = 'kk_session';
 const REMEMBER_MS = 30 * 24 * 60 * 60 * 1000;
 const SHORT_MS = 12 * 60 * 60 * 1000;
-const PUBLIC_PATHS = new Set(['/login', '/login.js', '/styles.css', '/icon.svg', '/logo.png']);
+const PUBLIC_PATHS = new Set(['/login', '/login.js', '/styles.css', '/icon.svg', '/logo.png', '/favicon.png', '/apple-touch-icon.png']);
 const MAX_FAILS = 5;
 const FAIL_WINDOW_MS = 15 * 60 * 1000;
 
