@@ -58,15 +58,22 @@ cd /opt/kanhas-kitchen
 cp .env.example .env
 nano .env   # set a real PANEL_PASSWORD -- the README/code default is public
 docker compose up -d --build
-docker network connect crm_default kanhas-kitchen-app-1  # first deploy only
 ```
+
+(No manual `docker network connect` needed -- `docker-compose.yml` attaches
+to `crm_default` itself. The service is named `web`, not `app`, on purpose:
+Compose auto-registers a network alias equal to the service name on every
+network it joins, and the CRM's own service is named `app` -- two
+containers aliased `app` on the same network makes Docker's DNS
+round-robin between them, intermittently serving this app at the CRM's own
+domain.)
 
 Then add a block to `/opt/crm/Caddyfile` (reload with `docker compose
 restart caddy` in `/opt/crm`):
 
 ```
 kanha.codebunny.net {
-    reverse_proxy kanhas-kitchen-app-1:3000
+    reverse_proxy kanhas-kitchen-web-1:3000
 }
 ```
 

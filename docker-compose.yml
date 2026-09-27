@@ -1,5 +1,12 @@
 services:
-  app:
+  # Named "web", not "app" -- Compose auto-registers a network alias equal
+  # to the service name on every network it joins, including the external
+  # crm_default. The CRM's own compose file has a service literally named
+  # "app" too, and its Caddyfile targets that alias directly
+  # (reverse_proxy app:3000) -- a second container aliased "app" on the
+  # same network causes Docker's DNS to round-robin between the two,
+  # intermittently serving this app's content at the CRM's own domain.
+  web:
     build: .
     restart: unless-stopped
     env_file: .env
