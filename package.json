@@ -1,0 +1,15 @@
+{
+  "name": "kanhas-kitchen",
+  "version": "1.0.0",
+  "description": "Order, payment and revenue panel for Kanha's Kitchen",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}

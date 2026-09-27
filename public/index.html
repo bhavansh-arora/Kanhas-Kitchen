@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#c2410c">
+  <title>Kanha's Kitchen</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="icon.svg" alt="" width="34" height="34">
+        <div>
+          <div class="brand-name">Kanha's Kitchen</div>
+          <div class="brand-sub">Orders &amp; payments</div>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="#dashboard" data-view="dashboard">Dashboard</a>
+        <a href="#quick" data-view="quick">Quick Add</a>
+        <a href="#orders" data-view="orders">Daily Orders</a>
+        <a href="#payments" data-view="payments">Payments</a>
+        <a href="#analytics" data-view="analytics">Analytics</a>
+        <a href="#menu" data-view="menu">Menu</a>
+        <a href="#settings" data-view="settings">Settings</a>
+      </nav>
+      <div class="storage-badge" id="storage-badge"></div>
+    </aside>
+    <main class="main" id="view" aria-live="polite">
+      <p class="muted">Loading…</p>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" id="modal-box"></div>
+  </div>
+  <div class="tooltip" id="tooltip" hidden></div>
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="defaults.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
