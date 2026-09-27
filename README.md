@@ -46,6 +46,32 @@ Data is saved to `data/db.json`. Back up this file, or use Settings → Download
 
 To use it from your phone, run it on a computer or server on the same network and open `http://<computer-ip>:3000`. If it's reachable from the internet, use HTTPS (for example behind a hosting provider or reverse proxy), because basic auth sends the login with every request.
 
+### Deploying on the shared VPS
+
+This app runs as its own Docker container on the same VPS as the CRM and
+Leads Finder, sharing the CRM's Caddy instance for HTTPS (same pattern as
+those two, see their own repos for the fuller writeup).
+
+```bash
+cd /opt/kanhas-kitchen
+cp .env.example .env
+nano .env   # set a real PANEL_PASSWORD -- the README/code default is public
+docker compose up -d --build
+docker network connect crm_default kanhas-kitchen-app-1  # first deploy only
+```
+
+Then add a block to `/opt/crm/Caddyfile` (reload with `docker compose
+restart caddy` in `/opt/crm`):
+
+```
+kanha.codebunny.net {
+    reverse_proxy kanhas-kitchen-app-1:3000
+}
+```
+
+Data persists in the `kanha-data` Docker volume (`/app/data/db.json` inside
+the container) across restarts and rebuilds.
+
 ### Without a server
 
 The `public/` folder also works on its own, for example on GitHub Pages or opened from a static host. In that case data is saved **only in that browser** (localStorage), so download a backup regularly from Settings. The login only works when running `npm start`: a static host has no server to check it.

@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - kanha-data:/app/data
+    # Attaches directly to the CRM's network (see /opt/crm on the shared VPS)
+    # so its Caddy can reverse_proxy to this container by name -- no host
+    # port needed, same pattern as the Leads Finder app on that box.
+    networks:
+      - crm_shared
+
+networks:
+  crm_shared:
+    external: true
+    name: crm_default
+
+volumes:
+  kanha-data:
