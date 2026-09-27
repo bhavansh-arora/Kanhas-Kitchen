@@ -329,3 +329,4 @@ button.badge:hover { border-color: currentColor; }
   .account { display: none; }
   .nav .nav-signout { display: inline-block; }
 }
+.theme-seg button.active { background: var(--accent); color: #fff; }

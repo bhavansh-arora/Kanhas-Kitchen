@@ -263,6 +263,22 @@ const rememberQa = () => {
   } catch {}
 };
 
+// ---------- colour theme (see theme.js) ----------
+function getTheme() {
+  try {
+    return localStorage.getItem('kk-theme') || 'light';
+  } catch {
+    return 'light';
+  }
+}
+function setTheme(theme) {
+  try {
+    localStorage.setItem('kk-theme', theme);
+  } catch {}
+  if (theme === 'auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', theme);
+}
+
 // ---------- toast / tooltip / modal ----------
 let toastTimer;
 function toast(msg, error = false) {
@@ -917,6 +933,14 @@ views.settings = () => {
       .join('')}</tbody></table></div>
     <div style="margin-top:12px"><button data-act="add-society">+ Add society</button></div>
   </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-head"><h2>Appearance</h2><span class="muted">Saved on this device</span></div>
+    <div class="seg theme-seg" role="group" aria-label="Colour theme">
+      ${[['light', 'Light'], ['dark', 'Dark'], ['auto', 'Match device']]
+        .map(([id, n]) => `<button class="${getTheme() === id ? 'active' : ''}" data-act="theme" data-id="${id}" aria-pressed="${getTheme() === id}">${n}</button>`)
+        .join('')}
+    </div>
+  </div>
   <div class="card">
     <div class="card-head"><h2>Data</h2><span class="muted">${
       Store.mode === 'server' ? 'Saved on the server (data/db.json).' : 'Saved in this browser only. Export a backup regularly.'
@@ -1340,6 +1364,10 @@ const actions = {
     const s = societyById(el.dataset.id);
     if (!confirm(`Delete ${s.name}?`)) return;
     await guarded(() => Store.remove('societies', s.id), 'Deleted');
+    render();
+  },
+  theme: (el) => {
+    setTheme(el.dataset.id);
     render();
   },
   'sign-out': async () => {

@@ -18,7 +18,7 @@ A small web panel for logging daily orders, tracking payments and seeing revenue
   - revenue by society
   - month-wise revenue table
 - **Menu**: add dishes and edit their prices. Past orders keep the price they were logged at.
-- **Settings**: edit societies, download or restore a JSON backup, and export orders as CSV.
+- **Settings**: edit societies, choose Light / Dark / Match device appearance (light by default, saved per device), download or restore a JSON backup, and export orders as CSV.
 
 ## Running it
 
