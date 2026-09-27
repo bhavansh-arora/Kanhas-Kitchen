@@ -111,6 +111,13 @@ test('blocks repeated wrong passwords', async () => {
   try {
     for (let i = 0; i < 5; i++) assert.strictEqual((await attempt('nope')).status, 401);
     assert.strictEqual((await attempt(DEFAULT_PASSWORD)).status, 429);
+    // Behind a proxy on a private address, other visitors (by X-Forwarded-For) are not locked out.
+    const other = await fetch(`${base}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '203.0.113.9' },
+      body: JSON.stringify({ email: DEFAULT_USER, password: DEFAULT_PASSWORD }),
+    });
+    assert.strictEqual(other.status, 200);
   } finally {
     server.close();
   }

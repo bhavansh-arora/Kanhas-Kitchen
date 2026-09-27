@@ -138,6 +138,15 @@ function parseCookies(req) {
   return out;
 }
 
+// Behind a reverse proxy (e.g. Caddy on the Docker network) every request comes from the
+// proxy, so use the address it forwards — but only trust that header from a private address.
+function clientIp(req) {
+  const remote = (req.socket.remoteAddress || '').replace(/^::ffff:/, '');
+  const isPrivate = /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|::1$|f[cd])/i.test(remote);
+  const forwarded = String(req.headers['x-forwarded-for'] || '').split(',').pop().trim();
+  return isPrivate && forwarded ? forwarded : remote;
+}
+
 function createAuth({ user, password, secret }) {
   const enabled = Boolean(user || password);
   const email = (user || '').trim().toLowerCase();
@@ -171,7 +180,7 @@ function createAuth({ user, password, secret }) {
     },
     // Returns { status, body, headers } for POST /api/login.
     login(req, body) {
-      const ip = req.socket.remoteAddress || '';
+      const ip = clientIp(req);
       const f = fails.get(ip);
       if (f && Date.now() - f.since > FAIL_WINDOW_MS) fails.delete(ip);
       if ((fails.get(ip)?.count || 0) >= MAX_FAILS) {
