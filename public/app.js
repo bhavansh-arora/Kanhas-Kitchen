@@ -237,6 +237,12 @@ function monthStats(orders, months) {
   return months.map((k) => m.get(k));
 }
 
+// Most recent name / phone saved for a house, so they never need typing twice.
+function houseContact(key, excludeId) {
+  const o = S.orders.filter((x) => x.id !== excludeId && houseKey(x) === key && (x.customer || x.phone)).sort(byDateDesc)[0];
+  return { customer: o?.customer || '', phone: o?.phone || '' };
+}
+
 function lastOrderFor(key, excludeId) {
   return S.orders.filter((o) => o.id !== excludeId && houseKey(o) === key).sort(byDateDesc)[0];
 }
@@ -1057,18 +1063,35 @@ function renderLocFields() {
       <label class="field">Floor<select name="floor">${Array.from({ length: soc.floors }, (_, i) => i + 1).map((x) => `<option ${x === f ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
       <label class="field">Flat<select name="unit">${Array.from({ length: soc.unitsPerFloor }, (_, i) => i + 1)
         .map((x) => `<option value="${x}" ${x === u ? 'selected' : ''}>${x}</option>`)
-        .join('')}</select></label>
-      <label class="field">Name (optional)<input name="customer" value="${esc(draft.customer)}"></label>
-      <label class="field">Phone (optional)<input name="phone" value="${esc(draft.phone)}" inputmode="tel"></label></div>`;
+        .join('')}</select></label></div>${contactBlock()}`;
   } else {
     html = `<div class="form-grid">
       <label class="field">Block (optional)<input name="block" value="${esc(draft.block)}"></label>
-      <label class="field">Flat number<input name="flat" value="${esc(draft.flat)}" required></label>
-      <label class="field">Name (optional)<input name="customer" value="${esc(draft.customer)}"></label>
-      <label class="field">Phone (optional)<input name="phone" value="${esc(draft.phone)}" inputmode="tel"></label></div>`;
+      <label class="field">Flat number<input name="flat" value="${esc(draft.flat)}" required></label></div>${contactBlock()}`;
   }
   $('#loc-fields').innerHTML = html;
   syncLocation();
+}
+
+// Name / phone for a society house: a one-line summary, with the inputs opened only on request.
+function contactBlock() {
+  return `<div class="contact-box">
+    <div class="row small" id="contact-summary"></div>
+    <div class="form-grid" id="contact-fields" hidden style="margin-top:8px">
+      <label class="field">Name (optional)<input name="customer" value="${esc(draft.customer)}"></label>
+      <label class="field">Phone (optional)<input name="phone" value="${esc(draft.phone)}" inputmode="tel"></label>
+    </div></div>`;
+}
+
+function renderContactSummary() {
+  const box = $('#contact-summary');
+  if (!box) return;
+  const open = !$('#contact-fields').hidden;
+  const text = [draft.customer, draft.phone].filter(Boolean).join(' · ');
+  box.hidden = open;
+  box.innerHTML = text
+    ? `<span class="muted">Contact:</span> <b>${esc(text)}</b> <button type="button" class="btn-sm btn-ghost" data-act="edit-contact">Edit</button>`
+    : `<button type="button" class="btn-sm btn-ghost" data-act="edit-contact">+ Add name / phone (optional)</button>`;
 }
 
 // Read location inputs back into the draft (grid societies compose the flat number).
@@ -1089,6 +1112,17 @@ function syncLocation() {
     draft.flat = val('flat').trim();
     draft.customer = val('customer').trim();
     draft.phone = val('phone').trim();
+  }
+  if (draft.society !== OUTSIDE) {
+    // New order: fill in the name / phone this house used before, unless they were typed here.
+    if (!draft.id && !draft.contactTouched && draft.flat) {
+      const c = houseContact(houseKey(draft));
+      draft.customer = c.customer;
+      draft.phone = c.phone;
+      form.elements.customer.value = c.customer;
+      form.elements.phone.value = c.phone;
+    }
+    renderContactSummary();
   }
   renderRepeat();
 }
@@ -1165,7 +1199,7 @@ async function saveDraft() {
   if (draft.society === OUTSIDE ? !draft.customer : !draft.flat) return toast(draft.society === OUTSIDE ? 'Enter the customer name' : 'Enter the flat number', true);
   if (!draft.items.length && !(draft.amount > 0)) return toast('Add at least one item or enter an amount', true);
 
-  const doc = { ...draft };
+  const { contactTouched, ...doc } = draft;
   if (!doc.paid) {
     delete doc.paidOn;
     delete doc.paymentMode;
@@ -1292,10 +1326,7 @@ const actions = {
   },
   'qa-house': (el) => {
     const soc = societyById(ui.qa.society);
-    const preset = { date: ui.date, society: soc.id, block: el.dataset.block, flat: el.dataset.flat };
-    const last = lastOrderFor(houseKey(preset));
-    if (last) Object.assign(preset, { customer: last.customer || '', phone: last.phone || '' });
-    openOrderModal(null, preset);
+    openOrderModal(null, { date: ui.date, society: soc.id, block: el.dataset.block, flat: el.dataset.flat });
   },
   'qa-outside-repeat': (el) => {
     const o = S.orders.find((x) => x.id === el.dataset.id);
@@ -1310,6 +1341,11 @@ const actions = {
     render();
   },
   qty: (el) => changeQty(el.closest('.item-row'), num(el.dataset.n)),
+  'edit-contact': () => {
+    $('#contact-fields').hidden = false;
+    renderContactSummary();
+    $('#order-form').elements.customer.focus();
+  },
   'set-paid': (el) => {
     draft.paid = el.dataset.id === '1';
     $$('.seg button', $('#order-form')).forEach((b) => b.classList.toggle('active', b === el));
@@ -1410,10 +1446,7 @@ document.addEventListener('submit', async (e) => {
     } else if (f.id === 'qa-free-form') {
       const flat = f.elements.flat.value.trim();
       const block = f.elements.block.value.trim().toUpperCase();
-      const preset = { date: ui.date, society: ui.qa.society, block, flat };
-      const last = lastOrderFor(houseKey(preset));
-      if (last) Object.assign(preset, { customer: last.customer || '', phone: last.phone || '' });
-      openOrderModal(null, preset);
+      openOrderModal(null, { date: ui.date, society: ui.qa.society, block, flat });
     } else if (f.id === 'qa-outside-form') {
       openOrderModal(null, {
         date: ui.date,
@@ -1501,6 +1534,7 @@ document.addEventListener('input', (e) => {
     return;
   }
   if (!draft || !$('#order-form')?.contains(t)) return;
+  if (t.name === 'customer' || t.name === 'phone') draft.contactTouched = true;
   if (t.matches('[data-item-price]')) {
     const row = t.closest('.item-row');
     if (row.dataset.idx !== undefined) {
