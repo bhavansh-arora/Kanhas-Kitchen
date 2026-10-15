@@ -10,7 +10,7 @@ A small web panel for logging daily orders, tracking payments and seeing revenue
   - **Pratham** and **PGL Apartments**: type the flat number, or tap a recent house. You can set up blocks and floors for these in Settings to get the same tap-to-pick grid.
   - **Outside order**: customer name, phone and address for anyone outside these apartments.
 - **Order form**: tap + / − on menu items and the price fills in from the menu. You can change a price for one order, add an item that isn't on the menu (and save it to the menu), repeat a house's last order, or type the amount manually.
-- **Daily Orders**: a day-by-day log with previous/next day buttons, the day's totals, an "items to prepare" count and a filter by society.
+- **Daily Orders**: a day-by-day log with previous/next day buttons, the day's totals, an "items to prepare" count, a filter by society, and delivery tracking (Delivered / Not delivered on each order, a "To deliver" filter and "Mark all delivered").
 - **Payments**: pending dues grouped by house, with "Mark all received" (UPI, Cash, …) and the date. There is also a log of payments received each month, split by payment mode.
 - **Analytics** (this month, last month, last 3 months, this year, all time or a custom range):
   - products ranked by quantity sold and by revenue

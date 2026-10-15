@@ -251,6 +251,7 @@ function lastOrderFor(key, excludeId) {
 const ui = {
   date: today(),
   orderSociety: '',
+  deliveryFilter: 'all',
   qa: { society: 'vaishnavi-gardenia', block: 'A', floor: 1 },
   payTab: 'pending',
   payMonth: monthKey(today()),
@@ -406,7 +407,7 @@ function orderTable(orders, { showDate = false } = {}) {
   if (!orders.length) return `<div class="empty">No orders</div>`;
   const tot = summarize(orders);
   return `<div class="table-wrap"><table>
-    <thead><tr>${showDate ? '<th>Date</th>' : ''}<th>House</th><th>Items</th><th class="right">Amount</th><th>Payment</th><th></th></tr></thead>
+    <thead><tr>${showDate ? '<th>Date</th>' : ''}<th>House</th><th>Items</th><th class="right">Amount</th><th>Payment</th><th>Delivery</th><th></th></tr></thead>
     <tbody>${orders
       .map(
         (o) => `<tr>
@@ -417,14 +418,23 @@ function orderTable(orders, { showDate = false } = {}) {
         <td><span class="items">${esc(itemsText(o))}</span>${o.notes ? `<div class="muted small">${esc(o.notes)}</div>` : ''}</td>
         <td class="right num"><b>${inr(o.amount)}</b></td>
         <td>${payBadge(o)}</td>
+        <td>${deliveryBadge(o)}</td>
         <td class="right"><button class="btn-sm btn-ghost" data-act="edit-order" data-id="${o.id}">Edit</button></td>
       </tr>`
       )
       .join('')}</tbody>
     <tfoot><tr>${showDate ? '<td></td>' : ''}<td>${tot.count} order${tot.count === 1 ? '' : 's'}</td><td></td><td class="right num">${inr(
     tot.revenue
-  )}</td><td colspan="2" class="small muted">${inr(tot.received)} received · ${inr(tot.pending)} pending</td></tr></tfoot>
+  )}</td><td colspan="3" class="small muted">${inr(tot.received)} received · ${inr(tot.pending)} pending · ${orders.filter((o) => o.delivered).length}/${tot.count} delivered</td></tr></tfoot>
   </table></div>`;
+}
+
+function deliveryBadge(o) {
+  return o.delivered
+    ? `<button class="badge badge-good" data-act="toggle-delivered" data-id="${o.id}" data-tip="Delivered${
+        o.deliveredAt ? ' ' + esc(new Date(o.deliveredAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })) : ''
+      }. Click to undo.">✓ Delivered</button>`
+    : `<button class="badge badge-neutral" data-act="toggle-delivered" data-id="${o.id}" data-tip="Click when delivered">○ Not delivered</button>`;
 }
 
 function payBadge(o) {
@@ -464,7 +474,7 @@ views.dashboard = () => {
   </div>
   ${!S.menu.length ? `<div class="notice" style="margin-bottom:16px">Start by adding your dishes and prices in <a href="#menu">Menu</a> — prices then fill in automatically when you log orders.</div>` : ''}
   <div class="kpis">
-    ${kpi("Today's revenue", inr(sT.revenue), `${sT.count} order${sT.count === 1 ? '' : 's'} · ${inr(sT.pending)} pending`)}
+    ${kpi("Today's revenue", inr(sT.revenue), `${sT.count} order${sT.count === 1 ? '' : 's'} · ${todays.filter((o) => !o.delivered).length} to deliver`)}
     ${kpi(`${monthLabel(mk)} revenue`, inr(sM.revenue), change)}
     ${kpi('Received this month', inr(sM.received), `${inr(sM.pending)} still to collect`)}
     ${kpi('All pending dues', inr(summarize(pending).revenue), `${pendingHouses} house${pendingHouses === 1 ? '' : 's'} · <a href="#payments">view</a>`)}
@@ -498,6 +508,15 @@ views.orders = () => {
   dayOrders.sort((a, b) => fullHouseLabel(a).localeCompare(fullHouseLabel(b), undefined, { numeric: true }));
   const s = summarize(dayOrders);
   const prep = productStats(dayOrders).sort((a, b) => b.qty - a.qty);
+  const toDeliver = dayOrders.filter((o) => !o.delivered);
+  const shown = ui.deliveryFilter === 'pending' ? toDeliver : ui.deliveryFilter === 'done' ? dayOrders.filter((o) => o.delivered) : dayOrders;
+  const deliveryChips = [
+    ['all', `All (${dayOrders.length})`],
+    ['pending', `To deliver (${toDeliver.length})`],
+    ['done', `Delivered (${dayOrders.length - toDeliver.length})`],
+  ]
+    .map(([id, n]) => `<button class="chip ${ui.deliveryFilter === id ? 'active' : ''}" data-act="delivery-filter" data-id="${id}">${n}</button>`)
+    .join('');
   return `
   <div class="page-head">
     <div><h1>Daily orders</h1><p>${esc(niceDate(d))}</p></div>
@@ -510,7 +529,7 @@ views.orders = () => {
     </div>
   </div>
   <div class="kpis">
-    ${kpi('Orders', s.count)}
+    ${kpi('Orders', s.count, s.count ? `${s.count - toDeliver.length} delivered · ${toDeliver.length} to deliver` : '')}
     ${kpi('Revenue', inr(s.revenue))}
     ${kpi('Received', inr(s.received))}
     ${kpi('Pending', inr(s.pending))}
@@ -527,7 +546,11 @@ views.orders = () => {
         <option value="${OUTSIDE}" ${ui.orderSociety === OUTSIDE ? 'selected' : ''}>Outside</option>
       </select>
     </div>
-    ${orderTable(dayOrders)}
+    <div class="row" style="justify-content:space-between;margin-bottom:10px">
+      <div class="chips">${deliveryChips}</div>
+      ${toDeliver.length ? `<button class="btn-sm" data-act="deliver-all">✓ Mark all ${toDeliver.length} delivered</button>` : ''}
+    </div>
+    ${orderTable(shown)}
   </div>`;
 };
 
@@ -977,6 +1000,7 @@ function newDraft(preset = {}) {
     customAmount: false,
     amount: 0,
     paid: false,
+    delivered: false,
     paymentMode: 'UPI',
     paidOn: today(),
     notes: '',
@@ -1033,6 +1057,13 @@ function openOrderModal(order, preset) {
               <select name="paymentMode" aria-label="Payment mode">${PAY_MODES.map((m) => `<option ${draft.paymentMode === m ? 'selected' : ''}>${m}</option>`).join('')}</select>
               <input type="date" name="paidOn" value="${draft.paidOn}" aria-label="Received on">
             </span>
+          </div>
+        </div>
+        <div>
+          <div class="section-title">Delivery</div>
+          <div class="seg" role="group" aria-label="Delivery status">
+            <button type="button" class="warn ${draft.delivered ? '' : 'active'}" data-act="set-delivered" data-id="0">Not delivered</button>
+            <button type="button" class="good ${draft.delivered ? 'active' : ''}" data-act="set-delivered" data-id="1">Delivered</button>
           </div>
         </div>
         <label class="field">Notes<input name="notes" value="${esc(draft.notes)}" placeholder="Optional — e.g. less spicy"></label>
@@ -1200,6 +1231,9 @@ async function saveDraft() {
   if (!draft.items.length && !(draft.amount > 0)) return toast('Add at least one item or enter an amount', true);
 
   const { contactTouched, ...doc } = draft;
+  doc.delivered = Boolean(doc.delivered);
+  if (!doc.delivered) delete doc.deliveredAt;
+  else if (!doc.deliveredAt) doc.deliveredAt = new Date().toISOString();
   if (!doc.paid) {
     delete doc.paidOn;
     delete doc.paymentMode;
@@ -1259,7 +1293,7 @@ function toCsv() {
     const s = String(v ?? '');
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
-  const head = ['Date', 'Location', 'Block', 'Flat', 'Customer', 'Phone', 'Address', 'Items', 'Amount', 'Payment', 'Mode', 'Received on', 'Notes'];
+  const head = ['Date', 'Location', 'Block', 'Flat', 'Customer', 'Phone', 'Address', 'Items', 'Amount', 'Payment', 'Mode', 'Received on', 'Delivery', 'Notes'];
   const rows = [...S.orders].sort((a, b) => a.date.localeCompare(b.date)).map((o) => [
     o.date,
     societyName(o.society),
@@ -1273,6 +1307,7 @@ function toCsv() {
     o.paid ? 'Received' : 'Pending',
     o.paid ? o.paymentMode : '',
     o.paid ? o.paidOn : '',
+    o.delivered ? 'Delivered' : 'Not delivered',
     o.notes,
   ]);
   return [head, ...rows].map((r) => r.map(cell).join(',')).join('\n');
@@ -1346,9 +1381,37 @@ const actions = {
     renderContactSummary();
     $('#order-form').elements.customer.focus();
   },
+  'set-delivered': (el) => {
+    draft.delivered = el.dataset.id === '1';
+    $$('button', el.closest('.seg')).forEach((b) => b.classList.toggle('active', b === el));
+  },
+  'toggle-delivered': async (el) => {
+    const o = S.orders.find((x) => x.id === el.dataset.id);
+    if (!o) return;
+    const { deliveredAt, ...rest } = o;
+    const next = o.delivered
+      ? { ...rest, delivered: false }
+      : { ...rest, delivered: true, deliveredAt: new Date().toISOString() };
+    await guarded(() => Store.save('orders', { ...next, updatedAt: new Date().toISOString() }), o.delivered ? 'Marked not delivered' : `Delivered · ${houseLabel(o)}`);
+    render();
+  },
+  'deliver-all': async () => {
+    let list = S.orders.filter((o) => o.date === ui.date && !o.delivered);
+    if (ui.orderSociety) list = list.filter((o) => o.society === ui.orderSociety);
+    if (!list.length || !confirm(`Mark ${list.length} order${list.length > 1 ? 's' : ''} as delivered?`)) return;
+    const now = new Date().toISOString();
+    await guarded(async () => {
+      for (const o of list) await Store.save('orders', { ...o, delivered: true, deliveredAt: now, updatedAt: now });
+    }, `${list.length} marked delivered`);
+    render();
+  },
+  'delivery-filter': (el) => {
+    ui.deliveryFilter = el.dataset.id;
+    render();
+  },
   'set-paid': (el) => {
     draft.paid = el.dataset.id === '1';
-    $$('.seg button', $('#order-form')).forEach((b) => b.classList.toggle('active', b === el));
+    $$('button', el.closest('.seg')).forEach((b) => b.classList.toggle('active', b === el));
     $('#paid-fields').hidden = !draft.paid;
   },
   'repeat-last': (el) => {
