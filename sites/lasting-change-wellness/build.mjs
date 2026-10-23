@@ -6,7 +6,8 @@
 //   {{page.title}}                  value from the page's front matter
 //   {{> partial-name}}              contents of src/partials/partial-name.html
 //   {{nav:coaching}}                aria-current="page" when the page's nav is "coaching"
-//   {{img name | alt | sizes | class | eager}}   responsive <img> from assets/img
+//   {{img name | alt | sizes | class | eager | focal}}   responsive <img> from assets/img
+//   {{thumb name}}                  URL of the smallest version of an image (for CSS backgrounds)
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -21,13 +22,14 @@ const read = (p) => readFileSync(join(src, p), 'utf8');
 const get = (obj, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
 
 function img(args) {
-  const [name, alt = '', sizes = '100vw', cls = '', eager = ''] = args.split('|').map((s) => s.trim());
+  const [name, alt = '', sizes = '100vw', cls = '', eager = '', pos = ''] = args.split('|').map((s) => s.trim());
   const meta = images[name];
   if (!meta) throw new Error(`Unknown image "${name}"`);
   const srcset = meta.widths.map((w) => `assets/img/${name}-${w}.webp ${w}w`).join(', ');
   const fallback = `assets/img/${name}-${meta.widths[meta.widths.length - 1]}.webp`;
   const loading = eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
-  return `<img src="${fallback}" srcset="${srcset}" sizes="${sizes}" width="${meta.w}" height="${meta.h}" alt="${alt}"${cls ? ` class="${cls}"` : ''} ${loading}>`;
+  const style = pos ? ` style="object-position:${pos}"` : '';
+  return `<img src="${fallback}" srcset="${srcset}" sizes="${sizes}" width="${meta.w}" height="${meta.h}" alt="${alt}"${cls ? ` class="${cls}"` : ''}${style} ${loading}>`;
 }
 
 function render(tpl, page, depth = 0) {
@@ -35,6 +37,11 @@ function render(tpl, page, depth = 0) {
   return tpl
     .replace(/\{\{>\s*([\w-]+)\s*\}\}/g, (_, name) => render(read(`partials/${name}.html`), page, depth + 1))
     .replace(/\{\{img\s+([^}]+)\}\}/g, (_, args) => img(args))
+    .replace(/\{\{thumb\s+([\w-]+)\s*\}\}/g, (_, name) => {
+      const meta = images[name];
+      if (!meta) throw new Error(`Unknown image "${name}"`);
+      return `assets/img/${name}-${meta.widths[0]}.webp`;
+    })
     .replace(/\{\{nav:([\w-]+)\}\}/g, (_, key) => (page.nav === key ? ' aria-current="page"' : ''))
     .replace(/\{\{(site|page)\.([\w.]+)\}\}/g, (m, scope, path) => {
       const v = get(scope === 'site' ? site : page, path);
@@ -46,7 +53,7 @@ function render(tpl, page, depth = 0) {
 function parse(file) {
   const raw = read(`pages/${file}`);
   const m = raw.match(/^---\n([\s\S]*?)\n---\n/);
-  const page = { file, slug: file.replace(/\.html$/, ''), bodyClass: '', nav: '' };
+  const page = { file, slug: file.replace(/\.html$/, ''), bodyClass: '', htmlClass: '', nav: '', curtain: '' };
   if (m) {
     for (const line of m[1].split('\n')) {
       const i = line.indexOf(':');

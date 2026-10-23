@@ -1,19 +1,16 @@
-<section class="cta-band" aria-labelledby="cta-title">
-  <div class="cta-glow" aria-hidden="true"></div>
-  <div class="container cta-grid">
-    <div data-reveal>
-      <p class="kicker kicker-mint">Your next step</p>
-      <h2 id="cta-title" class="display-lg">Ready to stop doubting and start <em>expecting amazing?</em></h2>
+<section class="cta" aria-labelledby="cta-title">
+  <div class="cta__frame is-dark">
+    <div class="cta__copy">
+      <span class="label label--dot label--live reveal">Your next step &middot; Free 30-minute Power Up call</span>
+      <h2 id="cta-title" class="h-xl lines">Ready to <em>expect amazing?</em></h2>
+      <p class="lede reveal" data-delay="1">One relaxed conversation to get clear on what you want to change, and whether S.H.I.N.E. coaching is the right way to get there. No pressure, no obligation.</p>
     </div>
-    <div class="cta-card" data-reveal>
-      <p class="cta-card-title">Free 30-minute Power Up call</p>
-      <ul class="checks checks-light">
-        <li>Get clear on what you want to change</li>
-        <li>Find out if S.H.I.N.E. coaching fits</li>
-        <li>No pressure and no obligation</li>
-      </ul>
-      <a class="btn btn-mint btn-block" href="contact.html#book">Choose a time {{> arrow}}</a>
-      <p class="cta-alt">Prefer email? <a href="mailto:{{site.email}}">{{site.email}}</a></p>
+    <div class="cta__side reveal" data-delay="2">
+      <a class="circle-btn" href="contact.html#book" data-cursor="Book" aria-label="Book a free call">
+        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="cta-ring" d="M50 50m-41 0a41 41 0 1 1 82 0a41 41 0 1 1-82 0"/></defs><text><textPath href="#cta-ring">Book a free call &middot; Expect amazing &middot; </textPath></text></svg>
+        <span class="circle-btn__core">{{> arrow}}</span>
+      </a>
+      <a class="link" href="mailto:{{site.email}}">or email {{site.email}}</a>
     </div>
   </div>
 </section>

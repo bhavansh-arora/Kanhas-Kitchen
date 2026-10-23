@@ -2,54 +2,51 @@
 title: Book a Free Call | Contact | Lasting Change Wellness
 description: Book a free 30-minute Power Up call with Lauren Yellin Weinberg, ask about the Expect Amazing Collective, or enquire about speaking.
 nav: contact
+curtain: Let&rsquo;s <em>talk</em>
 bodyClass: page-contact no-dock
 ---
-<section class="page-hero">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="container page-hero-grid">
-    <div>
-      <p class="kicker" data-reveal>Contact</p>
-      <h1 class="display-xl" data-reveal>Let's talk about <em>what's next.</em></h1>
-      <p class="lead" data-reveal>Pick a time for a free call below, or send a message. Whether you're curious about coaching, the Collective or a talk for your team, it starts with a conversation.</p>
-      <div class="btn-row" data-reveal>
-        <a class="btn btn-lg" href="#book">Choose a time {{> arrow}}</a>
-        <a class="btn btn-lg btn-ghost" href="#message">Send a message</a>
+<section class="thero" aria-labelledby="ct-title">
+  <div class="wrap">
+    <div class="head__top reveal"><span class="label label--dot label--live">(01) &mdash; Contact</span><span class="label">Blue Bell, PA &mdash; Worldwide</span></div>
+    <div class="split" style="align-items:end">
+      <div>
+        <h1 id="ct-title" class="h-display thero__title lines">Let's talk about <em>what's next.</em></h1>
+        <p class="lede reveal" style="margin-top:clamp(24px,3vw,40px)">Pick a time for a free call, or send a message. Coaching, the Collective or a talk for your team, it all starts with a conversation.</p>
+        <div class="btn-row reveal" style="margin-top:32px"><a class="btn" href="#book">Choose a time {{> ic}}</a><a class="btn btn--ghost" href="#message">Send a message {{> ic}}</a></div>
       </div>
+      <div class="media media--16x10 reveal-img">{{img pointing | Lauren smiling and pointing toward the booking options | (min-width:960px) 45vw, 100vw | | eager | 22% 50%}}</div>
     </div>
-    <div class="contact-hero-img" data-reveal>{{img pointing | Lauren smiling and pointing toward the booking options | (min-width: 900px) 45vw, 100vw | | eager}}</div>
   </div>
 </section>
 
-<section class="section section-flush-top" id="book">
-  <div class="container">
-    <div class="center-head">
-      <p class="kicker" data-reveal>Book online</p>
-      <h2 class="display-lg" data-reveal>Choose the call <em>that fits</em></h2>
+<section class="section section--flush" id="book" aria-labelledby="bk-title">
+  <div class="wrap">
+    <div class="head head--split">
+      <div class="head__top reveal"><span class="label">(02) &mdash; Book online</span><span class="label">Free &middot; By video &middot; 30 minutes</span></div>
+      <h2 id="bk-title" class="h-lg lines">Choose the call <em>that fits.</em></h2>
+      <p class="lede reveal">Pick a call type, then choose a time that suits you. All three calls are free.</p>
     </div>
-    <div class="book-panel" data-reveal>
+    <div class="book reveal">
       <div class="tabs" role="tablist" aria-label="Type of call">
-        <button class="tab" role="tab" aria-selected="true" data-book-tab data-type="coaching" data-name="Free Power Up call" data-embed="{{site.embed.bookCall}}" data-href="{{site.links.bookCall}}">Free Power Up call<small>Coaching &middot; 30 min</small></button>
-        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-book-tab data-type="collective" data-name="Collective conversation" data-embed="{{site.embed.collective}}" data-href="{{site.links.collective}}">Collective conversation<small>Mastermind &middot; 30 min</small></button>
-        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-book-tab data-type="speaking" data-name="Speaking consultation" data-embed="{{site.embed.speaking}}" data-href="{{site.links.speaking}}">Speaking consultation<small>Events &amp; teams &middot; 30 min</small></button>
+        <button class="tab" role="tab" aria-selected="true" data-book-tab data-type="coaching" data-name="Free Power Up call" data-embed="{{site.embed.bookCall}}" data-href="{{site.links.bookCall}}"><strong>Free Power Up call</strong><span class="label">Coaching &middot; 30 min</span></button>
+        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-book-tab data-type="collective" data-name="Collective conversation" data-embed="{{site.embed.collective}}" data-href="{{site.links.collective}}"><strong>Collective conversation</strong><span class="label">Mastermind &middot; 30 min</span></button>
+        <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-book-tab data-type="speaking" data-name="Speaking consultation" data-embed="{{site.embed.speaking}}" data-href="{{site.links.speaking}}"><strong>Speaking consultation</strong><span class="label">Events &amp; teams &middot; 30 min</span></button>
       </div>
-      <div class="book-frame">
+      <div class="book__frame">
         <iframe data-book-frame src="{{site.embed.bookCall}}" title="Book: Free Power Up call" loading="lazy"></iframe>
       </div>
-      <div class="book-fallback">
-        <p>All calls are free and held by video.</p>
-        <a class="text-link" href="{{site.links.bookCall}}" target="_blank" rel="noopener" data-book-direct>Open the scheduler in a new tab {{> arrow}}</a>
-      </div>
+      <div class="book__foot"><span class="label">All calls are free and held by video</span><a class="link" href="{{site.links.bookCall}}" target="_blank" rel="noopener" data-book-direct>Open the scheduler in a new tab {{> arrow}}</a></div>
     </div>
   </div>
 </section>
 
-<section class="section tint-sand" id="message">
-  <div class="container contact-grid">
+<section class="section" id="message" aria-labelledby="msg-title">
+  <div class="wrap split split--top">
     <div>
-      <p class="kicker" data-reveal>Send a message</p>
-      <h2 class="display-lg" data-reveal>Prefer to <em>write first?</em></h2>
-      <form class="form mt-lg" data-contact-form data-to="{{site.email}}" data-endpoint="{{site.formEndpoint}}" novalidate data-reveal>
-        <div class="form-row">
+      <div class="head__top reveal"><span class="label">(03) &mdash; Send a message</span><span class="label">Prefer to write first?</span></div>
+      <h2 id="msg-title" class="h-lg lines" style="margin:32px 0 clamp(28px,3vw,44px)">Write to <em>Lauren.</em></h2>
+      <form class="form reveal" data-contact-form data-to="{{site.email}}" data-endpoint="{{site.formEndpoint}}" novalidate>
+        <div class="form__row">
           <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
           <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
         </div>
@@ -63,28 +60,23 @@ bodyClass: page-contact no-dock
             <option>Something else</option>
           </select>
         </div>
-        <div class="field">
-          <label for="f-msg">What would you like to change, or ask?</label>
-          <textarea id="f-msg" name="message" required></textarea>
-          <span class="field-hint">A sentence or two is plenty.</span>
-        </div>
+        <div class="field"><label for="f-msg">What would you like to change, or ask?</label><textarea id="f-msg" name="message" required></textarea></div>
         <div class="hp" aria-hidden="true"><label for="f-company">Company</label><input id="f-company" name="company" tabindex="-1" autocomplete="off"></div>
-        <button class="btn btn-lg" type="submit">Send message {{> arrow}}</button>
-        <p class="form-status" role="status" aria-live="polite"></p>
+        <div class="btn-row" style="align-items:center;justify-content:space-between"><button class="btn" type="submit">Send message {{> ic}}</button><span class="label">A sentence or two is plenty</span></div>
+        <p class="form__status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <div data-reveal>
+    <div class="reveal" data-delay="1">
       <ul class="contact-list">
-        <li><span>Email</span><a href="mailto:{{site.email}}">{{site.email}}</a></li>
-        <li><span>Phone</span><a href="tel:{{site.phoneHref}}">{{site.phone}}</a></li>
-        <li><span>Based in</span><p class="serif" style="font-size:1.5rem;margin:0">{{site.location}}, coaching women everywhere by video</p></li>
+        <li><span class="label">Email</span><a href="mailto:{{site.email}}">{{site.email}}</a></li>
+        <li><span class="label">Phone</span><a href="tel:{{site.phoneHref}}">{{site.phone}}</a></li>
+        <li><span class="label">Based in</span><p>{{site.location}}. Coaching women everywhere by video.</p></li>
       </ul>
-      <div class="card mt-lg">
-        <p class="kicker">Not ready to talk yet?</p>
-        <h3>Start with the free workbook</h3>
-        <p>Your Expect Amazing Mindset Reset: flip the switch on negative thoughts, at your own pace.</p>
-        <a class="text-link" href="{{site.links.workbook}}" target="_blank" rel="noopener">Download it free {{> arrow}}</a>
-      </div>
+      <a class="tile tile--mint" href="experience.html" style="margin-top:24px;min-height:0">
+        <div class="tile__top"><span class="label">Not ready to talk yet?</span><span class="arrow-btn">{{> arrow}}</span></div>
+        <h3 class="h-sm">Try the <em>Experience</em> first</h3>
+        <p>A guided breath, a thought reframe and a S.H.I.N.E. check-in. About five minutes.</p>
+      </a>
     </div>
   </div>
 </section>

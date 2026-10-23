@@ -1,0 +1,118 @@
+---
+title: The Experience | Lasting Change Wellness
+description: Lauren Yellin Weinberg's interactive space: a one-minute guided breath, a thought reframe, a S.H.I.N.E. check-in with a downloadable intention card, and the RISE readiness check.
+nav: experience
+curtain: The <em>Experience</em>
+bodyClass: page-experience theme-dark
+---
+<section class="exp-hero" aria-labelledby="x-title">
+  <canvas data-motes aria-hidden="true"></canvas>
+  <div class="exp-hero__inner">
+    <span class="label label--dot label--live">The Expect Amazing Experience</span>
+    <h1 id="x-title" class="h-display lines">Pause here. <em>Begin to shine.</em></h1>
+    <p class="lede" style="margin-inline:auto;text-align:center">Four small practices from Lauren's work, to try right now. Move your cursor through the light, then choose where to begin.</p>
+    <nav class="exp-nav" aria-label="Practices">
+      <a class="chip" href="#breathe">01 &middot; Breathe</a>
+      <a class="chip" href="#flip">02 &middot; Flip the switch</a>
+      <a class="chip" href="#checkin">03 &middot; S.H.I.N.E. check-in</a>
+      <a class="chip" href="#rise">04 &middot; RISE check</a>
+    </nav>
+  </div>
+  <div class="exp-hero__foot" aria-hidden="true"><span class="label">About five minutes</span><span class="label">Scroll &darr;</span></div>
+</section>
+
+<section class="exp-section" id="breathe" aria-labelledby="b-title">
+  <div class="exp-frame is-dark">
+    <div class="exp-grid">
+      <div>
+        <div class="head__top reveal"><span class="label">(01) &mdash; Breathe</span><span class="label">One minute</span></div>
+        <h2 id="b-title" class="h-lg lines" style="margin-top:32px">One breath can <em>change the next hour.</em></h2>
+        <p class="lede reveal" style="margin-top:24px">Before any big decision, Lauren invites clients to arrive in the moment. Follow the light: breathe in as it grows, hold, and let go as it softens. Three slow breaths.</p>
+      </div>
+      <div class="breathe" data-breathe>
+        <div class="orb" aria-hidden="true"><span class="orb__ring"></span><span class="orb__ring"></span><span class="orb__ring"></span><span class="orb__core"></span><span class="orb__text">Ready?</span></div>
+        <p class="breathe__count" aria-live="polite"></p>
+        <button class="btn btn--mint" type="button" data-breathe-start data-cursor="Breathe"><span data-label>Begin</span> {{> ic}}</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="flip" aria-labelledby="f-title">
+  <div class="wrap">
+    <div class="head__top reveal" style="margin-bottom:clamp(40px,5vw,72px)"><span class="label">(02) &mdash; Flip the switch</span><span class="label">From the Mindset Reset workbook</span></div>
+    <div class="flip" data-flip='[["I’m not qualified enough to go for this.","I’ve prepared for this, and I’m allowed to grow into it."],["If I say no, they’ll be disappointed in me.","My no makes room for my best yes."],["I’ll focus on my own goals someday.","Someday starts with one small step today."],["Who am I to want more?","Wanting more is how I honor what I’m capable of."],["Everyone else has it figured out.","Everyone is still becoming, and so am I."],["I don’t have time for myself.","Caring for me is how I keep caring for everyone else."]]'>
+      <div>
+        <h2 id="f-title" class="h-lg lines">Notice it. <em>Then flip it.</em></h2>
+        <p class="lede reveal" style="margin-top:24px">The thoughts that dim your light often sound like facts. Flip the switch to hear a kinder, truer version, then try it with a thought of your own.</p>
+        <a class="btn btn--ghost reveal" style="margin-top:32px" href="{{site.links.workbook}}" target="_blank" rel="noopener">Get the free workbook {{> ic}}</a>
+      </div>
+      <div class="flip__card reveal" data-delay="1">
+        <div class="flip__top"><span class="label">The thought</span><div class="flip__dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <p class="flip__thought" aria-hidden="true"><span class="flip__neg"></span><span class="flip__pos"></span></p>
+        <p class="sr-only" aria-live="polite" data-flip-status></p>
+        <div class="flip__controls">
+          <button class="switch" type="button" role="switch" aria-checked="false" data-flip-switch data-cursor="Flip it">
+            <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+            <span>Flip the switch</span>
+          </button>
+          <button class="flip__next" type="button" data-flip-next>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10a6 6 0 1 1-1.8-4.3M16 3.5V7h-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Another thought
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="exp-section" id="checkin" aria-labelledby="ci-title">
+  <div class="exp-frame is-dark" data-checkin='{
+    "s": {"l": "S", "w": "See yourself", "t": "I am allowed to be exactly who I am today.", "p": "Write down three things you appreciate about yourself, including one quirk."},
+    "h": {"l": "H", "w": "Honor yourself", "t": "Taking care of me is not selfish. It is my foundation.", "p": "Choose one small act of care you will do before tonight, and put it in your calendar."},
+    "i": {"l": "I", "w": "Investigate the possibilities", "t": "I get to be curious about what I want next.", "p": "Finish this sentence three ways: “I would love more…”"},
+    "n": {"l": "N", "w": "Neutralize the negative", "t": "I can protect my energy with kindness and clarity.", "p": "Name one thing that drains you, and one boundary that would help."},
+    "e": {"l": "E", "w": "Elevate your energy", "t": "I lead with love, starting with how I speak to myself.", "p": "Send one message today that lifts someone up, and notice how it lifts you."}
+  }'>
+    <div class="exp-grid">
+      <div>
+        <div class="head__top reveal"><span class="label">(03) &mdash; S.H.I.N.E. check-in</span><span class="label">Your intention for today</span></div>
+        <h2 id="ci-title" class="h-lg lines" style="margin-top:32px">How are you <em>arriving today?</em></h2>
+        <p class="lede reveal" style="margin-top:20px;margin-bottom:28px">Pick the one that feels closest. You'll get the S.H.I.N.E. step that meets you there, with an intention and a small practice.</p>
+        <div class="checkin reveal" data-delay="1">
+          <button type="button" data-pick="s" aria-pressed="false"><span class="checkin__l">S</span><span><strong>Hard on myself</strong><small>My inner critic is loud today</small></span>{{> arrow}}</button>
+          <button type="button" data-pick="h" aria-pressed="false"><span class="checkin__l">H</span><span><strong>Running on empty</strong><small>I've given everything to everyone else</small></span>{{> arrow}}</button>
+          <button type="button" data-pick="i" aria-pressed="false"><span class="checkin__l">I</span><span><strong>Stuck or unsure</strong><small>I don't know what I want next</small></span>{{> arrow}}</button>
+          <button type="button" data-pick="n" aria-pressed="false"><span class="checkin__l">N</span><span><strong>Drained by others</strong><small>People or habits are pulling my energy</small></span>{{> arrow}}</button>
+          <button type="button" data-pick="e" aria-pressed="false"><span class="checkin__l">E</span><span><strong>Flat and low</strong><small>I want to feel lighter and brighter</small></span>{{> arrow}}</button>
+        </div>
+      </div>
+      <div class="intention is-empty reveal" data-delay="2" aria-live="polite">
+        <div class="intention__head"><span class="label">My intention for today</span><span class="label">S.H.I.N.E.</span></div>
+        <div class="intention__swap">
+          <span class="intention__letter">?</span>
+          <span class="intention__word">Choose how you're arriving</span>
+          <p class="intention__text">Your intention will appear here.</p>
+          <p class="intention__practice">Pick one of the options to receive a small practice for today.</p>
+        </div>
+        <div class="intention__actions">
+          <button class="btn" type="button" data-save disabled>Save my card {{> ic}}</button>
+          <a class="btn btn--ghost btn--plain" href="contact.html#book">Talk it through with Lauren</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="rise" aria-labelledby="r-title">
+  <div class="wrap split">
+    <div>
+      <div class="head__top reveal"><span class="label">(04) &mdash; RISE check</span><span class="label">Are you ready to shine?</span></div>
+      <h2 id="r-title" class="h-lg lines" style="margin-top:32px">Ready for <em>what's next?</em></h2>
+      <p class="lede reveal" style="margin-top:24px">Coaching works best when you're ready for it. Tick what feels true, and see where you are.</p>
+    </div>
+    {{> rise}}
+  </div>
+</section>
+
+{{> cta}}

@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="{{page.htmlClass}}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{{page.title}}</title>
   <meta name="description" content="{{page.description}}">
   <link rel="canonical" href="{{page.canonical}}">
-  <meta name="theme-color" content="#F8F4EE">
-
+  <meta name="theme-color" content="#081816">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{site.name}}">
   <meta property="og:title" content="{{page.title}}">
@@ -17,15 +16,27 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-
+  <script>
+    /* Decide before first paint whether to show the preloader (first visit this session)
+       or the page curtain (arriving from another page on this site). */
+    (function (d) {
+      var h = d.documentElement; h.classList.add('js');
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var s = window.sessionStorage;
+        if (!s.getItem('lcw-seen')) h.classList.add('is-loading');
+        else if (s.getItem('lcw-nav')) { h.classList.add('is-entering'); }
+        /* Safety net: never leave the page covered if a script fails to load. */
+        setTimeout(function () { if (!h.classList.contains('motion-ready')) h.classList.remove('is-loading', 'is-entering'); }, 6000);
+      } catch (e) {}
+    })(document);
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,18 +58,46 @@
   }
   </script>
 </head>
-<body class="{{page.bodyClass}}">
+<body class="{{page.bodyClass}}" data-page="{{page.slug}}">
   <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__corner"><span class="label">Lasting Change Wellness</span><span class="label">Blue Bell, PA &mdash; Worldwide</span></div>
+    <div class="preloader__inner">
+      <svg class="preloader__mark" viewBox="0 0 48 44"><path class="fill" d="M24 3 45 40H3z"/><path pathLength="1" d="M24 3 45 40H3z"/><ellipse pathLength="1" cx="24" cy="27" rx="17" ry="10" transform="rotate(-8 24 27)"/><ellipse pathLength="1" cx="25" cy="26" rx="15" ry="11.5" transform="rotate(14 25 26)"/></svg>
+      <p class="preloader__name"><span>Lauren Yellin Weinberg</span></p>
+      <p class="preloader__tag"><span>Expect amazing</span></p>
+    </div>
+    <div class="preloader__foot"><span class="label">Coaching &middot; Speaking &middot; Community</span><span class="preloader__count" data-count-loader>000</span></div>
+    <div class="preloader__bar"><span></span></div>
+  </div>
+
+  <div class="curtain" aria-hidden="true">
+    <div class="curtain__inner">
+      <svg class="curtain__mark" viewBox="0 0 48 44"><path d="M24 3 45 40H3z" fill="#7EDCC4"/></svg>
+      <p class="curtain__name" data-curtain-name>{{page.curtain}}</p>
+    </div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
+
   {{> header}}
+
   <main id="main">
 {{page.content}}
   </main>
+
   {{> footer}}
+
   <a class="dock" href="contact.html#book" data-dock>
-    <span class="dock-dot" aria-hidden="true"></span>
-    <span>Free 30-min Power Up call</span>
-    <span class="dock-go">Book</span>
+    <span class="label label--dot label--live" style="color:inherit">Free 30-min call</span>
+    <span class="dock__go">Book now</span>
   </a>
+
+  <script src="assets/vendor/gsap.min.js" defer></script>
+  <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/motion.js" defer></script>
 </body>
 </html>

@@ -1,13 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>1:1 Coaching | Lasting Change Wellness</title>
   <meta name="description" content="Private, virtual coaching with Lauren Yellin Weinberg, built on the S.H.I.N.E. method. Clarity Power Sessions plus 3-month, 6-month and ongoing packages.">
   <link rel="canonical" href="https://www.lastingchangewellness.com/coaching.html">
-  <meta name="theme-color" content="#F8F4EE">
-
+  <meta name="theme-color" content="#081816">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Lasting Change Wellness">
   <meta property="og:title" content="1:1 Coaching | Lasting Change Wellness">
@@ -17,15 +16,27 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-
+  <script>
+    /* Decide before first paint whether to show the preloader (first visit this session)
+       or the page curtain (arriving from another page on this site). */
+    (function (d) {
+      var h = d.documentElement; h.classList.add('js');
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var s = window.sessionStorage;
+        if (!s.getItem('lcw-seen')) h.classList.add('is-loading');
+        else if (s.getItem('lcw-nav')) { h.classList.add('is-entering'); }
+        /* Safety net: never leave the page covered if a script fails to load. */
+        setTimeout(function () { if (!h.classList.contains('motion-ready')) h.classList.remove('is-loading', 'is-entering'); }, 6000);
+      } catch (e) {}
+    })(document);
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css">
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,334 +58,359 @@
   }
   </script>
 </head>
-<body class="page-coaching">
+<body class="page-coaching on-dark-top" data-page="coaching">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header" data-header>
-  <div class="container header-row">
-    <a class="logo" href="index.html" aria-label="Lasting Change Wellness, home">
-      <svg class="logo-mark" viewBox="0 0 48 44" aria-hidden="true" focusable="false">
-  <path d="M24 3 45 40H3z" fill="#7EDCC4"/>
-  <ellipse cx="24" cy="27" rx="17" ry="10" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="1.2" transform="rotate(-8 24 27)"/>
-  <ellipse cx="25" cy="26" rx="15" ry="11.5" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1" transform="rotate(14 25 26)"/>
-</svg>
-      <span class="logo-type">
-        <span class="logo-name">Lasting Change</span>
-        <span class="logo-sub">Wellness</span>
-      </span>
-    </a>
 
-    <nav class="main-nav" aria-label="Main">
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__corner"><span class="label">Lasting Change Wellness</span><span class="label">Blue Bell, PA &mdash; Worldwide</span></div>
+    <div class="preloader__inner">
+      <svg class="preloader__mark" viewBox="0 0 48 44"><path class="fill" d="M24 3 45 40H3z"/><path pathLength="1" d="M24 3 45 40H3z"/><ellipse pathLength="1" cx="24" cy="27" rx="17" ry="10" transform="rotate(-8 24 27)"/><ellipse pathLength="1" cx="25" cy="26" rx="15" ry="11.5" transform="rotate(14 25 26)"/></svg>
+      <p class="preloader__name"><span>Lauren Yellin Weinberg</span></p>
+      <p class="preloader__tag"><span>Expect amazing</span></p>
+    </div>
+    <div class="preloader__foot"><span class="label">Coaching &middot; Speaking &middot; Community</span><span class="preloader__count" data-count-loader>000</span></div>
+    <div class="preloader__bar"><span></span></div>
+  </div>
+
+  <div class="curtain" aria-hidden="true">
+    <div class="curtain__inner">
+      <svg class="curtain__mark" viewBox="0 0 48 44"><path d="M24 3 45 40H3z" fill="#7EDCC4"/></svg>
+      <p class="curtain__name" data-curtain-name>1:1 <em>Coaching</em></p>
+    </div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"><span></span></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor__ring"><span class="cursor__label"></span></span><span class="cursor__dot"></span></div>
+
+  <header class="site-header" data-header>
+  <div class="header-bar">
+    <a class="logo" href="index.html" aria-label="Lasting Change Wellness, home">
+      <svg class="logo__mark" viewBox="0 0 48 44" aria-hidden="true" focusable="false"><path d="M24 3 45 40H3z" fill="#7EDCC4"/><ellipse cx="24" cy="27" rx="17" ry="10" fill="none" stroke="currentColor" stroke-opacity=".6" stroke-width="1.3" transform="rotate(-8 24 27)"/><ellipse cx="25" cy="26" rx="15" ry="11.5" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.1" transform="rotate(14 25 26)"/></svg>
+
+      <span class="logo__type"><span class="logo__name">Lasting <em>Change</em></span><span class="logo__sub">Wellness</span></span>
+    </a>
+    <nav class="nav" aria-label="Main">
       <ul>
-        <li><a href="method.html">The Method</a></li>
-        <li><a href="coaching.html" aria-current="page">Coaching</a></li>
-        <li><a href="collective.html">The Collective</a></li>
-        <li><a href="speaking.html">Speaking</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="resources.html">Resources</a></li>
+        <li><a href="method.html" data-roll>The Method</a></li>
+        <li><a href="coaching.html" aria-current="page" data-roll>Coaching</a></li>
+        <li><a href="collective.html" data-roll>The Collective</a></li>
+        <li><a href="speaking.html" data-roll>Speaking</a></li>
+        <li><a href="about.html" data-roll>About</a></li>
+        <li><a href="experience.html" data-roll>Experience</a></li>
       </ul>
     </nav>
-
-    <a class="btn btn-sm header-cta" href="contact.html#book">Book a free call</a>
-
+    <a class="btn btn--sm header-cta" href="contact.html#book">Book a free call <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>
-      <span class="menu-btn-label">Menu</span>
-      <span class="menu-btn-icon" aria-hidden="true"><i></i><i></i></span>
+      <span data-menu-label>Menu</span><span class="menu-btn__icon" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
 </header>
 
-<div class="menu" id="menu" data-menu hidden>
-  <div class="menu-glow" aria-hidden="true"></div>
-  <nav class="container menu-inner" aria-label="Mobile">
-    <ol class="menu-list">
-      <li><a href="index.html"><span>01</span>Home</a></li>
-      <li><a href="method.html"><span>02</span>The Method</a></li>
-      <li><a href="coaching.html" aria-current="page"><span>03</span>Coaching</a></li>
-      <li><a href="collective.html"><span>04</span>The Collective</a></li>
-      <li><a href="speaking.html"><span>05</span>Speaking</a></li>
-      <li><a href="about.html"><span>06</span>About</a></li>
-      <li><a href="resources.html"><span>07</span>Resources</a></li>
-      <li><a href="contact.html"><span>08</span>Contact</a></li>
+<div class="menu" id="menu" data-menu>
+  <nav aria-label="Mobile">
+    <ol class="menu__list">
+      <li><a href="index.html">Home <span>01</span></a></li>
+      <li><a href="method.html">The Method <span>02</span></a></li>
+      <li><a href="coaching.html" aria-current="page">Coaching <span>03</span></a></li>
+      <li><a href="collective.html">The Collective <span>04</span></a></li>
+      <li><a href="speaking.html">Speaking <span>05</span></a></li>
+      <li><a href="about.html">About <span>06</span></a></li>
+      <li><a href="experience.html">Experience <span>07</span></a></li>
+      <li><a href="resources.html">Resources <span>08</span></a></li>
+      <li><a href="contact.html">Contact <span>09</span></a></li>
     </ol>
-    <div class="menu-foot">
-      <a class="btn btn-mint btn-block" href="contact.html#book">Book a free Power Up call</a>
-      <p><a href="mailto:lauren@lastingchangewellness.com">lauren@lastingchangewellness.com</a></p>
-    </div>
   </nav>
+  <div class="menu__foot">
+    <a class="btn btn--mint btn--block" href="contact.html#book">Book a free Power Up call <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a>
+    <p class="label"><a href="mailto:lauren@lastingchangewellness.com">lauren@lastingchangewellness.com</a><span>Blue Bell, PA</span></p>
+  </div>
 </div>
 
+
   <main id="main">
-<section class="page-hero">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="container page-hero-grid">
-    <div>
-      <p class="kicker" data-reveal>1:1 Coaching</p>
-      <h1 class="display-xl" data-reveal>Stop shrinking. <em>Start becoming.</em></h1>
-      <p class="lead" data-reveal>Private, virtual coaching for impact-driven women who are done with self-doubt, people-pleasing and &ldquo;someday.&rdquo; Built on S.H.I.N.E. and shaped entirely around your goals.</p>
-      <div class="btn-row" data-reveal>
-        <a class="btn btn-lg" href="contact.html#book">Book a free Power Up call <svg class="i-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <a class="btn btn-lg btn-ghost" href="#packages">See packages</a>
+<section class="phero" aria-labelledby="c-title">
+  <div class="phero__frame">
+    <div class="phero__media"><img src="assets/img/session-1600.webp" srcset="assets/img/session-600.webp 600w, assets/img/session-1000.webp 1000w, assets/img/session-1600.webp 1600w" sizes="calc(100vw - 28px)" width="1600" height="2400" alt="Lauren in a coaching conversation with a client" style="object-position:50% 32%" fetchpriority="high"></div>
+    <div class="phero__content">
+      <div class="phero__top"><span class="label crumbs"><a href="index.html">Home</a> / 1:1 Coaching</span><span class="label">Virtual &middot; Worldwide</span></div>
+      <h1 id="c-title" class="h-display phero__title lines">Stop shrinking. <em>Start becoming.</em></h1>
+      <div class="phero__bottom">
+        <p>Private, virtual coaching for impact-driven women who are done with self-doubt, people-pleasing and &ldquo;someday.&rdquo; Built on S.H.I.N.E. and shaped entirely around your goals.</p>
+        <div class="btn-row"><a class="btn btn--mint" href="contact.html#book">Book a free call <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a><a class="btn btn--glass" href="#packages">See packages <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a></div>
       </div>
     </div>
-    <div class="page-hero-media arch-sm" data-reveal><img src="assets/img/session-1200.webp" srcset="assets/img/session-720.webp 720w, assets/img/session-1200.webp 1200w" sizes="(min-width: 900px) 45vw, 100vw" width="1200" height="1800" alt="Lauren in a coaching conversation with a client" fetchpriority="high"></div>
   </div>
 </section>
 
-<section class="section section-flush-top">
-  <div class="container">
-    <div class="center-head">
-      <p class="kicker" data-reveal>Is this for you?</p>
-      <h2 class="display-lg" data-reveal>Coaching works best when <em>you're ready to show up</em></h2>
+<section class="section" aria-labelledby="fit">
+  <div class="wrap">
+    <div class="head head--split">
+      <div class="head__top reveal"><span class="label">(01) &mdash; Is this for you?</span><span class="label">An honest fit check</span></div>
+      <h2 id="fit" class="h-lg lines">Coaching works best when <em>you're ready to show up.</em></h2>
+      <p class="lede reveal">Not sure where you land? That's exactly what the free Power Up call is for.</p>
     </div>
-    <div class="fit">
-      <div class="card card-yes" data-reveal>
-        <h3>This is for you if&hellip;</h3>
-        <ul class="checks">
+    <div class="cards cards--2" data-rise-in>
+      <div class="card" style="padding:clamp(24px,3.4vw,48px)">
+        <div class="card__top"><span class="label label--dot">This is for you if&hellip;</span></div>
+        <ul class="ticks">
           <li>You look confident on the outside but doubt yourself on the inside</li>
           <li>You're stretched thin from putting everyone else first</li>
           <li>You want boundaries that hold, at work and at home</li>
-          <li>You know you're meant for a bigger impact and you're ready to act on it</li>
+          <li>You know you're meant for a bigger impact, and you're ready to act on it</li>
           <li>You want a thinking partner with real psychological depth</li>
         </ul>
       </div>
-      <div class="card card-no" data-reveal>
-        <h3>It's not the right fit if&hellip;</h3>
-        <ul class="checks crosses">
+      <div class="card" style="padding:clamp(24px,3.4vw,48px);background:transparent;border-style:dashed;border-color:var(--line-2)">
+        <div class="card__top"><span class="label">It's not the right fit if&hellip;</span></div>
+        <ul class="ticks ticks--x">
           <li>You're looking for someone to fix things without your participation</li>
           <li>You need crisis support or clinical mental health treatment</li>
           <li>You aren't ready to make time for yourself right now</li>
         </ul>
-        <p class="small mt-lg">Not sure? That's exactly what the free Power Up call is for.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section dark">
-  <div class="dark-glow" aria-hidden="true"></div>
-  <div class="container">
-    <div class="split-head">
-      <div data-reveal>
-        <p class="kicker kicker-mint">How it works</p>
-        <h2 class="display-lg">From first call to <em>lasting change</em></h2>
-      </div>
-      <p class="lead" data-reveal>Simple, structured and personal. You always know what's next, and you're never doing the work alone.</p>
+<section class="section section--flush" aria-labelledby="how">
+  <div class="wrap">
+    <div class="head head--split">
+      <div class="head__top reveal"><span class="label">(02) &mdash; How it works</span><span class="label">Call &middot; Plan &middot; Coach &middot; Grow</span></div>
+      <h2 id="how" class="h-lg lines">From first call to <em>lasting change.</em></h2>
+      <p class="lede reveal">Simple, structured and personal. You always know what's next, and you're never doing the work alone.</p>
     </div>
-    <ol class="process">
-      <li data-reveal><h3>Free Power Up call</h3><p>A relaxed conversation about what you want to change and whether coaching is the right fit.</p><span class="meta">30 min &middot; Free</span></li>
-      <li data-reveal><h3>Foundation session</h3><p>We set your goals together and map out your personal S.H.I.N.E. plan.</p><span class="meta">90 min</span></li>
-      <li data-reveal><h3>Biweekly coaching</h3><p>Focused video sessions, each followed by an emailed summary and action plan.</p><span class="meta">60 min &middot; Every two weeks</span></li>
-      <li data-reveal><h3>Support in between</h3><p>Unlimited email support and custom homework, so insight turns into habit.</p><span class="meta">Ongoing</span></li>
-    </ol>
+    <div class="stack" data-stack>
+      <article class="stack-card">
+        <div class="stack-card__text">
+          <div class="stack-card__head"><span class="num">Step 01 / 04</span><span class="chip">30 min &middot; Free</span></div>
+          <div><h3>Free Power Up call</h3><p>A relaxed video conversation about what you want to change and whether coaching is the right fit.</p></div>
+          <div class="btn-row"><a class="btn" href="contact.html#book">Choose a time <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a></div>
+        </div>
+        <div class="media"><img src="assets/img/pointing-1400.webp" srcset="assets/img/pointing-800.webp 800w, assets/img/pointing-1400.webp 1400w" sizes="(min-width:900px) 45vw, 100vw" width="1400" height="1000" alt="Lauren smiling and pointing" style="object-position:25% 50%" loading="lazy" decoding="async"></div>
+        <span class="stack-card__shade" aria-hidden="true"></span>
+      </article>
+      <article class="stack-card">
+        <div class="stack-card__text">
+          <div class="stack-card__head"><span class="num">Step 02 / 04</span><span class="chip">90 minutes</span></div>
+          <div><h3>Foundation session</h3><p>We set your goals together and map your personal S.H.I.N.E. plan.</p></div>
+        </div>
+        <div class="media"><img src="assets/img/workbook-2200.webp" srcset="assets/img/workbook-800.webp 800w, assets/img/workbook-1400.webp 1400w, assets/img/workbook-2200.webp 2200w" sizes="(min-width:900px) 45vw, 100vw" width="2200" height="1467" alt="Lauren reading a workbook" style="object-position:50% 30%" loading="lazy" decoding="async"></div>
+        <span class="stack-card__shade" aria-hidden="true"></span>
+      </article>
+      <article class="stack-card">
+        <div class="stack-card__text">
+          <div class="stack-card__head"><span class="num">Step 03 / 04</span><span class="chip">60 min &middot; Every two weeks</span></div>
+          <div><h3>Biweekly coaching</h3><p>Focused video sessions, each followed by an emailed summary and action plan.</p></div>
+        </div>
+        <div class="media"><img src="assets/img/virtual-2200.webp" srcset="assets/img/virtual-800.webp 800w, assets/img/virtual-1400.webp 1400w, assets/img/virtual-2200.webp 2200w" sizes="(min-width:900px) 45vw, 100vw" width="2200" height="1467" alt="Lauren at her desk for a video session" style="object-position:50% 35%" loading="lazy" decoding="async"></div>
+        <span class="stack-card__shade" aria-hidden="true"></span>
+      </article>
+      <article class="stack-card">
+        <div class="stack-card__text">
+          <div class="stack-card__head"><span class="num">Step 04 / 04</span><span class="chip">Ongoing</span></div>
+          <div><h3>Support in between</h3><p>Unlimited email support and custom homework, so insight turns into habit.</p></div>
+        </div>
+        <div class="media"><img src="assets/img/relaxed-1600.webp" srcset="assets/img/relaxed-600.webp 600w, assets/img/relaxed-1000.webp 1000w, assets/img/relaxed-1600.webp 1600w" sizes="(min-width:900px) 45vw, 100vw" width="1600" height="2400" alt="Lauren sitting on steps, smiling" style="object-position:50% 28%" loading="lazy" decoding="async"></div>
+        <span class="stack-card__shade" aria-hidden="true"></span>
+      </article>
+    </div>
   </div>
 </section>
 
-<section class="section" id="packages">
-  <div class="container">
-    <div class="center-head">
-      <p class="kicker" data-reveal>Packages</p>
-      <h2 class="display-lg" data-reveal>Choose the depth <em>of change you want</em></h2>
-      <p class="lead" data-reveal>Every package is virtual, built on S.H.I.N.E. and tailored to you. Not sure which fits? Lauren will recommend one on your free call.</p>
+<section class="section" id="packages" aria-labelledby="pk">
+  <div class="wrap">
+    <div class="head head--split">
+      <div class="head__top reveal"><span class="label">(03) &mdash; Packages</span><span class="label">Virtual &middot; Built on S.H.I.N.E.</span></div>
+      <h2 id="pk" class="h-lg lines">Choose the depth <em>of change you want.</em></h2>
+      <p class="lede reveal">Not sure which fits? Lauren will recommend one on your free call.</p>
     </div>
-
-    <div class="plans">
-      <article class="plan" data-reveal>
-        <p class="plan-tag">Single session</p>
-        <h3>Clarity Power Session</h3>
-        <p class="plan-meta">90 minutes</p>
-        <p class="plan-price">$350</p>
-        <p class="plan-note">One-time session</p>
-        <p class="plan-desc">A booster session, or a focused deep dive on one decision, conversation or stuck goal.</p>
-        <a class="btn btn-ghost btn-block" href="https://schedulewithlastingchangewellness.as.me/schedule.php?appointmentType=22181459" target="_blank" rel="noopener">Book a session</a>
+    <div class="prices" data-rise-in>
+      <article class="price">
+        <div class="card__top"><span class="label">Single session</span><span class="num">01</span></div>
+        <h3 class="h-sm">Clarity Power Session</h3>
+        <p class="price__amount">$350</p>
+        <p class="label">90 minutes &middot; one-time</p>
+        <p class="price__desc">A booster session, or a focused deep dive on one decision, conversation or stuck goal.</p>
+        <a class="btn btn--ghost btn--block" href="https://schedulewithlastingchangewellness.as.me/schedule.php?appointmentType=22181459" target="_blank" rel="noopener">Book a session <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a>
       </article>
-      <article class="plan" data-reveal>
-        <p class="plan-tag">Focused change</p>
-        <h3>3-Month Package</h3>
-        <p class="plan-meta">Foundation + biweekly sessions</p>
-        <p class="plan-price serif">Tailored</p>
-        <p class="plan-note">Shared on your free call</p>
-        <p class="plan-desc">For one clear change, like boundaries in business and life. Three months is the minimum to cement new mindsets and habits.</p>
-        <a class="btn btn-ghost btn-block" href="contact.html#book">Start with a free call</a>
+      <article class="price">
+        <div class="card__top"><span class="label">Focused change</span><span class="num">02</span></div>
+        <h3 class="h-sm">3-Month Package</h3>
+        <p class="price__amount"><em>Tailored</em></p>
+        <p class="label">Foundation + biweekly sessions</p>
+        <p class="price__desc">For one clear change, like boundaries in business and life. Three months is the minimum to cement new mindsets and habits.</p>
+        <a class="btn btn--ghost btn--block" href="contact.html#book">Start with a free call <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a>
       </article>
-      <article class="plan plan-featured" data-reveal>
-        <span class="plan-flag">Deepest change</span>
-        <p class="plan-tag">Transformation</p>
-        <h3>6-Month Package</h3>
-        <p class="plan-meta">Foundation + biweekly sessions</p>
-        <p class="plan-price serif">Tailored</p>
-        <p class="plan-note">Shared on your free call</p>
-        <p class="plan-desc">For becoming a &ldquo;Self-Love Warrior.&rdquo; We set goals together, and by the end you show up to your whole life differently.</p>
-        <a class="btn btn-mint btn-block" href="contact.html#book">Start with a free call</a>
+      <article class="price price--feature">
+        <div class="card__top"><span class="label label--dot label--live">Deepest change</span><span class="num" style="color:var(--mint)">03</span></div>
+        <h3 class="h-sm">6-Month Package</h3>
+        <p class="price__amount"><em>Tailored</em></p>
+        <p class="label">Foundation + biweekly sessions</p>
+        <p class="price__desc">For becoming a &ldquo;Self-Love Warrior.&rdquo; We set goals together, and by the end you show up to your whole life differently.</p>
+        <a class="btn btn--mint btn--block" href="contact.html#book">Start with a free call <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a>
       </article>
-      <article class="plan" data-reveal>
-        <p class="plan-tag">Continued growth</p>
-        <h3>Ongoing Coaching</h3>
-        <p class="plan-meta">Biweekly sessions, open-ended</p>
-        <p class="plan-price serif">Tailored</p>
-        <p class="plan-note">Shared on your free call</p>
-        <p class="plan-desc">For women who want steady support, deeper insight and a trusted thinking partner as they keep growing.</p>
-        <a class="btn btn-ghost btn-block" href="contact.html#book">Start with a free call</a>
+      <article class="price">
+        <div class="card__top"><span class="label">Continued growth</span><span class="num">04</span></div>
+        <h3 class="h-sm">Ongoing Coaching</h3>
+        <p class="price__amount"><em>Tailored</em></p>
+        <p class="label">Biweekly sessions, open-ended</p>
+        <p class="price__desc">For women who want steady support, deeper insight and a trusted thinking partner as they keep growing.</p>
+        <a class="btn btn--ghost btn--block" href="contact.html#book">Start with a free call <span class="btn__ic"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+</a>
       </article>
     </div>
-
-    <ul class="includes">
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><strong>Foundation session</strong><span>90 minutes to set your goals and plan.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 10.5l5-3v9l-5-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><strong>Biweekly sessions</strong><span>One-hour video coaching, every two weeks.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h7M9 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><strong>Written follow-ups</strong><span>A summary and action plan after every session.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><strong>Unlimited email</strong><span>Support between sessions when you need it.</span></li>
-      <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><strong>Custom homework</strong><span>Practices designed to make each insight stick.</span></li>
+    <ul class="includes" data-rise-in>
+      <li><span class="num">+</span><strong>Foundation session</strong><span>90 minutes to set your goals and plan.</span></li>
+      <li><span class="num">+</span><strong>Biweekly sessions</strong><span>One-hour video coaching, every two weeks.</span></li>
+      <li><span class="num">+</span><strong>Written follow-ups</strong><span>A summary and action plan after every session.</span></li>
+      <li><span class="num">+</span><strong>Unlimited email</strong><span>Support between sessions when you need it.</span></li>
+      <li><span class="num">+</span><strong>Custom homework</strong><span>Practices designed to make each insight stick.</span></li>
     </ul>
   </div>
 </section>
 
-<section class="section tint-blush">
-  <div class="container">
-    <div class="center-head">
-      <p class="kicker" data-reveal>Client stories</p>
-      <h2 class="display-lg" data-reveal>&ldquo;I knew I had someone <em>in my corner.&rdquo;</em></h2>
+<section class="section section--flush" aria-labelledby="kw">
+  <div class="wrap">
+    <div class="head head--split">
+      <div class="head__top reveal"><span class="label">(04) &mdash; Client stories</span><span class="label">In their own words</span></div>
+      <h2 id="kw" class="h-lg lines">&ldquo;I knew I had someone <em>in my corner.&rdquo;</em></h2>
+      <p class="lede reveal">The follow-ups, the clarity, the feeling of being understood. Here's what clients say stays with them.</p>
     </div>
-    <div class="quote-grid">
-      <figure class="quote-card quote-card-lg" data-reveal>
-        <blockquote>&ldquo;I loved the mindful moments at the start of each session; the follow-ups really took things to another level, really set you apart. After working with you I felt empowered, lighter, had clearer vision&hellip; The clarity I arrived at over the course of 6 months gave me the confidence to leave a work environment that no longer matched my values and start my own synagogue.&rdquo;</blockquote>
-        <figcaption><img src="assets/img/t-danielle-160.webp" srcset="assets/img/t-danielle-160.webp 160w" sizes="56px" width="160" height="160" alt="" loading="lazy" decoding="async"><span><strong>Danielle Parmenter</strong>Rabbi, Darchei Noam</span></figcaption>
+    <div class="quotes" data-rise-in>
+      <figure class="quote" data-tilt>
+        <blockquote>&ldquo;The clarity I arrived at after working with you over the course of 6 months gave me the confidence to leave a work environment that no longer matched my values and start my own synagogue.&rdquo;</blockquote>
+        <figcaption class="quote__foot"><span class="who"><img src="assets/img/t-danielle-160.webp" srcset="assets/img/t-danielle-160.webp 160w" sizes="44px" width="160" height="160" alt="" loading="lazy" decoding="async"><span><strong>Danielle Parmenter</strong>Rabbi, Darchei Noam</span></span><span class="quote__mark" aria-hidden="true">&rdquo;</span></figcaption>
       </figure>
-      <figure class="quote-card" data-reveal>
+      <figure class="quote" data-tilt>
         <blockquote>&ldquo;It felt easy. It was easy to explore the challenges I was having or the way I was dealing with things. And I loved the follow-up emails!&rdquo;</blockquote>
-        <figcaption><img src="assets/img/t-adrien-160.webp" srcset="assets/img/t-adrien-160.webp 160w" sizes="56px" width="160" height="160" alt="" loading="lazy" decoding="async"><span><strong>Adrien Cotton</strong>Founder, Alexandria Wellness</span></figcaption>
+        <figcaption class="quote__foot"><span class="who"><img src="assets/img/t-adrien-160.webp" srcset="assets/img/t-adrien-160.webp 160w" sizes="44px" width="160" height="160" alt="" loading="lazy" decoding="async"><span><strong>Adrien Cotton</strong>Founder, Alexandria Wellness</span></span><span class="quote__mark" aria-hidden="true">&rdquo;</span></figcaption>
       </figure>
-      <figure class="quote-card" data-reveal>
-        <blockquote>&ldquo;I learned that life doesn't have to be a struggle. It doesn't have to feel hard. I felt very supported.&rdquo;</blockquote>
-        <figcaption><img src="assets/img/t-linda-160.webp" srcset="assets/img/t-linda-160.webp 160w" sizes="56px" width="160" height="160" alt="" loading="lazy" decoding="async"><span><strong>Linda Lovero Waterhouse</strong>LinkedIn Strategist</span></figcaption>
+      <figure class="quote" data-tilt>
+        <blockquote>&ldquo;I always felt like I was with someone who really got me and understood where I was coming from. I felt very supported.&rdquo;</blockquote>
+        <figcaption class="quote__foot"><span class="who"><img src="assets/img/t-linda-160.webp" srcset="assets/img/t-linda-160.webp 160w" sizes="44px" width="160" height="160" alt="" loading="lazy" decoding="async"><span><strong>Linda Lovero Waterhouse</strong>LinkedIn Strategist</span></span><span class="quote__mark" aria-hidden="true">&rdquo;</span></figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container container-narrow">
-    <div class="center-head">
-      <p class="kicker" data-reveal>Questions</p>
-      <h2 class="display-lg" data-reveal>Before you book</h2>
+<section class="section" aria-labelledby="faq">
+  <div class="wrap wrap--narrow">
+    <div class="head head--center">
+      <div class="head__top reveal"><span class="label">(05) &mdash; Questions</span><span class="label">Before you book</span></div>
+      <h2 id="faq" class="h-lg lines">Good <em>questions.</em></h2>
     </div>
-    <div class="faq" data-reveal>
-      <details>
-        <summary>What happens on the free Power Up call?</summary>
-        <div class="faq-body"><p>It's a relaxed 30-minute video conversation. We talk about what's going on, what you'd like to be different, and what's been in the way. If coaching looks like a good fit, Lauren will recommend the option that suits you. If it isn't, she'll say so and point you toward something that might help.</p></div>
-      </details>
-      <details>
-        <summary>How is coaching different from therapy?</summary>
-        <div class="faq-body"><p>Therapy often focuses on healing the past. Coaching focuses on where you are now and where you want to go, with practical steps and accountability. Lauren's background as a psychologist and family therapist means she understands the patterns behind self-doubt, but coaching is not a substitute for mental health treatment.</p></div>
-      </details>
-      <details>
-        <summary>Is coaching in person or online?</summary>
-        <div class="faq-body"><p>All one-on-one coaching happens by video, so you can work with Lauren from anywhere in the world.</p></div>
-      </details>
-      <details>
-        <summary>How soon will I notice a difference?</summary>
-        <div class="faq-body"><p>Many clients feel lighter after the first few sessions. Lasting change in mindset and habits takes longer, which is why packages start at three months.</p></div>
-      </details>
-      <details>
-        <summary>What does a package cost?</summary>
-        <div class="faq-body"><p>A single Clarity Power Session is $350. Package pricing depends on length and focus, and Lauren shares it on your free call once you both know what fits.</p></div>
-      </details>
-      <details>
-        <summary>I'm not ready to commit. Where should I start?</summary>
-        <div class="faq-body"><p>Download the free <a href="https://lp.constantcontactpages.com/su/YFmkyVf" target="_blank" rel="noopener">Expect Amazing Mindset Reset workbook</a>, or book a single Clarity Power Session to experience Lauren's approach first.</p></div>
-      </details>
+    <div class="faq reveal">
+      <details><summary><span class="num">01</span>What happens on the free Power Up call?<i aria-hidden="true"></i></summary><div class="faq__body"><p>It's a relaxed 30-minute video conversation. We talk about what's going on, what you'd like to be different, and what's been in the way. If coaching looks like a good fit, Lauren will recommend the option that suits you. If it isn't, she'll say so and point you toward something that might help.</p></div></details>
+      <details><summary><span class="num">02</span>How is coaching different from therapy?<i aria-hidden="true"></i></summary><div class="faq__body"><p>Therapy often focuses on healing the past. Coaching focuses on where you are now and where you want to go, with practical steps and accountability. Lauren's background as a psychologist and family therapist means she understands the patterns behind self-doubt, but coaching is not a substitute for mental health treatment.</p></div></details>
+      <details><summary><span class="num">03</span>Is coaching in person or online?<i aria-hidden="true"></i></summary><div class="faq__body"><p>All one-on-one coaching happens by video, so you can work with Lauren from anywhere in the world.</p></div></details>
+      <details><summary><span class="num">04</span>How soon will I notice a difference?<i aria-hidden="true"></i></summary><div class="faq__body"><p>Many clients feel lighter after the first few sessions. Lasting change in mindset and habits takes longer, which is why packages start at three months.</p></div></details>
+      <details><summary><span class="num">05</span>What does a package cost?<i aria-hidden="true"></i></summary><div class="faq__body"><p>A single Clarity Power Session is $350. Package pricing depends on length and focus, and Lauren shares it on your free call once you both know what fits.</p></div></details>
+      <details><summary><span class="num">06</span>I'm not ready to commit. Where should I start?<i aria-hidden="true"></i></summary><div class="faq__body"><p>Try the <a href="experience.html">Experience</a>, download the free <a href="https://lp.constantcontactpages.com/su/YFmkyVf" target="_blank" rel="noopener">Expect Amazing Mindset Reset workbook</a>, or book a single Clarity Power Session to experience Lauren's approach first.</p></div></details>
     </div>
   </div>
 </section>
 
-<section class="cta-band" aria-labelledby="cta-title">
-  <div class="cta-glow" aria-hidden="true"></div>
-  <div class="container cta-grid">
-    <div data-reveal>
-      <p class="kicker kicker-mint">Your next step</p>
-      <h2 id="cta-title" class="display-lg">Ready to stop doubting and start <em>expecting amazing?</em></h2>
+<section class="cta" aria-labelledby="cta-title">
+  <div class="cta__frame is-dark">
+    <div class="cta__copy">
+      <span class="label label--dot label--live reveal">Your next step &middot; Free 30-minute Power Up call</span>
+      <h2 id="cta-title" class="h-xl lines">Ready to <em>expect amazing?</em></h2>
+      <p class="lede reveal" data-delay="1">One relaxed conversation to get clear on what you want to change, and whether S.H.I.N.E. coaching is the right way to get there. No pressure, no obligation.</p>
     </div>
-    <div class="cta-card" data-reveal>
-      <p class="cta-card-title">Free 30-minute Power Up call</p>
-      <ul class="checks checks-light">
-        <li>Get clear on what you want to change</li>
-        <li>Find out if S.H.I.N.E. coaching fits</li>
-        <li>No pressure and no obligation</li>
-      </ul>
-      <a class="btn btn-mint btn-block" href="contact.html#book">Choose a time <svg class="i-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <p class="cta-alt">Prefer email? <a href="mailto:lauren@lastingchangewellness.com">lauren@lastingchangewellness.com</a></p>
+    <div class="cta__side reveal" data-delay="2">
+      <a class="circle-btn" href="contact.html#book" data-cursor="Book" aria-label="Book a free call">
+        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="cta-ring" d="M50 50m-41 0a41 41 0 1 1 82 0a41 41 0 1 1-82 0"/></defs><text><textPath href="#cta-ring">Book a free call &middot; Expect amazing &middot; </textPath></text></svg>
+        <span class="circle-btn__core"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span>
+      </a>
+      <a class="link" href="mailto:lauren@lastingchangewellness.com">or email lauren@lastingchangewellness.com</a>
     </div>
   </div>
 </section>
 
 
   </main>
-  <footer class="site-footer">
-  <div class="container">
-    <div class="footer-top">
-      <p class="footer-mark" aria-hidden="true">Expect <em>amazing.</em></p>
-      <div class="footer-gift">
-        <p class="kicker kicker-mint">Free workbook</p>
-        <p class="footer-gift-title">Your Expect Amazing Mindset Reset</p>
-        <p>Flip the switch on negative thoughts and turn them into positive action.</p>
-        <a class="btn btn-mint btn-sm" href="https://lp.constantcontactpages.com/su/YFmkyVf" target="_blank" rel="noopener">Get it free <svg class="i-arrow" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
 
-    <div class="footer-cols">
-      <div class="footer-brand">
-        <a class="logo logo-light" href="index.html" aria-label="Lasting Change Wellness, home">
-          <svg class="logo-mark" viewBox="0 0 48 44" aria-hidden="true" focusable="false">
-  <path d="M24 3 45 40H3z" fill="#7EDCC4"/>
-  <ellipse cx="24" cy="27" rx="17" ry="10" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="1.2" transform="rotate(-8 24 27)"/>
-  <ellipse cx="25" cy="26" rx="15" ry="11.5" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1" transform="rotate(14 25 26)"/>
-</svg>
-          <span class="logo-type"><span class="logo-name">Lasting Change</span><span class="logo-sub">Wellness</span></span>
+  <footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="logo" href="index.html" aria-label="Lasting Change Wellness, home">
+          <svg class="logo__mark" viewBox="0 0 48 44" aria-hidden="true" focusable="false"><path d="M24 3 45 40H3z" fill="#7EDCC4"/><ellipse cx="24" cy="27" rx="17" ry="10" fill="none" stroke="currentColor" stroke-opacity=".6" stroke-width="1.3" transform="rotate(-8 24 27)"/><ellipse cx="25" cy="26" rx="15" ry="11.5" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.1" transform="rotate(14 25 26)"/></svg>
+
+          <span class="logo__type"><span class="logo__name">Lasting <em>Change</em></span><span class="logo__sub">Wellness</span></span>
         </a>
-        <p>Coaching, speaking and community for impact-driven women. Virtual worldwide, based near Philadelphia.</p>
+        <p>Coaching, speaking and community for impact-driven women, by Lauren Yellin Weinberg. Virtual worldwide, based near Philadelphia.</p>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/lauren-yellin-weinberg/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zm7 0h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1v5.35h-4v-4.74c0-1.13-.02-2.59-1.58-2.59-1.58 0-1.82 1.23-1.82 2.5v4.83h-4z"/></svg></a>
+          <a href="https://www.instagram.com/lauren_yellin_weinberg/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/></svg></a>
+          <a href="https://www.youtube.com/channel/UCJ0tzA-9IaYdrAqdQ_NHMBw" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 7.2a2.5 2.5 0 0 0-1.77-1.77C18.27 5 12 5 12 5s-6.27 0-7.83.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.77 1.77C5.73 19 12 19 12 19s6.27 0 7.83-.43a2.5 2.5 0 0 0 1.77-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg></a>
+        </div>
       </div>
-      <nav aria-label="Work with Lauren">
-        <p class="footer-head">Work with Lauren</p>
+      <div class="footer__col">
+        <p class="label">Work with Lauren</p>
         <ul>
           <li><a href="coaching.html">1:1 Coaching</a></li>
           <li><a href="collective.html">The Collective</a></li>
           <li><a href="speaking.html">Speaking</a></li>
           <li><a href="contact.html#book">Book a free call</a></li>
         </ul>
-      </nav>
-      <nav aria-label="Explore">
-        <p class="footer-head">Explore</p>
+      </div>
+      <div class="footer__col">
+        <p class="label">Explore</p>
         <ul>
           <li><a href="method.html">The S.H.I.N.E. Method</a></li>
+          <li><a href="experience.html">The Experience</a></li>
           <li><a href="about.html">About Lauren</a></li>
           <li><a href="resources.html">Resources</a></li>
-          <li><a href="contact.html">Contact</a></li>
         </ul>
-      </nav>
-      <div>
-        <p class="footer-head">Say hello</p>
+      </div>
+      <div class="footer__col">
+        <p class="label">Say hello</p>
         <ul>
           <li><a href="mailto:lauren@lastingchangewellness.com">lauren@lastingchangewellness.com</a></li>
           <li><a href="tel:+12158702436">(215) 870-2436</a></li>
-          <li class="socials">
-            <a href="https://www.linkedin.com/in/lauren-yellin-weinberg/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zm7 0h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1v5.35h-4v-4.74c0-1.13-.02-2.59-1.58-2.59-1.58 0-1.82 1.23-1.82 2.5v4.83h-4z"/></svg></a>
-            <a href="https://www.instagram.com/lauren_yellin_weinberg/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a>
-            <a href="https://www.youtube.com/channel/UCJ0tzA-9IaYdrAqdQ_NHMBw" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 7.2a2.5 2.5 0 0 0-1.77-1.77C18.27 5 12 5 12 5s-6.27 0-7.83.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.77 1.77C5.73 19 12 19 12 19s6.27 0 7.83-.43a2.5 2.5 0 0 0 1.77-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"/></svg></a>
-          </li>
+          <li><a href="https://lp.constantcontactpages.com/su/YFmkyVf" target="_blank" rel="noopener">Free workbook &nearr;</a></li>
         </ul>
       </div>
     </div>
-
-    <div class="footer-legal">
-      <p>&copy; 2018&ndash;2026 Lasting Change Wellness, LLC. All rights reserved.</p>
-      <p>Coaching is not a substitute for medical or mental health care.</p>
+  </div>
+  <p class="footer-wordmark" aria-hidden="true" data-wordmark>Expect amazing</p>
+  <div class="wrap">
+    <div class="footer__bar">
+      <span class="label">&copy; 2018&ndash;2026 Lasting Change Wellness, LLC</span>
+      <span class="label">Coaching is not a substitute for medical or mental health care</span>
+      <a class="label" href="#top" data-top>Back to top &uarr;</a>
     </div>
   </div>
 </footer>
 
+
   <a class="dock" href="contact.html#book" data-dock>
-    <span class="dock-dot" aria-hidden="true"></span>
-    <span>Free 30-min Power Up call</span>
-    <span class="dock-go">Book</span>
+    <span class="label label--dot label--live" style="color:inherit">Free 30-min call</span>
+    <span class="dock__go">Book now</span>
   </a>
+
+  <script src="assets/vendor/gsap.min.js" defer></script>
+  <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/motion.js" defer></script>
 </body>
 </html>

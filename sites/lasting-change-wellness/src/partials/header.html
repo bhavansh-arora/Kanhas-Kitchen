@@ -1,49 +1,42 @@
 <header class="site-header" data-header>
-  <div class="container header-row">
+  <div class="header-bar">
     <a class="logo" href="index.html" aria-label="Lasting Change Wellness, home">
       {{> logo}}
-      <span class="logo-type">
-        <span class="logo-name">Lasting Change</span>
-        <span class="logo-sub">Wellness</span>
-      </span>
+      <span class="logo__type"><span class="logo__name">Lasting <em>Change</em></span><span class="logo__sub">Wellness</span></span>
     </a>
-
-    <nav class="main-nav" aria-label="Main">
+    <nav class="nav" aria-label="Main">
       <ul>
-        <li><a href="method.html"{{nav:method}}>The Method</a></li>
-        <li><a href="coaching.html"{{nav:coaching}}>Coaching</a></li>
-        <li><a href="collective.html"{{nav:collective}}>The Collective</a></li>
-        <li><a href="speaking.html"{{nav:speaking}}>Speaking</a></li>
-        <li><a href="about.html"{{nav:about}}>About</a></li>
-        <li><a href="resources.html"{{nav:resources}}>Resources</a></li>
+        <li><a href="method.html"{{nav:method}} data-roll>The Method</a></li>
+        <li><a href="coaching.html"{{nav:coaching}} data-roll>Coaching</a></li>
+        <li><a href="collective.html"{{nav:collective}} data-roll>The Collective</a></li>
+        <li><a href="speaking.html"{{nav:speaking}} data-roll>Speaking</a></li>
+        <li><a href="about.html"{{nav:about}} data-roll>About</a></li>
+        <li><a href="experience.html"{{nav:experience}} data-roll>Experience</a></li>
       </ul>
     </nav>
-
-    <a class="btn btn-sm header-cta" href="contact.html#book">Book a free call</a>
-
+    <a class="btn btn--sm header-cta" href="contact.html#book">Book a free call {{> ic}}</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>
-      <span class="menu-btn-label">Menu</span>
-      <span class="menu-btn-icon" aria-hidden="true"><i></i><i></i></span>
+      <span data-menu-label>Menu</span><span class="menu-btn__icon" aria-hidden="true"><i></i><i></i></span>
     </button>
   </div>
 </header>
 
-<div class="menu" id="menu" data-menu hidden>
-  <div class="menu-glow" aria-hidden="true"></div>
-  <nav class="container menu-inner" aria-label="Mobile">
-    <ol class="menu-list">
-      <li><a href="index.html"{{nav:home}}><span>01</span>Home</a></li>
-      <li><a href="method.html"{{nav:method}}><span>02</span>The Method</a></li>
-      <li><a href="coaching.html"{{nav:coaching}}><span>03</span>Coaching</a></li>
-      <li><a href="collective.html"{{nav:collective}}><span>04</span>The Collective</a></li>
-      <li><a href="speaking.html"{{nav:speaking}}><span>05</span>Speaking</a></li>
-      <li><a href="about.html"{{nav:about}}><span>06</span>About</a></li>
-      <li><a href="resources.html"{{nav:resources}}><span>07</span>Resources</a></li>
-      <li><a href="contact.html"{{nav:contact}}><span>08</span>Contact</a></li>
+<div class="menu" id="menu" data-menu>
+  <nav aria-label="Mobile">
+    <ol class="menu__list">
+      <li><a href="index.html"{{nav:home}}>Home <span>01</span></a></li>
+      <li><a href="method.html"{{nav:method}}>The Method <span>02</span></a></li>
+      <li><a href="coaching.html"{{nav:coaching}}>Coaching <span>03</span></a></li>
+      <li><a href="collective.html"{{nav:collective}}>The Collective <span>04</span></a></li>
+      <li><a href="speaking.html"{{nav:speaking}}>Speaking <span>05</span></a></li>
+      <li><a href="about.html"{{nav:about}}>About <span>06</span></a></li>
+      <li><a href="experience.html"{{nav:experience}}>Experience <span>07</span></a></li>
+      <li><a href="resources.html"{{nav:resources}}>Resources <span>08</span></a></li>
+      <li><a href="contact.html"{{nav:contact}}>Contact <span>09</span></a></li>
     </ol>
-    <div class="menu-foot">
-      <a class="btn btn-mint btn-block" href="contact.html#book">Book a free Power Up call</a>
-      <p><a href="mailto:{{site.email}}">{{site.email}}</a></p>
-    </div>
   </nav>
+  <div class="menu__foot">
+    <a class="btn btn--mint btn--block" href="contact.html#book">Book a free Power Up call {{> ic}}</a>
+    <p class="label"><a href="mailto:{{site.email}}">{{site.email}}</a><span>Blue Bell, PA</span></p>
+  </div>
 </div>
