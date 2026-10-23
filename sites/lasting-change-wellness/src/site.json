@@ -1,0 +1,29 @@
+{
+  "name": "Lasting Change Wellness",
+  "owner": "Lauren Yellin Weinberg",
+  "url": "https://www.lastingchangewellness.com",
+  "email": "lauren@lastingchangewellness.com",
+  "phone": "(215) 870-2436",
+  "phoneHref": "+12158702436",
+  "location": "Blue Bell, Pennsylvania",
+  "links": {
+    "bookCall": "https://schedulewithlastingchangewellness.as.me/schedule.php?appointmentType=14925336",
+    "powerSession": "https://schedulewithlastingchangewellness.as.me/schedule.php?appointmentType=22181459",
+    "collective": "https://schedulewithlastingchangewellness.as.me/schedule.php?appointmentType=90913531",
+    "speaking": "https://schedulewithlastingchangewellness.as.me/schedule.php?appointmentType=16014945",
+    "workbook": "https://lp.constantcontactpages.com/su/YFmkyVf",
+    "book": "https://www.amazon.com/dp/B0BV42LD6D",
+    "fab": "https://www.freedom-toflourish.com/offerings/your-fab-divorce",
+    "flourish": "https://www.freedom-toflourish.com/",
+    "articles": "https://livinghealthylist.com/profile/Lauren/?tab=posts",
+    "linkedin": "https://www.linkedin.com/in/lauren-yellin-weinberg/",
+    "instagram": "https://www.instagram.com/lauren_yellin_weinberg/",
+    "youtube": "https://www.youtube.com/channel/UCJ0tzA-9IaYdrAqdQ_NHMBw"
+  },
+  "embed": {
+    "bookCall": "https://app.acuityscheduling.com/schedule.php?owner=19863588&appointmentType=14925336",
+    "collective": "https://app.acuityscheduling.com/schedule.php?owner=19863588&appointmentType=90913531",
+    "speaking": "https://app.acuityscheduling.com/schedule.php?owner=19863588&appointmentType=16014945"
+  },
+  "formEndpoint": ""
+}

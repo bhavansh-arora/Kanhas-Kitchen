@@ -1,44 +1,70 @@
-# Lasting Change Wellness: concept site
+# Lasting Change Wellness: website
 
-A one-page, conversion-focused concept site for Lauren Yellin Weinberg (Lasting Change Wellness, Blue Bell, PA). It was built as a pitch to go with the reply to her email from 23 Oct.
+A multi-page marketing site for Lauren Yellin Weinberg's coaching practice. It is built to turn visitors into booked calls.
 
-Plain HTML, CSS and JS. No build step. To preview:
+**Pages:** Home · The S.H.I.N.E. Method · 1:1 Coaching · The Collective · Speaking · About · Resources · Contact · 404
+
+## Preview
 
 ```
 cd sites/lasting-change-wellness
-python3 -m http.server 8000   # then open http://localhost:8000
+python3 -m http.server 8000      # open http://localhost:8000
 ```
 
-## What the page does
+## Editing
 
-Every section points to one action: **book a free possibilities call**. It uses her existing Acuity booking link, so it works today.
+The HTML files in this folder are generated. Edit the sources in `src/`, then rebuild:
 
-1. **Hero**: who it's for, the promise ("Quiet the self-doubt. Expect amazing."), and her credentials straight away.
-2. **Pain points**: her own audience language (self-doubt, people-pleasing, impostor feelings, burnout).
-3. **S.H.I.N.E. method**: the method as an interactive five-step explorer, with what happens in sessions and what shifts.
-4. **How it starts**: free call, then a 90-minute Foundation session, then coaching every two weeks.
-5. **Packages**: Power Session, 3-month, 6-month and Ongoing, plus what every package includes.
-6. **Client stories**: her three existing testimonials, led by the strongest outcome (Danielle Parmenter's).
-7. **RISE readiness check**: her "Are you ready to shine?" idea turned into a 4-tick self-check that ends in the booking button.
-8. **About**: her story, told in the first person.
-9. **FAQ**: handles the main objections (coaching vs therapy, cost, online or in person, timing).
-10. **Speaking, The Collective, free workbook**: these come after coaching, so they don't compete with the main call to action.
-11. **Final booking block**, plus a sticky "Book now" bar on phones.
+```
+node build.mjs                   # Node 18+, no dependencies
+```
 
-## Ideas to send Lauren (short version)
+| What you want to change | Where |
+| --- | --- |
+| Booking links, email, phone, social links | `src/site.json` |
+| Navigation, footer, the shared "next step" band | `src/partials/` |
+| A page's words or sections | `src/pages/<page>.html` |
+| Page title and search description | front matter at the top of each page |
+| Colours, fonts, spacing | tokens at the top of `assets/css/main.css` |
 
-- **Lead with S.H.I.N.E., not with the brand.** Her current homepage opens with "Expect Amazing!" and a list of everything she offers. A new visitor can't tell what she does or what to do next. Putting the method and one clear next step first fixes that.
-- **One primary call to action.** Right now the site offers several competing paths at once: coaching, speaking, the Collective, workshops, the divorce program, a workbook and two scheduling links. Make "book a free possibilities call" the main path and move the rest under it.
-- **Show what happens after someone clicks.** A three-step "how it starts" section lowers the risk of booking.
-- **Use the credentials.** "Former UPenn-trained psychologist + NBC-HWC" sets her apart from most coaches. It's currently buried on the About page.
-- **Answer the money and therapy questions up front** in an FAQ, so the call is spent on fit, not logistics.
-- **Catch visitors who aren't ready yet.** The RISE check and the workbook download give them a smaller step than booking.
+Images go through `{{img name | alt text | sizes}}`, which outputs a responsive `<img>` with `srcset`. To add an image, save `assets/img/<name>-<width>.webp` (for example 800 and 1500 wide) and add an entry to `src/images.json`.
 
-## Before this goes live
+## How visitors book
 
-- **Copy needs Lauren's review.** The "In our sessions / What shifts" lines for each S.H.I.N.E. step, the FAQ answers and the pain points are written from her site's content, but they are new wording.
-- **Testimonials** are quoted from her current homepage, lightly trimmed (marked with "…"), and the photos are also from her site. Confirm she's happy to reuse them.
-- **No prices are shown**, because her site doesn't list any.
-- **The speaking enquiry link** reuses her general Acuity call link. She may want a separate speaking form.
-- **Photos** are resized copies of the images on her current site (`assets/`).
-- **The "As seen in" strip** is set as text. Swap in logo images if she has clean versions.
+| Button | Goes to | Acuity appointment type |
+| --- | --- | --- |
+| "Book a free call" (everywhere) | Contact page with live scheduler | Expect Amazing Free Power Up (30 min, free) |
+| Clarity Power Session | Acuity direct | Clarity Power Session (90 min, $350) |
+| The Collective | Contact page, Collective tab | The Collective Conversation (30 min, free) |
+| Speaking | Contact page, Speaking tab | Consultation: Speaking or Corporate (30 min, free) |
+
+The Contact page embeds her Acuity scheduler with three tabs. `contact.html?type=collective` or `?type=speaking` opens the matching tab.
+
+**Contact form.** By default the form opens the visitor's email app with the message filled in. To receive messages directly, create a form endpoint (Formspree, Basin or similar), put its URL in `formEndpoint` in `src/site.json`, and rebuild. The form then sends JSON there and shows a thank-you message.
+
+## Features
+
+- Editorial design system: Instrument Serif and Manrope, an ivory, forest and mint palette taken from her logo, a subtle paper grain, and arch-framed portraits
+- Interactive S.H.I.N.E. explorer (home) and a scroll-driven step-through with a sticky letter (method)
+- RISE readiness quiz, a testimonial carousel, an "as seen in" marquee, and a statement that lights up word by word as you scroll
+- Full-screen mobile menu, plus a booking bar that appears on phones after the first screen
+- Smooth page-to-page transitions in supporting browsers
+- SEO: per-page titles, descriptions and canonical URLs, Open Graph share image (`assets/img/og.jpg`), schema.org `ProfessionalService` data, `sitemap.xml` and `robots.txt`
+- Accessibility: skip link, visible focus states, keyboard-operable tabs and carousel, reduced-motion support, alt text on every image, one `<h1>` per page
+- Performance: responsive WebP images (about 1.2 MB in total), lazy loading below the fold, no frameworks, about 11 KB of JavaScript
+
+## Deploying
+
+The folder is a plain static site. Upload it to Netlify, Vercel, Cloudflare Pages or GitHub Pages; no build step is needed on the host. To serve the 404 page, point the host's "not found" page at `404.html`. If the domain changes, update `url` in `src/site.json` and rebuild, so canonical URLs and the sitemap stay correct.
+
+## Content notes for Lauren to confirm
+
+All facts, quotes, prices and links come from her current site, her LinkedIn and her public Acuity booking page. These items need her sign-off:
+
+- **New wording.** Some text is new, written in her voice: the S.H.I.N.E. "In our sessions / What shifts" lines and reflection questions, the FAQ answers, the "Is this for you?" lists and the pain points.
+- **Prices.** The $350 Clarity Power Session price comes from her Acuity page. Package prices are shown as "Tailored", because none are published.
+- **Dates.** "2018: founded Lasting Change Wellness" is inferred from her site's ©2018. "2023: co-author" is inferred from the book's Amazon listing.
+- **Testimonials.** These are lightly trimmed (marked with "…"). Kristy Crippen, Nikki Gangemi and Lisa Arning are labelled "Audience member", and Judy Siegel "Workshop participant", because her site gives no titles for them.
+- **The Collective.** "Year-long" comes from her Workshops page. Cohort size, dates and price aren't stated, so the page sends people to the Collective Conversation call.
+- **The Connection.** Her site says the monthly networking event is paused, and the page says the same.
+- **Photos** are from her current site.

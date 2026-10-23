@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{page.title}}</title>
+  <meta name="description" content="{{page.description}}">
+  <link rel="canonical" href="{{page.canonical}}">
+  <meta name="theme-color" content="#F8F4EE">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{site.name}}">
+  <meta property="og:title" content="{{page.title}}">
+  <meta property="og:description" content="{{page.description}}">
+  <meta property="og:url" content="{{page.canonical}}">
+  <meta property="og:image" content="{{site.url}}/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "{{site.name}}",
+    "url": "{{site.url}}",
+    "email": "{{site.email}}",
+    "telephone": "{{site.phoneHref}}",
+    "image": "{{site.url}}/assets/img/og.jpg",
+    "areaServed": "Worldwide (virtual)",
+    "address": { "@type": "PostalAddress", "addressLocality": "Blue Bell", "addressRegion": "PA", "addressCountry": "US" },
+    "founder": {
+      "@type": "Person",
+      "name": "{{site.owner}}",
+      "jobTitle": "Coach, speaker and former psychologist",
+      "hasCredential": "National Board-Certified Health & Wellness Coach (NBC-HWC)",
+      "sameAs": ["{{site.links.linkedin}}", "{{site.links.instagram}}", "{{site.links.youtube}}"]
+    }
+  }
+  </script>
+</head>
+<body class="{{page.bodyClass}}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  {{> header}}
+  <main id="main">
+{{page.content}}
+  </main>
+  {{> footer}}
+  <a class="dock" href="contact.html#book" data-dock>
+    <span class="dock-dot" aria-hidden="true"></span>
+    <span>Free 30-min Power Up call</span>
+    <span class="dock-go">Book</span>
+  </a>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
