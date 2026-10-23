@@ -189,6 +189,8 @@
     e.preventDefault();
     var nameEl = $('[data-curtain-name]');
     if (nameEl && names[file]) nameEl.innerHTML = names[file];
+    var idxEl = $('[data-curtain-idx]'), order = ['index.html', 'method.html', 'coaching.html', 'collective.html', 'speaking.html', 'about.html', 'experience.html', 'resources.html', 'contact.html'];
+    if (idxEl && order.indexOf(file) > -1) idxEl.textContent = ('0' + (order.indexOf(file) + 1)).slice(-2);
     try { sessionStorage.setItem('lcw-nav', '1'); } catch (err) {}
     if (html.classList.contains('menu-open')) setMenu(false);
     html.classList.add('is-leaving');

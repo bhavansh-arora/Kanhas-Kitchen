@@ -62,6 +62,8 @@ function parse(file) {
   }
   page.content = m ? raw.slice(m[0].length) : raw;
   page.path = page.slug === 'index' ? '' : file;
+  const order = ['index', 'method', 'coaching', 'collective', 'speaking', 'about', 'experience', 'resources', 'contact'];
+  page.idx = order.includes(page.slug) ? String(order.indexOf(page.slug) + 1).padStart(2, '0') : '00';
   page.canonical = `${site.url}/${page.path}`;
   page.year = String(new Date().getFullYear());
   return page;

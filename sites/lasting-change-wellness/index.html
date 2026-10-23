@@ -33,6 +33,16 @@
       } catch (e) {}
     })(document);
   </script>
+  <style>
+    /* Critical: cover the page from its very first paint while a curtain or the loader is up,
+       so no browser can flash the page background between two pages. */
+    html.is-entering, html.is-loading { background: #081816; }
+    html.is-entering body { background: #081816; }
+    .curtain { position: fixed; inset: 0; z-index: 790; background: #081816; transform: scaleY(0); }
+    html.is-entering .curtain { transform: scaleY(1); }
+    .preloader { position: fixed; inset: 0; z-index: 800; background: #081816; display: none; }
+    html.is-loading .preloader { display: block; }
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -80,9 +90,15 @@
   </div>
 
   <div class="curtain" aria-hidden="true">
+    <div class="curtain__glow"></div>
     <div class="curtain__inner">
-      <svg class="curtain__mark" viewBox="0 0 40 40"><path d="M34.39 18.23A14.5 14.5 0 1 1 20.25 5.5" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/><path d="M29.7 1.62Q29.7 9.22 37.3 9.22Q29.7 9.22 29.7 16.82Q29.7 9.22 22.1 9.22Q29.7 9.22 29.7 1.62Z" fill="#7EDCC4"/></svg>
-      <p class="curtain__name" data-curtain-name>Expect <em>amazing</em></p>
+      <div class="curtain__row"><span class="label">Lasting Change Wellness</span><span class="label"><span data-curtain-idx>01</span> / 09</span></div>
+      <div class="curtain__center">
+        <svg class="curtain__mark" viewBox="0 0 40 40"><path class="cm-ring" pathLength="1" d="M34.39 18.23A14.5 14.5 0 1 1 20.25 5.5"/><path class="cm-spark" d="M29.7 1.62Q29.7 9.22 37.3 9.22Q29.7 9.22 29.7 16.82Q29.7 9.22 22.1 9.22Q29.7 9.22 29.7 1.62Z"/></svg>
+        <p class="curtain__name" data-curtain-name>Expect <em>amazing</em></p>
+        <p class="curtain__tag">Expect amazing</p>
+      </div>
+      <div class="curtain__row"><span class="label">Lauren Yellin Weinberg &middot; Your Becoming Coach</span><span class="curtain__shine" aria-hidden="true"><b>S</b><b>H</b><b>I</b><b>N</b><b>E</b></span></div>
     </div>
   </div>
 
@@ -214,15 +230,18 @@
       <h2 id="isthis" class="h-lg lines">Regardless of your success, <em>is this you?</em></h2>
       <p class="lede reveal">If any of these are true for you, it may be a sign that you haven't yet mastered your personal power and potential. And if you want things to be different, it's time to do different things.</p>
     </div>
-    <div class="rows" data-rise-in>
-      <div class="row row--q"><span class="num">01</span><p class="h-sm">Does self-doubt continue to nag at you, like you're not enough in some way, or that things might fall apart if you loosen your grip?</p></div>
-      <div class="row row--q"><span class="num">02</span><p class="h-sm">Are you exhausted from feeling uncertain about your decisions and the weight of your responsibilities?</p></div>
-      <div class="row row--q"><span class="num">03</span><p class="h-sm">Do you struggle with impostor syndrome, or use words like <em>&ldquo;I'm not ready yet&rdquo;</em> or <em>&ldquo;Who am I to&hellip;&rdquo;</em>?</p></div>
-      <div class="row row--q"><span class="num">04</span><p class="h-sm">Does fear or guilt hold you back from going after your dreams and building the work and life you want?</p></div>
-      <div class="row row--q"><span class="num">05</span><p class="h-sm">Do other people's words or reactions sometimes make you feel small, or <em>dim your light?</em></p></div>
-      <div class="row row--q"><span class="num">06</span><p class="h-sm">Are you worried about what will happen if you fall apart from doing too much all the time?</p></div>
-      <div class="row row--q"><span class="num">07</span><p class="h-sm">Do you know you're meant to have a much greater impact, but worry that you're not worthy of being out front or leading the way?</p></div>
+    <div class="qgrid" data-rise-in>
+      <div class="q"><span class="num">01</span><p>Does self-doubt continue to nag at you, like you're not enough in some way, or that things might fall apart if you loosen your grip?</p></div>
+      <div class="q"><span class="num">02</span><p>Are you exhausted from feeling uncertain about your decisions and the weight of your responsibilities?</p></div>
+      <div class="q"><span class="num">03</span><p>Do you struggle with impostor syndrome, or use words like <em>&ldquo;I'm not ready yet&rdquo;</em> or <em>&ldquo;Who am I to&hellip;&rdquo;</em>?</p></div>
+      <div class="q"><span class="num">04</span><p>Does fear or guilt hold you back from going after your dreams and building the work and life you want?</p></div>
+      <div class="q"><span class="num">05</span><p>Do other people's words or reactions sometimes make you feel small, or <em>dim your light?</em></p></div>
+      <div class="q"><span class="num">06</span><p>Are you worried about what will happen if you fall apart from doing too much all the time?</p></div>
+      <div class="q"><span class="num">07</span><p>Do you know you're meant to have a much greater impact, but worry that you're not worthy of being out front or leading the way?</p></div>
+      <a class="q q--cta" href="#paths"><span class="label">If any of these are true for you</span><p>It's time to do different things.</p><span class="arrow-btn" aria-hidden="true"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11.5M10.5 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</span></a>
     </div>
+    <p class="qgrid-hint label" aria-hidden="true"><span>Swipe to see all seven</span><span>&rarr;</span></p>
     <div class="bento" data-rise-in style="margin-top:clamp(32px,4vw,56px)">
       <div class="tile tile--dark c-7 s-6" style="min-height:clamp(320px,30vw,420px)">
         <div class="tile__top"><span class="label label--dot">The good news?</span></div>
@@ -246,7 +265,7 @@
 
 
 
-<section class="section" aria-labelledby="paths">
+<section class="section section--flush" aria-labelledby="paths">
   <div class="wrap">
     <div class="head head--split">
       <div class="head__top reveal"><span class="label">(04) &mdash; Ways to work together</span><span class="label">Coaching &middot; Collective &middot; Speaking</span></div>
