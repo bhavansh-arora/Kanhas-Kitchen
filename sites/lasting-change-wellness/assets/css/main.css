@@ -595,7 +595,10 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 .is-dark .row { border-color: var(--line-d); }
 .row p { color: var(--ink-2); }
 .is-dark .row p { color: var(--on-dark-2); }
-@media (min-width: 900px) { .row { grid-template-columns: 80px minmax(0, 1.15fr) minmax(0, 1fr) 260px; } .row .chips { justify-content: flex-end; } .row--3 { grid-template-columns: 80px minmax(0, 1fr) minmax(0, 1.2fr); } }
+.row--q .h-sm { font-weight: 450; max-width: 42ch; }
+.row--q { transition: padding .6s var(--ease-out); }
+.row--q:hover { padding-left: 12px; }
+@media (min-width: 900px) { .row { grid-template-columns: 80px minmax(0, 1.15fr) minmax(0, 1fr) 260px; } .row--q { grid-template-columns: 80px minmax(0, 1fr); } .row .chips { justify-content: flex-end; } .row--3 { grid-template-columns: 80px minmax(0, 1fr) minmax(0, 1.2fr); } }
 
 /* pricing */
 .prices { display: grid; gap: 10px; }
