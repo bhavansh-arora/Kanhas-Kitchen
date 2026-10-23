@@ -794,11 +794,15 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 .intention__word { font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--teal); }
 .intention__text { font-size: clamp(1.6rem, 1.1rem + 1.4vw, 2.5rem); font-weight: 500; letter-spacing: -.045em; line-height: 1.04; }
 .intention__practice { color: var(--ink-2); max-width: 44ch; }
-.intention.is-empty .intention__letter { color: var(--sand-2); }
+.intention.is-empty .intention__letter { color: var(--teal); }
+.intention__spark { width: .78em; height: .78em; overflow: visible; }
+.intention__spark path:last-child { transform-origin: 29.7px 9.22px; animation: sparkPulse 2.6s ease-in-out infinite; }
+@keyframes sparkPulse { 50% { transform: scale(1.18) rotate(45deg); } }
 .intention .label { color: var(--muted); }
 .intention__swap { display: grid; gap: 16px; transition: opacity .5s var(--ease), transform .7s var(--ease-out), filter .5s; }
 .intention.is-swapping .intention__swap { opacity: 0; transform: translateY(14px); filter: blur(6px); }
 .intention__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.intention .btn--ghost { --bg: transparent; --fg: var(--ink); --bd: var(--line-2); --ic: var(--ink); --icf: var(--paper); --hover-bg: var(--ink); --hover-fg: var(--paper); }
 
 /* ---------- 404 ---------- */
 .notfound { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; text-align: center; padding: 140px var(--gutter) 80px; }
