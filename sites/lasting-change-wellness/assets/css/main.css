@@ -540,7 +540,7 @@ html:not(.has-gsap) .marquee__track { animation: marquee 50s linear infinite; }
 .site-footer { background: var(--night); color: var(--on-dark-2); padding: clamp(72px, 9vw, 128px) 0 calc(24px + env(safe-area-inset-bottom)); overflow: hidden; }
 .footer__grid { display: grid; gap: 40px; padding-bottom: clamp(48px, 6vw, 88px); }
 @media (min-width: 700px) { .footer__grid { grid-template-columns: repeat(3, 1fr); } .footer__brand { grid-column: 1 / -1; } }
-@media (min-width: 1080px) { .footer__grid { grid-template-columns: 1.5fr repeat(3, 1fr); } .footer__brand { grid-column: auto; } }
+@media (min-width: 1080px) { .footer__grid { grid-template-columns: 1.3fr 0.85fr 0.95fr minmax(270px, 1.2fr); } .footer__brand { grid-column: auto; } }
 .footer__brand p { margin-top: 18px; max-width: 34ch; font-size: 0.95rem; }
 .footer__brand .logo { color: var(--on-dark); }
 .footer__col .label { color: var(--on-dark-2); margin-bottom: 18px; display: flex; }
