@@ -106,12 +106,11 @@
   $$('.hero, .phero').forEach(function (hero) {
     var frame = $('.hero__frame, .phero__frame', hero), media = $('.hero__media, .phero__media', hero), content = $('.hero__content, .phero__content', hero), card = $('.hero__card', hero);
     var trig = { trigger: hero, start: 'top top', end: 'bottom top', scrub: true };
-    LCW.onStart && LCW.onStart(function () {
-      gsap.to(frame, { scale: 0.92, yPercent: 6, ease: 'none', transformOrigin: '50% 0%', scrollTrigger: trig });
-      gsap.to(media, { yPercent: 14, ease: 'none', scrollTrigger: trig });
-      gsap.to(content, { yPercent: -16, opacity: 0, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 20%', scrub: true } });
-      if (card) gsap.to(card, { yPercent: -40, opacity: 0, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: '40% top', scrub: true } });
-    });
+    // Set up now, while the page is still covered, so nothing is measured mid-reveal.
+    gsap.to(frame, { scale: 0.92, yPercent: 6, ease: 'none', transformOrigin: '50% 0%', scrollTrigger: trig });
+    gsap.to(media, { yPercent: 14, ease: 'none', scrollTrigger: trig });
+    gsap.to(content, { yPercent: -16, opacity: 0, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 20%', scrub: true } });
+    if (card) gsap.to(card, { yPercent: -40, opacity: 0, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: '40% top', scrub: true } });
   });
 
   // Parallax inside image frames.
@@ -209,6 +208,14 @@
   // Footer: giant wordmark letters rise into place.
   if (wm) gsap.from($$('.fw-char', wm), { yPercent: 110, duration: 1.4, ease: 'expo.out', stagger: 0.035, scrollTrigger: { trigger: wm, start: 'top 98%' } });
 
-  window.addEventListener('load', function () { ST.refresh(); });
-  if (document.fonts) document.fonts.ready.then(function () { ST.refresh(); });
+  // Re-measure scroll effects before the page is revealed (called by main.js), and afterwards
+  // only if the page height actually changed, so a late refresh never causes a visible jump.
+  var lastH = 0;
+  function refreshIfChanged() {
+    var h = document.documentElement.scrollHeight;
+    if (Math.abs(h - lastH) > 2) { lastH = h; ST.refresh(); }
+  }
+  LCW.prime = function () { ST.refresh(); lastH = document.documentElement.scrollHeight; };
+  window.addEventListener('load', function () { setTimeout(refreshIfChanged, 1600); });
+  if (document.fonts) document.fonts.ready.then(function () { setTimeout(refreshIfChanged, 1600); });
 })();

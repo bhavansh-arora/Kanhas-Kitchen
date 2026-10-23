@@ -98,42 +98,73 @@
     startHooks.forEach(function (fn) { fn(); });
   }
   html.classList.add('motion-ready');
+
+  /* Run cb once the page underneath is ready to be revealed: fonts loaded, hero photo
+     decoded and scroll effects measured. Doing this while the page is still covered
+     keeps the reveal smooth (no dropped frames mid-animation). */
+  function whenReady(cb) {
+    var done = false;
+    function go() {
+      if (done) return;
+      done = true;
+      if (LCW.prime) { try { LCW.prime(); } catch (e) {} }
+      requestAnimationFrame(function () { requestAnimationFrame(cb); });
+    }
+    function check() {
+      var waits = [];
+      if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+      var img = $('.hero__slide.is-active img, .phero__media img');
+      if (img) {
+        waits.push(new Promise(function (res) {
+          if (img.complete) res();
+          else { img.addEventListener('load', res, { once: true }); img.addEventListener('error', res, { once: true }); }
+        }).then(function () { return img.decode ? img.decode().catch(function () {}) : null; }));
+      }
+      Promise.all(waits).then(go, go);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', check); else check();
+    setTimeout(go, 2500);
+  }
+
   if (html.classList.contains('is-loading')) {
     var count = $('[data-count-loader]');
-    var lbar = $('.preloader__bar');
-    var heroImg = $('.hero__slide img, .phero__media img');
-    var loaded = !heroImg || heroImg.complete;
-    if (heroImg && !loaded) { heroImg.addEventListener('load', function () { loaded = true; }); heroImg.addEventListener('error', function () { loaded = true; }); }
-    var fontsReady = false;
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsReady = true; });
+    var pre = $('.preloader');
+    var letters = $$('[data-loader-shine] li');
+    var pageReady = false, revealNow = null;
+    whenReady(function () { pageReady = true; if (revealNow) revealNow(); });
     var t0 = performance.now(), shown = 0, MIN = 1700, MAX = 3800;
     (function tick(now) {
       var elapsed = now - t0;
-      var ready = (loaded && fontsReady) || elapsed > MAX;
+      var ready = pageReady || elapsed > MAX;
       var target = ready ? 100 : Math.min(90, (elapsed / MIN) * 90);
       var cap = Math.min(100, (elapsed / MIN) * 100);
       shown += (Math.min(target, cap) - shown) * 0.12;
       if (ready && cap >= 100 && shown > 99.4) shown = 100;
       var n = Math.round(shown);
       if (count) count.textContent = ('00' + n).slice(-3);
-      if (lbar) lbar.style.setProperty('--p', (shown / 100).toFixed(3));
+      if (pre) pre.style.setProperty('--p', (shown / 100).toFixed(3));
+      letters.forEach(function (li, i) { li.classList.toggle('on', n >= i * 20 + 12); });
       if (n < 100) { requestAnimationFrame(tick); return; }
+      // Let the sparkle flare at 100, then open the page.
       setTimeout(function () {
         html.classList.add('is-loaded');
         finishLoading();
         start();
         setTimeout(function () { html.classList.remove('is-loaded'); }, 1300);
-      }, 200);
+      }, 450);
     })(t0);
   } else if (html.classList.contains('is-entering')) {
     try { sessionStorage.removeItem('lcw-nav'); } catch (e) {}
-    // Hold the destination name on screen for a beat, then lift the curtain.
-    setTimeout(function () {
-      html.classList.add('is-entered');
-      html.classList.remove('is-entering');
-      start();
-      setTimeout(function () { html.classList.remove('is-entered'); }, 1300);
-    }, 320);
+    // Hold the destination name for a beat, and lift the curtain only once the page under it is ready.
+    var tEnter = performance.now();
+    whenReady(function () {
+      setTimeout(function () {
+        html.classList.add('is-entered');
+        html.classList.remove('is-entering');
+        start();
+        setTimeout(function () { html.classList.remove('is-entered'); }, 1400);
+      }, Math.max(0, 320 - (performance.now() - tEnter)));
+    });
   } else {
     try { sessionStorage.setItem('lcw-seen', '1'); } catch (e) {}
     start();
@@ -173,7 +204,8 @@
     if (!wrap) return;
     var slides = $$('.hero__slide', wrap);
     var idx = 0, current = $('[data-hero-current]'), index = $('.hero__index');
-    slides.forEach(function (s, i) { if (i > 0) { var im = $('img', s); if (im) im.loading = 'eager'; } });
+    // Fetch the other slides once the reveal has finished, so they don't compete with it.
+    setTimeout(function () { slides.forEach(function (s, i) { if (i > 0) { var im = $('img', s); if (im) im.loading = 'eager'; } }); }, 1800);
     function runBar() { if (!index) return; index.classList.remove('is-running'); void index.offsetWidth; index.classList.add('is-running'); }
     runBar();
     if (reduce) return;

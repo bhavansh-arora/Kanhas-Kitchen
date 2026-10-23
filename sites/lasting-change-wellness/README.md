@@ -16,7 +16,7 @@ The preloader shows once per browser session. To see it again, open a new privat
 ## What makes it an experience
 
 **On every page**
-- **Preloader.** The logo draws itself, Lauren's name rises in, and a counter runs to 100 before the page wipes open.
+- **Preloader.** The open-ring logo draws itself and its sparkle lights up, a glow builds behind "Lasting *Change*", and the letters S·H·I·N·E switch on one by one as the counter runs to 100.
 - **Page-to-page curtain.** It carries the destination's name ("1:1 *Coaching*", "The *Experience*").
 - **Custom cursor.** It changes colour on dark sections and grows into a label ("Book", "Explore", "Flip it") over key elements.
 - **Magnetic buttons.** They lean toward the pointer.
@@ -41,6 +41,10 @@ The preloader shows once per browser session. To see it again, open a new privat
 4. The RISE readiness check.
 
 Motion uses GSAP and ScrollTrigger, kept in `assets/vendor/` so the site doesn't depend on a CDN. Scrolling stays native, with no scroll-jacking. If a script fails, every page still reads and works. With "reduce motion" switched on, all animation is turned off.
+
+## Logo
+
+An open circle that never quite closes ("you are always in the process of becoming") with a mint sparkle in the gap (S.H.I.N.E.). It keeps the circle and mint of her original logo. The mark lives in `src/partials/logo.html`, `assets/img/favicon.svg` and the preloader/curtain in `src/partials/layout.html`.
 
 ## Editing
 
