@@ -6,7 +6,7 @@
 //   {{page.title}}                  value from the page's front matter
 //   {{> partial-name}}              contents of src/partials/partial-name.html
 //   {{nav:coaching}}                aria-current="page" when the page's nav is "coaching"
-//   {{img name | alt | sizes | class | eager | focal}}   responsive <img> from assets/img
+//   {{img name | alt | sizes | class | eager | focal | phone focal}}   responsive <img> from assets/img
 //   {{thumb name}}                  URL of the smallest version of an image (for CSS backgrounds)
 
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
@@ -22,13 +22,13 @@ const read = (p) => readFileSync(join(src, p), 'utf8');
 const get = (obj, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
 
 function img(args) {
-  const [name, alt = '', sizes = '100vw', cls = '', eager = '', pos = ''] = args.split('|').map((s) => s.trim());
+  const [name, alt = '', sizes = '100vw', cls = '', eager = '', pos = '', mpos = ''] = args.split('|').map((s) => s.trim());
   const meta = images[name];
   if (!meta) throw new Error(`Unknown image "${name}"`);
   const srcset = meta.widths.map((w) => `assets/img/${name}-${w}.webp ${w}w`).join(', ');
   const fallback = `assets/img/${name}-${meta.widths[meta.widths.length - 1]}.webp`;
   const loading = eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
-  const style = pos ? ` style="object-position:${pos}"` : '';
+  const style = pos || mpos ? ` style="${pos ? `object-position:${pos}` : ''}${pos && mpos ? ';' : ''}${mpos ? `--pm:${mpos}` : ''}"` : '';
   return `<img src="${fallback}" srcset="${srcset}" sizes="${sizes}" width="${meta.w}" height="${meta.h}" alt="${alt}"${cls ? ` class="${cls}"` : ''}${style} ${loading}>`;
 }
 

@@ -38,7 +38,7 @@
   --max: 1440px;
   --gutter: clamp(16px, 3.6vw, 48px);
   --frame: clamp(8px, 0.9vw, 14px);
-  --section: clamp(88px, 11vw, 168px);
+  --section: clamp(56px, 11vw, 168px);
   --r-xl: clamp(20px, 2.2vw, 32px);
   --r-lg: clamp(16px, 1.6vw, 24px);
   --r-md: 14px;
@@ -79,7 +79,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 .wrap--narrow { max-width: 1040px; }
 .section { padding-block: var(--section); position: relative; }
-.section--tight { padding-block: clamp(56px, 7vw, 104px); }
+.section--tight { padding-block: clamp(40px, 7vw, 104px); }
 .section--flush { padding-top: 0; }
 .is-dark { background: var(--forest); color: var(--on-dark); }
 .panel { margin-inline: var(--frame); border-radius: var(--r-xl); overflow: hidden; position: relative; isolation: isolate; }
@@ -122,7 +122,7 @@ a.chip:hover { background: var(--mint); color: var(--night); border-color: var(-
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Section heads */
-.head { display: grid; gap: 28px; margin-bottom: clamp(40px, 5.5vw, 80px); }
+.head { display: grid; gap: clamp(18px, 2.4vw, 28px); margin-bottom: clamp(28px, 5.5vw, 80px); }
 .head__top { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
 .is-dark .head__top, .theme-dark .head__top { border-color: var(--line-d); }
 .head--split { grid-template-columns: 1fr; }
@@ -443,7 +443,7 @@ html:not(.has-gsap) .marquee__track { animation: marquee 50s linear infinite; }
 .shine__frame { position: relative; border-radius: var(--r-xl); background: var(--forest); color: var(--on-dark); overflow: hidden; isolation: isolate; }
 .shine__glow { position: absolute; z-index: -1; left: 62%; top: 60%; width: 1600px; height: 1600px; margin: -800px 0 0 -800px; border-radius: 50%; pointer-events: none;
   background: radial-gradient(circle, rgba(240, 196, 127, .55) 0%, rgba(126, 220, 196, .2) 20%, rgba(14, 43, 39, 0) 46%); transform: scale(var(--glow, .3)); opacity: calc(var(--glow, .3) * .9 + .1); }
-.shine__track { display: flex; gap: 12px; padding: clamp(20px, 3vw, 44px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.shine__track { display: flex; gap: 12px; padding: clamp(20px, 3vw, 44px); scroll-padding-inline: clamp(20px, 3vw, 44px); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .shine__track::-webkit-scrollbar { display: none; }
 .shine__intro { flex: none; width: min(560px, 84vw); display: flex; flex-direction: column; justify-content: space-between; gap: 32px; padding: 6px 28px 6px 0; scroll-snap-align: start; }
 .scard { flex: none; width: min(430px, 80vw); min-height: 540px; scroll-snap-align: start; display: flex; flex-direction: column; gap: 20px; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-lg); background: rgba(237, 243, 240, .045); border: 1px solid var(--line-d); }
@@ -928,6 +928,18 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 .is-entered .hero, .is-entered .phero, .is-loaded .hero, .is-loaded .phero { will-change: scale; }
 .js .hero__media, .js .phero__media { transition: scale 2.4s var(--ease-out); }
 .is-loading .hero__media, .is-entering .hero__media, .is-loading .phero__media, .is-entering .phero__media { scale: 1.25; }
+
+/* Phones: photos keep Lauren in frame, and cards are only as tall as their content */
+@media (max-width: 900px) and (orientation: portrait) { img[style*="--pm"] { object-position: var(--pm) !important; } }
+@media (max-width: 640px) {
+  .quote, .price, .intention, .cta__frame { min-height: 0; }
+  .quote { gap: 22px; }
+  .cta__frame { gap: 28px; }
+  .flip__card { min-height: 340px; }
+  .scard { min-height: 430px; }
+  .marquee { padding-block: 22px; }
+  .faq summary { padding: 18px 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
