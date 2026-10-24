@@ -44,7 +44,7 @@
     .curtain { position: fixed; inset: 0; z-index: 790; background: #081816; transform: scaleY(0); }
     html.is-entering .curtain { transform: scaleY(1); }
     .preloader { position: fixed; inset: 0; z-index: 800; background: #081816; display: none; }
-    html.is-loading .preloader { display: block; }
+    html.is-loading .preloader { display: grid; place-items: center; }
   </style>
   <link rel="stylesheet" href="assets/css/fonts.css">
   <link rel="stylesheet" href="assets/css/main.css">
