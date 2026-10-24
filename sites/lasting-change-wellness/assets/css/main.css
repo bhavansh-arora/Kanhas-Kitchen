@@ -885,10 +885,6 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 .is-leaving .curtain { transform: scaleY(1); transform-origin: 50% 100%; transition: transform .8s cubic-bezier(.65, 0, .3, 1); pointer-events: all; }
 .is-leaving .curtain__inner { opacity: 1; transition: opacity .25s .45s; }
 
-/* Browsers that support it crossfade the two (identical) curtains when the page swaps,
-   so there is never a frame between them. */
-@view-transition { navigation: auto; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
 
 /* Cursor */
 .cursor { display: none; }
