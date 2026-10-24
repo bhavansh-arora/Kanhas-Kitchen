@@ -81,6 +81,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .section { padding-block: var(--section); position: relative; }
 .section--tight { padding-block: clamp(40px, 7vw, 104px); }
 .section--flush { padding-top: 0; }
+.section--snug { padding-top: clamp(40px, 5vw, 72px); }
+/* A words strip after a section: drop most of the section's bottom padding so the strip sits evenly between its neighbours */
+.section + .marquee { margin-top: calc(var(--frame) - var(--section)); }
+/* Two plain sections in a row share one gap instead of stacking both paddings */
+.section + .section { padding-top: 0; }
+/* The press strip sits evenly between the intro above and the next section below */
+.section + .logos-wrap { margin-top: calc(clamp(40px, 5vw, 72px) - var(--section)); }
 .is-dark { background: var(--forest); color: var(--on-dark); }
 .panel { margin-inline: var(--frame); border-radius: var(--r-xl); overflow: hidden; position: relative; isolation: isolate; }
 .panel--sand { background: var(--sand); }
