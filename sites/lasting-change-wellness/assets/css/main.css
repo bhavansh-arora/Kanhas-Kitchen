@@ -802,6 +802,11 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 .intention__swap { display: grid; gap: 16px; transition: opacity .5s var(--ease), transform .7s var(--ease-out), filter .5s; }
 .intention.is-swapping .intention__swap { opacity: 0; transform: translateY(14px); filter: blur(6px); }
 .intention__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.intention__hint { min-height: 1.4em; margin-top: -8px; font-weight: 500; color: var(--teal); }
+.checkin.is-nudged button { animation: nudge 1.1s var(--ease-out); }
+.checkin.is-nudged button:nth-child(2) { animation-delay: .06s; } .checkin.is-nudged button:nth-child(3) { animation-delay: .12s; }
+.checkin.is-nudged button:nth-child(4) { animation-delay: .18s; } .checkin.is-nudged button:nth-child(5) { animation-delay: .24s; }
+@keyframes nudge { 30% { border-color: var(--mint); background: rgba(126, 220, 196, .16); transform: translateX(6px); } }
 .intention .btn--ghost { --bg: transparent; --fg: var(--ink); --bd: var(--line-2); --ic: var(--ink); --icf: var(--paper); --hover-bg: var(--ink); --hover-fg: var(--paper); }
 
 /* ---------- 404 ---------- */

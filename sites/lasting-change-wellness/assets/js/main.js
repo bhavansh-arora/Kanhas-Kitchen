@@ -391,12 +391,19 @@
         setTimeout(function () {
           L.textContent = chosen.l; W.textContent = chosen.w; T.textContent = chosen.t; P.textContent = chosen.p;
           card.classList.remove('is-empty', 'is-swapping');
-          save.disabled = false;
+          if (hint) hint.textContent = '';
         }, reduce ? 0 : 450);
       });
     });
+    var list = $('.checkin', root), hint = $('[data-save-hint]', root);
     save.addEventListener('click', function () {
-      if (!chosen) return;
+      if (!chosen) {
+        // Nothing picked yet: point to the options instead of doing nothing.
+        if (hint) hint.textContent = 'First, choose how you\u2019re arriving.';
+        if (list) { list.classList.remove('is-nudged'); void list.offsetWidth; list.classList.add('is-nudged'); }
+        if (buttons[0] && window.innerWidth < 980) buttons[0].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        return;
+      }
       var c = document.createElement('canvas'), w = 1080, h = 1350;
       c.width = w; c.height = h;
       var x = c.getContext('2d');
