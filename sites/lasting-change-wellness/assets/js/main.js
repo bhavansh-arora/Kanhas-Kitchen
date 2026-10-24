@@ -126,6 +126,22 @@
     setTimeout(go, 2500);
   }
 
+  function onShown(fn) {
+    if (document.prerendering) document.addEventListener('prerenderingchange', fn, { once: true }); else fn();
+  }
+  LCW.onShown = onShown;
+
+  /* Have Chrome render the next page in the background, so the swap under the curtain is instant. */
+  function prerender(href) {
+    try {
+      if (!HTMLScriptElement.supports || !HTMLScriptElement.supports('speculationrules')) return;
+      var sr = document.createElement('script');
+      sr.type = 'speculationrules';
+      sr.textContent = JSON.stringify({ prerender: [{ source: 'list', urls: [href], eagerness: 'immediate' }] });
+      document.head.appendChild(sr);
+    } catch (e) {}
+  }
+
   if (html.classList.contains('is-loading')) {
     var count = $('[data-count-loader]');
     var pre = $('.preloader');
@@ -154,16 +170,19 @@
       }, 450);
     })(t0);
   } else if (html.classList.contains('is-entering')) {
-    try { sessionStorage.removeItem('lcw-nav'); } catch (e) {}
-    // Hold the destination name for a beat, and lift the curtain only once the page under it is ready.
-    var tEnter = performance.now();
-    whenReady(function () {
-      setTimeout(function () {
-        html.classList.add('is-entered');
-        html.classList.remove('is-entering');
-        start();
-        setTimeout(function () { html.classList.remove('is-entered'); }, 1400);
-      }, Math.max(0, 320 - (performance.now() - tEnter)));
+    // A prerendered page waits, curtain down, until the visitor actually arrives on it.
+    onShown(function () {
+      try { sessionStorage.removeItem('lcw-nav'); } catch (e) {}
+      // Hold the destination name for a beat, and lift the curtain only once the page under it is ready.
+      var tEnter = performance.now();
+      whenReady(function () {
+        setTimeout(function () {
+          html.classList.add('is-entered');
+          html.classList.remove('is-entering');
+          start();
+          setTimeout(function () { html.classList.remove('is-entered'); }, 1400);
+        }, Math.max(0, 320 - (performance.now() - tEnter)));
+      });
     });
   } else {
     try { sessionStorage.setItem('lcw-seen', '1'); } catch (e) {}
@@ -187,6 +206,7 @@
     if (file === here) return; // same-page anchors scroll normally
     if (reduce) return;
     e.preventDefault();
+    prerender(url.href);
     var nameEl = $('[data-curtain-name]');
     if (nameEl && names[file]) nameEl.innerHTML = names[file];
     var idxEl = $('[data-curtain-idx]'), order = ['index.html', 'method.html', 'coaching.html', 'collective.html', 'speaking.html', 'about.html', 'experience.html', 'resources.html', 'contact.html'];

@@ -53,11 +53,16 @@
     var cursor = $('.cursor'), ring = $('.cursor__ring'), dot = $('.cursor__dot'), label = $('.cursor__label');
     var mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
     // Carry the cursor over from the previous page so it doesn't vanish and pop back in.
-    try {
-      var saved = (sessionStorage.getItem('lcw-cur') || '').split(',');
-      if (saved.length === 2 && html.classList.contains('is-entering')) { rx = mx = +saved[0]; ry = my = +saved[1]; cursor.classList.add('is-ready'); }
-    } catch (e) {}
-    window.addEventListener('pagehide', function () { try { sessionStorage.setItem('lcw-cur', Math.round(mx) + ',' + Math.round(my)); } catch (e) {} });
+    var restoreCursor = function () {
+      try {
+        var saved = (sessionStorage.getItem('lcw-cur') || '').split(',');
+        if (saved.length === 2 && html.classList.contains('is-entering')) { rx = mx = +saved[0]; ry = my = +saved[1]; cursor.classList.add('is-ready'); }
+      } catch (e) {}
+    };
+    if (document.prerendering) document.addEventListener('prerenderingchange', restoreCursor, { once: true }); else restoreCursor();
+    var saveCursor = function () { try { sessionStorage.setItem('lcw-cur', Math.round(mx) + ',' + Math.round(my)); } catch (e) {} };
+    window.addEventListener('pagehide', saveCursor);
+    document.addEventListener('click', saveCursor, true);
     window.addEventListener('mousemove', function (e) {
       mx = e.clientX; my = e.clientY;
       if (!cursor.classList.contains('is-ready')) { rx = mx; ry = my; cursor.classList.add('is-ready'); }

@@ -26,10 +26,13 @@
       try {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         var s = window.sessionStorage;
-        if (!s.getItem('lcw-seen')) h.classList.add('is-loading');
+        /* A prerendered page is only ever shown by clicking a link here, so it starts under the curtain. */
+        if (d.prerendering) h.classList.add('is-entering');
+        else if (!s.getItem('lcw-seen')) h.classList.add('is-loading');
         else if (s.getItem('lcw-nav')) { h.classList.add('is-entering'); }
         /* Safety net: never leave the page covered if a script fails to load. */
-        setTimeout(function () { if (!h.classList.contains('motion-ready')) h.classList.remove('is-loading', 'is-entering'); }, 6000);
+        var arm = function () { setTimeout(function () { if (!h.classList.contains('motion-ready')) h.classList.remove('is-loading', 'is-entering'); }, 6000); };
+        if (d.prerendering) d.addEventListener('prerenderingchange', arm, { once: true }); else arm();
       } catch (e) {}
     })(document);
   </script>
@@ -301,6 +304,9 @@
     <span class="dock__go">Book now</span>
   </a>
 
+  <script type="speculationrules">
+  {"prerender": [{"source": "document", "where": {"and": [{"or": [{"href_matches": "/*.html"}, {"href_matches": "/"}]}, {"not": {"selector_matches": "[target=_blank], [download]"}}]}, "eagerness": "moderate"}]}
+  </script>
   <script src="assets/vendor/gsap.min.js" defer></script>
   <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
   <script src="assets/js/main.js" defer></script>
