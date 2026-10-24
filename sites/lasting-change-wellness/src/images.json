@@ -146,5 +146,40 @@
   ],
   "w": 1188,
   "h": 988
+ },
+ "pill-session": {
+  "widths": [
+   360
+  ],
+  "w": 360,
+  "h": 157
+ },
+ "pill-stage": {
+  "widths": [
+   360
+  ],
+  "w": 360,
+  "h": 157
+ },
+ "pill-portrait": {
+  "widths": [
+   360
+  ],
+  "w": 360,
+  "h": 157
+ },
+ "pill-open-arms": {
+  "widths": [
+   360
+  ],
+  "w": 360,
+  "h": 157
+ },
+ "pill-headshot": {
+  "widths": [
+   200
+  ],
+  "w": 200,
+  "h": 200
  }
 }
