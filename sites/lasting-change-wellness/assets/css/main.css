@@ -171,8 +171,8 @@ a.chip:hover { background: var(--mint); color: var(--night); border-color: var(-
 .btn:disabled { opacity: .38; pointer-events: none; }
 .seat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 24px; }
 @media (min-width: 560px) { .seat-grid { grid-template-columns: repeat(4, 1fr); } }
-.seat-grid .card { padding: 16px; align-items: start; gap: 6px; }
-.seat-grid .big-num { font-size: 3rem; }
+.seat-grid .card { padding: 20px 18px 18px; align-items: start; gap: 14px; }
+.seat-grid .big-num { font-size: 3rem; line-height: .74; }
 .link { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; letter-spacing: -0.01em; padding-bottom: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; transition: background-size .5s var(--ease-out); }
 .link:hover { background-size: 0 1px; background-position: 100% 100%; }
 .link svg { width: 14px; height: 14px; }
@@ -463,6 +463,10 @@ html:not(.has-gsap) .marquee__track { animation: marquee 50s linear infinite; }
 .shine__end { flex: none; width: min(420px, 80vw); display: grid; place-content: center; justify-items: center; text-align: center; gap: 24px; scroll-snap-align: start; padding: 24px; }
 .shine__end .h-md { max-width: 11ch; }
 .shine__foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 0 clamp(20px, 3vw, 44px) clamp(20px, 3vw, 36px); }
+.hint-narrow { display: none; }
+.hint-touch { display: none; }
+@media (hover: none) { .hint-fine { display: none; } .hint-touch { display: inline; } }
+@media (max-width: 1023px) { .hint-wide { display: none; } .hint-narrow { display: inline; } }
 .shine__progress { flex: 1; max-width: 420px; height: 2px; background: var(--line-d); border-radius: 2px; overflow: hidden; }
 .shine__progress span { display: block; height: 100%; background: var(--mint); transform: scaleX(var(--hp, 0)); transform-origin: left; }
 .is-pinned .shine__track { overflow: visible; scroll-snap-type: none; will-change: transform; }
@@ -580,7 +584,7 @@ html:not(.has-gsap) .marquee__track { animation: marquee 50s linear infinite; }
 .footer__col ul { display: grid; gap: 10px; }
 .footer__col a { color: var(--on-dark); transition: color .3s; overflow-wrap: anywhere; }
 .footer__col a:hover { color: var(--mint); }
-.footer-wordmark { display: block; font-size: clamp(3rem, 13.4vw, 15.2rem); font-weight: 600; letter-spacing: -0.07em; line-height: 0.82; white-space: nowrap; overflow: hidden; padding: 0 0.04em 0.18em; text-align: center; user-select: none;
+.footer-wordmark { display: block; font-size: clamp(3rem, 13.4vw, 15.2rem); font-weight: 600; letter-spacing: -0.07em; line-height: 0.82; white-space: nowrap; overflow: hidden; padding: 0 0.04em 0.27em; margin-bottom: clamp(4px, 1vw, 16px); text-align: center; user-select: none;
   background: linear-gradient(180deg, #DFF5EE 0%, #6FB8A6 52%, #12332E 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .footer-wordmark .fw-char { display: inline-block; background: inherit; -webkit-background-clip: text; background-clip: text; padding: 0 .12em .24em 0; margin: 0 -.12em -.24em 0; }
 .footer-wordmark .fw-serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.02em; }
@@ -818,7 +822,7 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 
 /* ---------- 404 ---------- */
 .notfound { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; text-align: center; padding: 140px var(--gutter) 80px; }
-.notfound__big { font-size: clamp(8rem, 30vw, 22rem); font-weight: 500; letter-spacing: -.08em; line-height: .8; background: var(--mint-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.notfound__big { font-size: clamp(8rem, 30vw, 22rem); font-weight: 500; letter-spacing: -.08em; line-height: .8; background: var(--mint-grad); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: clamp(16px, 2.4vw, 36px); }
 
 /* ==========================================================================
    Motion layer
@@ -951,6 +955,7 @@ a.card:hover { transform: translateY(-4px); border-color: var(--line-2); }
 @media (max-width: 900px) and (orientation: portrait) { img[style*="--pm"] { object-position: var(--pm) !important; } }
 @media (max-width: 640px) {
   .quote, .price, .intention, .cta__frame { min-height: 0; }
+  .tile:not(.tile--media), .tile:not(.tile--media)[style*="min-height"], .card[style*="min-height"] { min-height: 0 !important; }
   .quote { gap: 22px; }
   .cta__frame { gap: 28px; }
   .flip__card { min-height: 340px; }

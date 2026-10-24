@@ -185,6 +185,18 @@
   });
   mm.add('(max-width: 1023px)', function () {
     $$('.scard').forEach(function (c) { c.classList.add('is-lit'); });
+    // On touch screens the row is swiped, so the room brightens as you swipe.
+    var section = $('[data-hscroll]');
+    if (!section) return;
+    var track = $('.shine__track', section), prog = $('.shine__progress', section), frame = $('.shine__frame', section);
+    var onScroll = function () {
+      var max = track.scrollWidth - track.clientWidth, pr = max > 0 ? Math.min(1, Math.max(0, track.scrollLeft / max)) : 0;
+      if (prog) prog.style.setProperty('--hp', pr.toFixed(4));
+      frame.style.setProperty('--glow', (0.3 + pr * 0.9).toFixed(3));
+    };
+    track.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return function () { track.removeEventListener('scroll', onScroll); frame.style.removeProperty('--glow'); if (prog) prog.style.removeProperty('--hp'); };
   });
 
   // Stacking process cards: each covered card eases back and dims.

@@ -454,8 +454,12 @@
     size(); window.addEventListener('resize', size);
     var N = Math.round(Math.min(90, (W * H) / 16000));
     for (var k = 0; k < N; k++) motes.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2.2 + 0.6, v: Math.random() * 0.35 + 0.08, p: Math.random() * Math.PI * 2, gold: Math.random() < 0.3 });
-    cv.parentElement.addEventListener('mousemove', function (e) { var r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+    var follow = function (x, y) { var r = cv.getBoundingClientRect(); mx = x - r.left; my = y - r.top; };
+    cv.parentElement.addEventListener('mousemove', function (e) { follow(e.clientX, e.clientY); });
     cv.parentElement.addEventListener('mouseleave', function () { mx = my = -999; });
+    // Touch: the light follows a finger too, and settles when it lifts.
+    cv.parentElement.addEventListener('touchmove', function (e) { var t0 = e.touches[0]; if (t0) follow(t0.clientX, t0.clientY); }, { passive: true });
+    cv.parentElement.addEventListener('touchend', function () { mx = my = -999; }, { passive: true });
     if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(cv);
     (function frame(t) {
       requestAnimationFrame(frame);
