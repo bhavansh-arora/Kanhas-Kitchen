@@ -97,3 +97,7 @@ npm test             # API tests (node:test)
 - `server.js`: a dependency-free HTTP server and JSON REST API (`/api/state`, `/api/{orders|menu|societies}[/:id]`, `/api/import`)
 - `public/`: the single-page app (plain HTML/CSS/JS, no build step)
 - `public/defaults.js`: the default societies, shared by the server and the browser
+
+## Voicebot (separate app)
+
+The `voicebot/` folder is a separate app: a voice and chat assistant any website can add with one script tag, with an admin panel for onboarding businesses and a panel for each business owner. It runs as its own container on the VPS. See [voicebot/README.md](voicebot/README.md).

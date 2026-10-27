@@ -1,0 +1,30 @@
+# Fixed project name, so the container is always "voicebot-voicebot-1" no matter
+# which folder this is run from.
+name: voicebot
+
+services:
+  # Named "voicebot", not "app" or "web" -- Compose registers a network alias equal
+  # to the service name on every network it joins. The CRM's service is "app" and
+  # Kanha's Kitchen's is "web", both on crm_default; reusing either name would make
+  # Docker's DNS round-robin between containers and serve the wrong app.
+  voicebot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - voicebot-data:/app/data
+    # Soft memory floor so it stays responsive under host pressure (the VPS also
+    # runs memory-hungry services) without capping what it can use.
+    mem_reservation: 64m
+    # Joins the CRM's network so its Caddy can reverse_proxy to this container by
+    # name -- no host port needed, same pattern as the other apps on this box.
+    networks:
+      - crm_shared
+
+networks:
+  crm_shared:
+    external: true
+    name: crm_default
+
+volumes:
+  voicebot-data:
