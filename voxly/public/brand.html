@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voxly brand kit</title>
+  <meta name="description" content="Voxly logos, colours, typography and naming.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink: #0f1029; --muted: #6b6f8c; --line: #e6e7f0; --soft: #f6f6fb; --night: #0b0a1f; --violet: #5b4cf0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 16px/1.6 "Plus Jakarta Sans", system-ui, sans-serif; color: var(--ink); background: #fff; -webkit-font-smoothing: antialiased; }
+    a { color: var(--violet); }
+    h1, h2, h3 { margin: 0; letter-spacing: -.02em; line-height: 1.15; }
+    p { margin: 0; }
+    .wrap { width: min(1100px, 100% - 40px); margin: 0 auto; }
+    header.top { background: var(--night); color: #fff; padding: 22px 0 72px; position: relative; overflow: hidden; }
+    header.top::after { content: ""; position: absolute; width: 520px; height: 520px; border-radius: 50%; background: #6d28d9; filter: blur(90px); opacity: .35; right: -140px; top: -200px; }
+    .bar { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+    .bar img { height: 30px; width: auto; display: block; }
+    .bar a { color: #d6d3ff; text-decoration: none; font-weight: 600; font-size: 15px; }
+    .hero { margin-top: 64px; position: relative; z-index: 1; }
+    .kicker { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #b9b2ff; }
+    .hero h1 { font-size: clamp(40px, 6vw, 64px); font-weight: 800; margin: 12px 0 14px; }
+    .grad { background: linear-gradient(100deg, #8b7cff, #c084fc 45%, #f472b6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { color: #c9c8e6; font-size: 19px; max-width: 640px; }
+    section { padding: 64px 0; border-bottom: 1px solid var(--line); }
+    section h2 { font-size: 30px; font-weight: 800; }
+    section > .wrap > p.lead { color: var(--muted); margin-top: 8px; max-width: 720px; }
+    .grid { display: grid; gap: 18px; margin-top: 28px; }
+    .g2 { grid-template-columns: repeat(2, 1fr); } .g3 { grid-template-columns: repeat(3, 1fr); } .g4 { grid-template-columns: repeat(4, 1fr); }
+    .card { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; }
+    .preview { height: 170px; display: grid; place-items: center; padding: 24px; }
+    .preview img { max-height: 70px; max-width: 100%; }
+    .preview.tall img { max-height: 96px; }
+    .preview.light { background: #fff; border-bottom: 1px solid var(--line); }
+    .preview.soft { background: var(--soft); }
+    .preview.dark { background: var(--night); }
+    .preview.violet { background: var(--violet); }
+    .meta { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .meta b { font-size: 15px; }
+    .meta small { display: block; color: var(--muted); font-size: 13px; }
+    .dl { display: flex; gap: 6px; }
+    .dl a { font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; color: var(--ink); }
+    .dl a:hover { border-color: var(--violet); color: var(--violet); }
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; }
+    .fact { background: var(--soft); border-radius: 18px; padding: 22px; }
+    .fact .l { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .fact .v { font-size: 26px; font-weight: 800; margin-top: 6px; }
+    .fact p { color: var(--muted); margin-top: 6px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    td:first-child { font-weight: 800; white-space: nowrap; }
+    td:nth-child(2) { color: var(--muted); }
+    .swatch { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); cursor: pointer; text-align: left; font: inherit; padding: 0; background: #fff; color: var(--ink); }
+    .swatch .chip { height: 110px; }
+    .swatch .info { padding: 12px 14px; }
+    .swatch b { display: block; }
+    .swatch code { font: 13px ui-monospace, Menlo, monospace; color: var(--muted); }
+    .swatch:focus-visible { outline: 3px solid #a5b4fc; outline-offset: 2px; }
+    .gradbar { height: 90px; border-radius: 18px; margin-top: 18px; background: linear-gradient(110deg, #5b4cf0, #a855f7 55%, #ec4899); display: flex; align-items: flex-end; padding: 12px 16px; color: #fff; font: 600 13px ui-monospace, Menlo, monospace; }
+    .type { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; margin-top: 28px; }
+    .type .card { padding: 26px; }
+    .type .big { font-size: 64px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+    .type .weights span { display: block; font-size: 22px; margin-top: 6px; }
+    .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 28px; }
+    .rules ul { margin: 12px 0 0; padding-left: 20px; color: var(--muted); }
+    .rules li { margin-top: 6px; }
+    .do h3 { color: #047857; } .dont h3 { color: #b91c1c; }
+    .rules .card { padding: 24px; }
+    .tone { margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .tone .card { padding: 22px; }
+    .tone p { color: var(--muted); margin-top: 6px; }
+    .say { margin-top: 10px; font-size: 14px; }
+    .say span { display: block; padding: 6px 10px; border-radius: 10px; margin-top: 6px; }
+    .say .y { background: #ecfdf5; color: #065f46; } .say .n { background: #fef2f2; color: #991b1b; text-decoration: line-through; }
+    footer { padding: 40px 0; color: var(--muted); font-size: 14px; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 9px 16px; border-radius: 10px; font-size: 14px; }
+    @media (max-width: 860px) { .g3, .g4, .facts, .tone { grid-template-columns: 1fr 1fr; } .type, .rules, .g2 { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) { .g3, .g4, .facts, .tone { grid-template-columns: 1fr; } td:first-child { white-space: normal; } }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div class="bar"><a href="/"><img src="/brand/voxly-logo-white.svg" alt="Voxly" width="97" height="30"></a><a href="/">voxly home →</a></div>
+      <div class="hero">
+        <span class="kicker">Brand kit</span>
+        <h1>Voxly, <span class="grad">the front desk that talks.</span></h1>
+        <p>Logos, colours, type and naming for Voxly, the AI voice assistant that answers website visitors out loud and turns conversations into customers.</p>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <h2>The name</h2>
+      <div class="facts">
+        <div class="fact"><div class="l">Name</div><div class="v">Voxly</div><p>Said “VOX-lee”. Always one word with a capital V in sentences. The logo is lowercase: <b>voxly</b>.</p></div>
+        <div class="fact"><div class="l">Tagline</div><div class="v">The front desk that talks.</div><p>Use under the logo, in page titles and in social bios.</p></div>
+        <div class="fact"><div class="l">Meaning</div><div class="v">vox + ly</div><p><i>Vox</i> is Latin for “voice”; <i>-ly</i> makes it friendly and human. A voice for every website.</p></div>
+      </div>
+      <h3 style="margin-top:40px">What we call things</h3>
+      <table>
+        <thead><tr><th>Name</th><th>What it is</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Voxly</td><td>The product and company: the AI voice and chat assistant for websites.</td><td>Everywhere</td></tr>
+          <tr><td>Voxly widget</td><td>The chat bubble a business adds to its website with one line of code.</td><td>Customers' websites</td></tr>
+          <tr><td>Live Talk</td><td>Hands-free voice mode: it listens, answers aloud and listens again, like a phone call.</td><td>Inside the widget</td></tr>
+          <tr><td>Voxly Studio</td><td>The dashboard where a business owner trains their assistant and sees conversations and leads.</td><td>/app</td></tr>
+          <tr><td>Coach</td><td>The setup assistant inside Studio that interviews the owner and reads their files and photos.</td><td>Studio → Coach</td></tr>
+          <tr><td>Voxly HQ</td><td>Our admin panel for onboarding businesses, plans and demo requests.</td><td>/admin</td></tr>
+          <tr><td>Plans</td><td>Free trial, Starter, Growth, Pro and Custom.</td><td>Pricing</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Logos</h2>
+      <p class="lead">The mark is a speech bubble holding a voice wave: someone talking, and being heard. Use SVG wherever you can; PNGs are for places that don't accept SVG.</p>
+      <div class="grid g2">
+        <div class="card"><div class="preview light"><img src="/brand/voxly-logo.svg" alt="Voxly logo on white"></div><div class="meta"><div><b>Logo</b><small>For light backgrounds</small></div><div class="dl"><a href="/brand/voxly-logo.svg" download>SVG</a><a href="/brand/voxly-logo.png" download>PNG</a></div></div></div>
+        <div class="card"><div class="preview dark"><img src="/brand/voxly-logo-white.svg" alt="Voxly logo on dark"></div><div class="meta"><div><b>Logo, reversed</b><small>For dark backgrounds</small></div><div class="dl"><a href="/brand/voxly-logo-white.svg" download>SVG</a><a href="/brand/voxly-logo-white.png" download>PNG</a></div></div></div>
+        <div class="card"><div class="preview soft"><img src="/brand/voxly-logo-mono-ink.svg" alt="One-colour Voxly logo"></div><div class="meta"><div><b>One colour, ink</b><small>Print, stamps, single-colour use</small></div><div class="dl"><a href="/brand/voxly-logo-mono-ink.svg" download>SVG</a></div></div></div>
+        <div class="card"><div class="preview violet"><img src="/brand/voxly-logo-mono-white.svg" alt="One-colour white Voxly logo"></div><div class="meta"><div><b>One colour, white</b><small>On photos or brand colour</small></div><div class="dl"><a href="/brand/voxly-logo-mono-white.svg" download>SVG</a></div></div></div>
+      </div>
+      <div class="grid g4">
+        <div class="card"><div class="preview light tall"><img src="/brand/voxly-mark.svg" alt="Voxly mark"></div><div class="meta"><div><b>Mark</b><small>Favicon, avatars</small></div><div class="dl"><a href="/brand/voxly-mark.svg" download>SVG</a><a href="/brand/voxly-mark-512.png" download>PNG</a></div></div></div>
+        <div class="card"><div class="preview soft tall"><img src="/brand/voxly-app-icon.svg" alt="Voxly app icon"></div><div class="meta"><div><b>App icon</b><small>Social profiles, home screen</small></div><div class="dl"><a href="/brand/voxly-app-icon.svg" download>SVG</a><a href="/brand/voxly-app-icon-512.png" download>PNG</a></div></div></div>
+        <div class="card"><div class="preview light tall"><img src="/brand/voxly-mark-ink.svg" alt="Voxly mark in ink"></div><div class="meta"><div><b>Mark, ink</b></div><div class="dl"><a href="/brand/voxly-mark-ink.svg" download>SVG</a></div></div></div>
+        <div class="card"><div class="preview dark tall"><img src="/brand/voxly-mark-white.svg" alt="Voxly mark in white"></div><div class="meta"><div><b>Mark, white</b></div><div class="dl"><a href="/brand/voxly-mark-white.svg" download>SVG</a></div></div></div>
+      </div>
+      <div class="rules">
+        <div class="card do"><h3>Do</h3><ul><li>Leave clear space around the logo at least the height of the bubble's tail.</li><li>Keep the mark at least 20 px tall on screen.</li><li>Use the reversed logo on dark or busy backgrounds.</li><li>Use the app icon for social profile pictures.</li></ul></div>
+        <div class="card dont"><h3>Don't</h3><ul><li>Stretch, rotate or add shadows and outlines.</li><li>Recolour the gradient or the wave bars.</li><li>Retype the wordmark in another font.</li><li>Write the name as VOXLY, VoxLy or Vox.ly.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Colours</h2>
+      <p class="lead">Voxly Violet leads; Orchid and Pink appear mostly inside the gradient. Midnight is our dark background. Click a colour to copy it.</p>
+      <div class="grid g3" id="swatches">
+        <button class="swatch" data-hex="#5B4CF0"><div class="chip" style="background:#5B4CF0"></div><div class="info"><b>Voxly Violet</b><code>#5B4CF0</code></div></button>
+        <button class="swatch" data-hex="#A855F7"><div class="chip" style="background:#A855F7"></div><div class="info"><b>Orchid</b><code>#A855F7</code></div></button>
+        <button class="swatch" data-hex="#EC4899"><div class="chip" style="background:#EC4899"></div><div class="info"><b>Pink</b><code>#EC4899</code></div></button>
+        <button class="swatch" data-hex="#0B0A1F"><div class="chip" style="background:#0B0A1F"></div><div class="info"><b>Midnight</b><code>#0B0A1F</code></div></button>
+        <button class="swatch" data-hex="#0F1029"><div class="chip" style="background:#0F1029"></div><div class="info"><b>Ink (text)</b><code>#0F1029</code></div></button>
+        <button class="swatch" data-hex="#F6F6FB"><div class="chip" style="background:#F6F6FB"></div><div class="info"><b>Mist (backgrounds)</b><code>#F6F6FB</code></div></button>
+      </div>
+      <div class="gradbar">Voxly gradient · #5B4CF0 → #A855F7 → #EC4899</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Typography</h2>
+      <p class="lead">One family: <b>Plus Jakarta Sans</b> (free on Google Fonts). ExtraBold for headlines and the wordmark, Regular and Medium for text.</p>
+      <div class="type">
+        <div class="card"><div class="big">Aa Voxly</div><p class="muted" style="margin-top:14px;color:var(--muted)">Headlines: ExtraBold 800, tight letter-spacing (−2% to −3.5%).</p></div>
+        <div class="card weights"><span style="font-weight:400">Regular 400: body text</span><span style="font-weight:500">Medium 500: UI labels</span><span style="font-weight:700">Bold 700: buttons, emphasis</span><span style="font-weight:800">ExtraBold 800: headlines</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>How Voxly sounds</h2>
+      <p class="lead">Like a great front-desk person: warm, quick and clear. We talk about what the customer gets, not about the technology.</p>
+      <div class="tone">
+        <div class="card"><h3>Friendly, not cute</h3><p>Warm and human, never jokey or full of emoji.</p><div class="say"><span class="y">Ask anything. Out loud.</span><span class="n">Unleash conversational synergy!</span></div></div>
+        <div class="card"><h3>Plain, not technical</h3><p>Everyday words a shop owner uses.</p><div class="say"><span class="y">It reads your website and menu.</span><span class="n">RAG-powered LLM ingestion pipeline.</span></div></div>
+        <div class="card"><h3>Confident, not pushy</h3><p>Show the result and let people try it.</p><div class="say"><span class="y">Hear your own business answer a customer.</span><span class="n">Revolutionary AI! Buy now!!!</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><div class="wrap">© <span id="y">2026</span> Voxly · The front desk that talks.</div></footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    document.getElementById('swatches').addEventListener('click', function (e) {
+      var b = e.target.closest('.swatch'); if (!b) return;
+      var hex = b.dataset.hex;
+      (navigator.clipboard ? navigator.clipboard.writeText(hex) : Promise.reject()).then(function () { show('Copied ' + hex); }, function () { show(hex); });
+    });
+    function show(t) { var d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(function () { d.remove(); }, 1800); }
+  </script>
+</body>
+</html>

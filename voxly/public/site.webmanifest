@@ -1,0 +1,14 @@
+{
+  "name": "Voxly",
+  "short_name": "Voxly",
+  "description": "The front desk that talks: an AI voice assistant for your website.",
+  "start_url": "/app",
+  "display": "standalone",
+  "background_color": "#0b0a1f",
+  "theme_color": "#5b4cf0",
+  "icons": [
+    { "src": "/brand/voxly-app-icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/voxly-app-icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/brand/voxly-app-icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

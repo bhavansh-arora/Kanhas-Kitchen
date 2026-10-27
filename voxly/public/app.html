@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voxly Studio</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><div><picture class="brand-logo"><source srcset="/brand/voxly-logo-white.svg" media="(prefers-color-scheme: dark)"><img src="/brand/voxly-logo.svg" alt="Voxly" height="30" width="97"></picture><small class="product">Studio</small><small id="bizName"></small></div></div>
+      <nav class="nav" id="nav">
+        <button data-page="overview">Overview</button>
+        <button data-page="assistant">Coach</button>
+        <button data-page="knowledge">Knowledge</button>
+        <button data-page="conversations">Conversations</button>
+        <button data-page="leads">Leads <span class="pill accent badge" id="leadBadge" hidden></span></button>
+        <button data-page="settings">Bot settings</button>
+        <button data-page="install">Install &amp; test</button>
+        <button data-page="account">Account</button>
+      </nav>
+      <div class="spacer"></div>
+      <div class="bottom"><button class="ghost" style="width:100%;justify-content:flex-start" onclick="signOut()">Sign out</button></div>
+    </aside>
+    <main class="main">
+      <div class="banner" id="adminBanner" hidden>You're viewing <b id="adminBiz"></b> as admin.<a href="/admin">Back to admin</a></div>
+      <div id="page"></div>
+    </main>
+  </div>
+  <script src="/common.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

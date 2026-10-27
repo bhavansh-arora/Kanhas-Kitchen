@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in — Voxly</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#5b4cf0">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <form class="card login stack" id="form">
+      <div class="brand"><picture class="brand-logo"><source srcset="/brand/voxly-logo-white.svg" media="(prefers-color-scheme: dark)"><img src="/brand/voxly-logo.svg" alt="Voxly" height="40" width="130"></picture></div>
+      <h1>Sign in</h1><p class="muted" style="margin-top:-6px">To Voxly Studio or Voxly HQ.</p>
+      <label class="field">Email<input type="email" name="email" autocomplete="username" required></label>
+      <label class="field">Password<input type="password" name="password" autocomplete="current-password" required></label>
+      <label class="check"><input type="checkbox" name="remember" checked> Keep me signed in</label>
+      <p class="err" id="err" role="alert" hidden></p>
+      <button class="primary" type="submit">Sign in</button>
+    </form>
+  </div>
+  <script src="/login.js"></script>
+</body>
+</html>
