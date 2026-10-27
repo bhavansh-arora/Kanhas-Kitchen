@@ -1,0 +1,92 @@
+---
+title: Contact
+description: Get in touch with Polish about executive coaching, team programmes, keynote speaking or bespoke leadership development. Based in Auckland, working across New Zealand and Australia.
+nav: contact
+scripts: forms
+---
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Contact</span></nav>
+        <span class="eyebrow" data-reveal>Get in touch</span>
+        <h1 class="h1 page-hero__title" id="page-title" data-split>We'd love to <em>hear</em> from you.</h1>
+        <div class="page-hero__row">
+          <p class="lead measure-lg" data-reveal>Whether you're exploring a programme, looking for coaching, or want to bring Melissa in as a speaker — tell us a little about what you need and we'll reply within one business day.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--flush-top" aria-label="Enquiry">
+      <div class="container split split--form">
+        <div>
+          <div class="panel" data-reveal>
+            <p class="field-label" style="margin-bottom:12px" id="type-label">What can we help with?</p>
+            <div class="seg" role="tablist" aria-labelledby="type-label">
+              <button type="button" role="tab" data-type-tab="programme" aria-selected="true">Team programme</button>
+              <button type="button" role="tab" data-type-tab="coaching" aria-selected="false">Coaching</button>
+              <button type="button" role="tab" data-type-tab="speaking" aria-selected="false">Speaking</button>
+              <button type="button" role="tab" data-type-tab="other" aria-selected="false">Something else</button>
+            </div>
+
+            <div class="card" data-coach-note hidden style="margin-top:var(--s4);padding:20px;border-color:rgba(229,143,153,.35)">
+              <p style="margin:0;color:var(--text)">For one-to-one coaching, the quickest route is to <a class="rose" href="coaching.html#book">pick a time for a discovery conversation</a>. Or leave a note below.</p>
+            </div>
+
+            <form class="form-grid" style="margin-top:var(--s5)" data-enquiry novalidate>
+              <input type="hidden" name="type" value="programme">
+              <div class="field"><label for="c-name">Full name <span class="req">*</span></label><input class="input" id="c-name" name="name" autocomplete="name" required><span class="field__error">Please add your name.</span></div>
+              <div class="field"><label for="c-email">Work email <span class="req">*</span></label><input class="input" id="c-email" name="email" type="email" autocomplete="email" required><span class="field__error">Please add a valid email.</span></div>
+              <div class="field"><label for="c-org">Organisation</label><input class="input" id="c-org" name="organisation" autocomplete="organization"></div>
+              <div class="field"><label for="c-phone">Phone</label><input class="input" id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder="+64"></div>
+
+              <div class="field" data-for="programme"><label for="c-programme">Programme</label>
+                <select class="select" id="c-programme" name="programme">
+                  <option>Leading Through AI-Driven Change</option><option>Hiring in the AI Era</option><option>Building an AI-Ready Team</option><option>AI Fundamentals for Leaders (online)</option><option>Not sure yet</option>
+                </select></div>
+              <div class="field" data-for="programme"><label for="c-people">Number of participants</label><input class="input" id="c-people" name="people" type="number" min="1" placeholder="e.g. 12"></div>
+              <div class="field full" data-for="programme"><label for="c-rbp">Are you RBP-registered?</label>
+                <select class="select" id="c-rbp" name="rbp"><option>Yes</option><option>No</option><option>Not sure — please help</option></select></div>
+
+              <div class="field" data-for="speaking"><label for="c-date">Event date</label><input class="input" id="c-date" name="eventDate" type="date"></div>
+              <div class="field" data-for="speaking"><label for="c-aud">Audience size</label><input class="input" id="c-aud" name="audience" placeholder="e.g. 150 leaders"></div>
+              <div class="field full" data-for="speaking"><label for="c-event">Event &amp; location</label><input class="input" id="c-event" name="event" placeholder="Conference name, city or virtual"></div>
+
+              <div class="field full" data-for="coaching"><label for="c-for">Coaching for</label>
+                <select class="select" id="c-for" name="coachingFor"><option>Myself</option><option>A leader in my organisation</option><option>Our leadership team</option></select></div>
+
+              <div class="field full" data-for="other"><label for="c-topic">Topic</label><input class="input" id="c-topic" name="topic" placeholder="What's this about?"></div>
+
+              <div class="field full"><label for="c-msg">Message <span class="req">*</span></label><textarea class="textarea" id="c-msg" name="message" required placeholder="Tell us what you're working on and what a great outcome looks like."></textarea><span class="field__error">Please add a short message.</span></div>
+              <div class="full" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px">
+                <span class="form-note">We'll only use your details to reply. <a class="rose" href="https://polish.nz/privacy-policy">Privacy policy</a></span>
+                <button class="btn btn--rose" type="submit" data-magnetic>Send enquiry{{icon:arrow}}</button>
+              </div>
+            </form>
+
+            <div data-enquiry-done hidden style="text-align:center;padding:var(--s6) 0">
+              <div class="confirm__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+              <h2 class="h3" tabindex="-1">Thank you, <span data-done-name></span>.</h2>
+              <p class="muted" style="margin-top:12px">Your enquiry is with us — Melissa will reply within one business day.</p>
+              <div class="btn-row" style="justify-content:center;margin-top:var(--s4)"><a class="btn btn--sm" data-done-mail href="#">Also send by email</a><a class="btn btn--white btn--sm" href="index.html">Back to home</a></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sticky" style="display:grid;gap:var(--s3)" aria-label="Contact details">
+          <a class="card card--link" href="coaching.html#book" data-reveal>
+            <span class="card__num" style="color:var(--rose)">FASTEST</span>
+            <h3 class="h4">Book a discovery conversation</h3>
+            <p>Pick a time that suits — 30 minutes, complimentary.</p>
+            <span class="link-arrow" style="margin-top:var(--s3)">Choose a time{{icon:arrowlink}}</span>
+          </a>
+          <div class="card" data-reveal style="--d:.08s">
+            <span class="card__num">DIRECT</span>
+            <ul style="display:grid;gap:14px;margin-top:var(--s3)">
+              <li><a class="link-arrow" href="mailto:hello@polish.nz">hello@polish.nz</a></li>
+              <li><a class="link-arrow" href="tel:+6421646489">+64 21 646 489</a></li>
+              <li class="muted">Auckland, New Zealand<br><span class="faint small"><span class="live-dot" aria-hidden="true"></span>It's <span data-nz-time></span> in Auckland</span></li>
+            </ul>
+          </div>
+          <div class="frame frame--wide" data-reveal="scale" style="--d:.16s"><img src="assets/img/harbour-sq.jpg" alt="Auckland harbour at dawn" loading="lazy" width="820" height="690"></div>
+        </aside>
+      </div>
+    </section>
