@@ -56,7 +56,7 @@ label.check { display: flex; gap: 8px; align-items: center; font-size: 14px; }
 .tile .n { font-size: 26px; font-weight: 700; margin-top: 2px; }
 .tile .l { color: var(--muted); font-size: 13px; }
 
-.pill { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 9px; background: var(--soft); color: var(--muted); }
+.pill { display: inline-block; white-space: nowrap; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 9px; background: var(--soft); color: var(--muted); }
 .pill.ok { background: var(--ok-soft); color: var(--ok); }
 .pill.warn { background: var(--warn-soft); color: var(--warn); }
 .pill.bad { background: var(--bad-soft); color: var(--bad); }

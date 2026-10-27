@@ -65,7 +65,7 @@ async function overview() {
       <div class="tile"><div class="l">Used voice (30 days)</div><div class="n">${num(s.voiceConversations30)}</div></div>
       <div class="tile"><div class="l">New leads</div><div class="n">${num(s.newLeads)}</div></div>
       <div class="tile"><div class="l">Knowledge sources</div><div class="n">${num(s.sources)}</div></div>
-      <div class="tile"><div class="l">Messages this month</div><div class="n">${num(s.usage.messages)}<span class="muted small"> / ${num(biz.monthlyLimit)}</span></div></div>
+      <div class="tile"><div class="l">Messages this month · ${esc(biz.plan.name)} plan</div><div class="n">${num(s.usage.messages)}<span class="muted small"> / ${num(biz.monthlyLimit)}</span></div></div>
     </div>
     <div class="grid2" style="margin-top:14px">
       <div class="card"><h2>Conversations per day</h2><p class="muted small">Last 30 days</p>
@@ -219,7 +219,7 @@ async function knowledge() {
         <div><h2>🌐 Read your website</h2><p class="muted small">Reads your pages so the assistant knows what's on them. Run it again after you change your site.</p></div>
         <form class="stack" id="webForm">
           <input name="url" placeholder="https://yourwebsite.com" value="${esc(biz.website)}" aria-label="Website address">
-          <div class="row"><label class="small muted">Up to <select name="maxPages" style="width:auto">${[10, 30, 60, 100].map((n) => `<option ${n === 30 ? 'selected' : ''}>${n}</option>`).join('')}</select> pages</label><div class="spacer"></div><button class="primary">Read website</button></div>
+          <div class="row"><label class="small muted">Up to <select name="maxPages" style="width:auto">${[10, 30, 60, 100].filter((n) => n <= biz.plan.pages).map((n) => `<option ${n === 30 ? 'selected' : ''}>${n}</option>`).join('')}</select> pages</label><div class="spacer"></div><button class="primary">Read website</button></div>
         </form>
         <p class="small" id="crawlStatus"></p>
       </div>

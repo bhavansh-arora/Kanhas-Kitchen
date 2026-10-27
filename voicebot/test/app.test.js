@@ -277,3 +277,83 @@ test('widget, demo page, health check and cross-site protection', async (t) => {
   const x = await app.req('/api/me/password', { method: 'POST', body: {}, headers: { Origin: 'https://evil.test' } });
   assert.equal(x.status, 403);
 });
+
+test('landing page is public, injects the live demo and matches plan prices', async (t) => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const { PLANS } = require('../lib/plans');
+  const { app } = await onboard(t, { app: { landingBotKey: 'vb_demoKey123', contactWhatsapp: '+91 98765-43210' } });
+  app.setCookie('');
+  const r = await fetch(`${app.base}/`);
+  assert.equal(r.status, 200);
+  const html = await r.text();
+  assert.match(html, /Give your website a/);
+  assert.match(html, /<script src="\/widget.js" data-key="vb_demoKey123" async><\/script>/);
+  assert.match(html, /"whatsapp":"919876543210"/);
+  assert.match(html, new RegExp(`og:image" content="${app.base}/og.png"`));
+  for (const f of ['/landing.css', '/landing.js', '/styles.css', '/favicon.svg']) assert.equal((await fetch(app.base + f)).status, 200, f);
+  assert.equal((await fetch(`${app.base}/app`, { redirect: 'manual' })).status, 302);
+
+  // Every paid plan's monthly and yearly price on the page comes from lib/plans.js.
+  const page = fs.readFileSync(path.join(__dirname, '../public/landing.html'), 'utf8');
+  for (const [key, p] of Object.entries(PLANS)) {
+    if (!p.monthly) continue;
+    assert.match(page, new RegExp(`data-monthly="${p.monthly}" data-yearly="${p.yearly}"`), key);
+    assert.match(page, new RegExp(`<b>${p.messages.toLocaleString('en-US')}</b> visitor messages`), key);
+    assert.match(page, new RegExp(`\\$${(p.monthly * 10).toLocaleString('en-US')} billed yearly`), key);
+  }
+  assert.match(page, new RegExp(`free trial \\(${PLANS.trial.messages} messages\\)`));
+});
+
+test('demo requests from the landing page reach the admin', async (t) => {
+  const { app } = await onboard(t);
+  const adminCookie = app.getCookie();
+  app.setCookie('');
+  const bad = await app.req('/api/contact', { method: 'POST', body: { name: 'A', business: 'B' } });
+  assert.equal(bad.status, 400);
+  const ok = await app.req('/api/contact', { method: 'POST', body: { name: 'Meera', business: 'Glow Salon', phone: '+1 555 0100', website: 'glow.test', plan: 'growth', industry: 'Salon / spa / fitness' } });
+  assert.equal(ok.status, 201);
+  // Bots that fill the hidden field are quietly ignored.
+  assert.equal((await app.req('/api/contact', { method: 'POST', body: { name: 'x', business: 'y', phone: '1', company_url: 'spam' } })).status, 200);
+  // Another site can't post to it.
+  assert.equal((await app.req('/api/contact', { method: 'POST', body: { name: 'x', business: 'y', phone: '1' }, headers: { Origin: 'https://evil.test' } })).status, 403);
+  assert.equal((await app.req('/api/admin/inquiries')).status, 401);
+
+  app.setCookie(adminCookie);
+  const list = (await app.req('/api/admin/inquiries')).data;
+  assert.equal(list.length, 1);
+  assert.equal(list[0].website, 'https://glow.test');
+  assert.equal(list[0].plan, 'growth');
+  assert.equal((await app.req(`/api/admin/inquiries/${list[0].id}`, { method: 'PUT', body: { status: 'contacted' } })).status, 200);
+  assert.equal((await app.req('/api/admin/inquiries')).data[0].status, 'contacted');
+  assert.equal((await app.req(`/api/admin/inquiries/${list[0].id}`, { method: 'DELETE' })).status, 204);
+
+  // Rate limit: 5 requests an hour per address.
+  app.setCookie('');
+  let last;
+  for (let i = 0; i < 6; i++) last = await app.req('/api/contact', { method: 'POST', body: { name: 'N', business: 'B', email: 'n@b.test' } });
+  assert.equal(last.status, 429);
+});
+
+test('plans set message limits and the widget badge', async (t) => {
+  const { app, bizId, key } = await onboard(t);
+  // Onboarded without a plan: Starter with an explicit limit of 100 (from the helper).
+  let b = (await app.req('/api/admin/businesses')).data[0];
+  assert.equal(b.plan, 'starter');
+  assert.equal(b.monthlyLimit, 100);
+  assert.equal((await (await fetch(`${app.base}/api/public/bot/${key}`)).json()).branding, true);
+
+  await app.req(`/api/admin/businesses/${bizId}`, { method: 'PUT', body: { plan: 'growth' } });
+  b = (await app.req('/api/admin/businesses')).data[0];
+  assert.equal(b.plan, 'growth');
+  assert.equal(b.monthlyLimit, 3000);
+  assert.equal((await (await fetch(`${app.base}/api/public/bot/${key}`)).json()).branding, false);
+  assert.equal((await app.req(`/api/biz?b=${bizId}`)).data.plan.name, 'Growth');
+
+  // A new business on the trial plan gets the trial limit.
+  const r = await app.req('/api/admin/businesses', { method: 'POST', body: { name: 'Trial Co', ownerEmail: 'o@trial.test', plan: 'trial' } });
+  const trial = (await app.req('/api/admin/businesses')).data.find((x) => x.id === r.data.id);
+  assert.equal(trial.monthlyLimit, 300);
+  assert.equal(trial.plan, 'trial');
+  assert.ok((await app.req('/api/admin/plans')).data.pro.monthly > 0);
+});

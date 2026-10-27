@@ -103,7 +103,7 @@
       '.ibtn{width:42px;height:42px;border-radius:12px;border:0;cursor:pointer;display:grid;place-items:center;flex:none;background:#eef0f6;color:#3b4050}' +
       '.ibtn.send{background:var(--c);color:#fff}.ibtn:disabled{opacity:.5;cursor:default}' +
       '.ibtn.live{background:#ef4444;color:#fff;animation:pulse 1.2s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}100%{box-shadow:0 0 0 12px rgba(239,68,68,0)}}' +
-      '.foot{font-size:11px;color:#9aa0ae;text-align:center;padding:0 0 8px;background:#fff}' +
+      '.foot{font-size:11px;color:#9aa0ae;text-align:center;padding:0 0 8px;background:#fff}.foot a{color:#6b7280;font-weight:600;text-decoration:none}.foot a:hover{color:var(--c)}' +
       '.talk{position:absolute;inset:0;background:linear-gradient(160deg,var(--c2),#0f172a);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:28px;text-align:center;z-index:2}' +
       '.orb{width:150px;height:150px;border-radius:50%;border:0;cursor:pointer;background:radial-gradient(circle at 35% 30%,#fff8,transparent 60%),var(--c);box-shadow:0 0 0 0 rgba(255,255,255,.35);display:grid;place-items:center;color:#fff;transition:transform .3s}' +
       '.orb.listening{animation:ring 1.4s infinite}.orb.speaking{animation:speak .9s infinite alternate}.orb.thinking{animation:think 1.6s infinite linear;opacity:.85}' +
@@ -127,7 +127,7 @@
       '<form class="bar"><input type="text" placeholder="Type or tap the mic…" aria-label="Your message" maxlength="2000" autocomplete="off">' +
       (SR ? '<button type="button" class="ibtn mic" aria-label="Speak">' + ICON.mic + '</button>' : '') +
       '<button type="submit" class="ibtn send" aria-label="Send">' + ICON.send + '</button></form>' +
-      '<div class="foot">AI assistant · answers may not always be perfect</div>' +
+      '<div class="foot">' + (cfg.branding ? 'AI assistant · Powered by <a href="' + BASE + '/?ref=widget" target="_blank" rel="noopener">Voicebot</a>' : 'AI assistant · answers may not always be perfect') + '</div>' +
       '<div class="talk" hidden><div class="tstatus">Connecting…</div><button class="orb" aria-label="Tap to talk or interrupt">' + ICON.mic.replace(/20/g, '46') + '</button>' +
       '<div class="tline"></div><button class="tend">End voice chat</button></div>' +
       '</section>' +

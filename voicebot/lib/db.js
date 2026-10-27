@@ -80,6 +80,19 @@ CREATE TABLE IF NOT EXISTS assistant_messages (
   created_at INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS amsg_biz ON assistant_messages(business_id, id);
+CREATE TABLE IF NOT EXISTS inquiries (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL DEFAULT '',
+  business TEXT NOT NULL DEFAULT '',
+  phone TEXT NOT NULL DEFAULT '',
+  email TEXT NOT NULL DEFAULT '',
+  website TEXT NOT NULL DEFAULT '',
+  industry TEXT NOT NULL DEFAULT '',
+  plan TEXT NOT NULL DEFAULT '',
+  message TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'new',
+  created_at INTEGER NOT NULL
+);
 CREATE TABLE IF NOT EXISTS usage (
   business_id TEXT NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
   month TEXT NOT NULL,
@@ -114,6 +127,9 @@ function openDb(file) {
   const db = new DatabaseSync(file);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
   db.exec(SCHEMA);
+  // Columns added after the first release.
+  const cols = db.prepare('PRAGMA table_info(businesses)').all().map((c) => c.name);
+  if (!cols.includes('plan')) db.exec("ALTER TABLE businesses ADD COLUMN plan TEXT NOT NULL DEFAULT 'starter'");
 
   const q = (sql) => db.prepare(sql);
   const parseBiz = (b) => b && { ...b, settings: { ...DEFAULT_SETTINGS, ...JSON.parse(b.settings || '{}') } };
@@ -138,11 +154,11 @@ function openDb(file) {
     ownersOf: (businessId) => q("SELECT id, email, name, created_at FROM users WHERE business_id = ? AND role = 'owner'").all(businessId),
 
     // ---------- businesses ----------
-    createBusiness({ name, website = '', monthlyLimit = 2000, notes = '', settings = {} }) {
+    createBusiness({ name, website = '', monthlyLimit = 1000, notes = '', settings = {}, plan = 'starter' }) {
       const id = uid();
       const key = 'vb_' + crypto.randomBytes(12).toString('base64url');
-      q('INSERT INTO businesses (id, name, website, bot_key, settings, monthly_limit, notes, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(
-        id, name, website, key, JSON.stringify(settings), monthlyLimit, notes, now(),
+      q('INSERT INTO businesses (id, name, website, bot_key, settings, monthly_limit, notes, plan, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(
+        id, name, website, key, JSON.stringify(settings), monthlyLimit, notes, plan, now(),
       );
       return this.business(id);
     },
@@ -167,10 +183,11 @@ function openDb(file) {
         status: fields.status ?? b.status,
         monthly_limit: fields.monthlyLimit ?? b.monthly_limit,
         notes: fields.notes ?? b.notes,
+        plan: fields.plan ?? b.plan,
         settings: JSON.stringify(fields.settings ? { ...b.settings, ...fields.settings } : b.settings),
       };
-      q('UPDATE businesses SET name = ?, website = ?, status = ?, monthly_limit = ?, notes = ?, settings = ? WHERE id = ?').run(
-        next.name, next.website, next.status, next.monthly_limit, next.notes, next.settings, id,
+      q('UPDATE businesses SET name = ?, website = ?, status = ?, monthly_limit = ?, notes = ?, plan = ?, settings = ? WHERE id = ?').run(
+        next.name, next.website, next.status, next.monthly_limit, next.notes, next.plan, next.settings, id,
       );
       return this.business(id);
     },
@@ -270,6 +287,18 @@ function openDb(file) {
     addAssistantMessage: (businessId, role, data) =>
       q('INSERT INTO assistant_messages (business_id, role, data, created_at) VALUES (?, ?, ?, ?)').run(businessId, role, JSON.stringify(data), now()),
     clearAssistant: (businessId) => q('DELETE FROM assistant_messages WHERE business_id = ?').run(businessId),
+
+    // ---------- demo requests from the landing page ----------
+    createInquiry(f) {
+      const id = uid();
+      q('INSERT INTO inquiries (id, name, business, phone, email, website, industry, plan, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(
+        id, f.name, f.business, f.phone, f.email, f.website, f.industry, f.plan, f.message, now(),
+      );
+      return q('SELECT * FROM inquiries WHERE id = ?').get(id);
+    },
+    inquiries: () => q('SELECT * FROM inquiries ORDER BY created_at DESC LIMIT 500').all(),
+    updateInquiry: (id, status) => q('UPDATE inquiries SET status = ? WHERE id = ?').run(status, id).changes > 0,
+    deleteInquiry: (id) => q('DELETE FROM inquiries WHERE id = ?').run(id).changes > 0,
 
     // ---------- usage ----------
     usage: (businessId, m = month()) =>

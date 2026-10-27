@@ -10,6 +10,7 @@ const { openDb, DEFAULT_SETTINGS } = require('./lib/db');
 const auth = require('./lib/auth');
 const kn = require('./lib/knowledge');
 const { createAI } = require('./lib/ai');
+const { PLANS, planOf } = require('./lib/plans');
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const MIME = {
@@ -142,6 +143,32 @@ function createApp(opts = {}) {
   const crawls = new Map(); // businessId -> { running, pages, url, error, finishedAt }
   const ipLimit = auth.createLimiter(Number(process.env.CHAT_PER_MINUTE) || 20, 60_000);
   const bizLimit = auth.createLimiter(240, 60_000);
+  const contactLimit = auth.createLimiter(5, 3600_000);
+  const landingBotKey = opts.landingBotKey ?? process.env.LANDING_BOT_KEY ?? '';
+  const contactWhatsapp = (opts.contactWhatsapp ?? process.env.CONTACT_WHATSAPP ?? '').replace(/[^\d]/g, '');
+  const notifyWebhook = opts.notifyWebhook ?? process.env.NOTIFY_WEBHOOK_URL ?? '';
+
+  // Optional: post new demo requests to a Slack/Discord/n8n webhook.
+  function notify(text) {
+    if (!notifyWebhook) return;
+    fetch(notifyWebhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text, content: text }), signal: AbortSignal.timeout(8000) })
+      .catch((err) => console.error('Notify webhook failed:', err.message));
+  }
+
+  // The landing page, with the live demo assistant and contact details filled in.
+  function serveLanding(req, res) {
+    fs.readFile(path.join(PUBLIC_DIR, 'landing.html'), 'utf8', (err, html) => {
+      if (err) return send(res, 500, { error: 'Landing page missing' });
+      const config = { demo: Boolean(landingBotKey), whatsapp: contactWhatsapp };
+      const inject = `<script>window.LANDING=${JSON.stringify(config).replace(/</g, '\\u003c')}</script>` +
+        (landingBotKey ? `<script src="/widget.js" data-key="${landingBotKey.replace(/[^\w-]/g, '')}" async></script>` : '');
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
+      const base = baseUrl(req);
+      res.end(html.replace('<!--LANDING_CONFIG-->', inject)
+        .replace('<link rel="canonical" href="/">', `<link rel="canonical" href="${base}/"><meta property="og:url" content="${base}/">`)
+        .replace('content="/og.png"', `content="${base}/og.png"`));
+    });
+  }
 
   // ---------- admin account ----------
   if (opts.adminEmail && opts.adminPassword) {
@@ -264,6 +291,7 @@ function createApp(opts = {}) {
     voiceName: b.settings.voiceName,
     voiceRate: b.settings.voiceRate,
     suggestions: b.settings.suggestions,
+    branding: planOf(b.plan).branding,
   });
 
   async function publicChat(req, res) {
@@ -442,6 +470,26 @@ function createApp(opts = {}) {
 
     if (m !== 'GET' && m !== 'HEAD' && !sameOrigin(req)) return send(res, 403, { error: 'Forbidden' });
 
+    // Landing page and its assets are public. Panel scripts and styles hold no secrets, so
+    // all static assets are public too; only the panel pages and the API need a sign-in.
+    if ((p === '/' || p === '/index.html') && (m === 'GET' || m === 'HEAD')) return serveLanding(req, res);
+    if ((m === 'GET' || m === 'HEAD') && /\.(css|js|svg|png|jpe?g|webp|ico|woff2?|txt|xml)$/i.test(p) && !p.startsWith('/api/')) return serveStatic(res, p.slice(1));
+    if (p === '/api/contact' && m === 'POST') {
+      const body = await readBody(req, 32 * 1024);
+      if (str(body.company_url, 200)) return send(res, 200, { ok: true }); // honeypot: bots fill hidden fields
+      const f = {
+        name: str(body.name, 120), business: str(body.business, 160), phone: str(body.phone, 40), email: str(body.email, 200).toLowerCase(),
+        website: cleanWebsite(body.website), industry: str(body.industry, 80), plan: PLANS[body.plan] ? body.plan : '', message: str(body.message, 2000),
+      };
+      if (!f.name || !f.business) return send(res, 400, { error: 'Please add your name and business name.' });
+      if (!f.phone && !isEmail(f.email)) return send(res, 400, { error: 'Please add a phone number or a valid email so we can reach you.' });
+      if (f.email && !isEmail(f.email)) return send(res, 400, { error: 'That email address doesn\'t look right.' });
+      if (!contactLimit(auth.clientIp(req))) return send(res, 429, { error: 'Thanks! We already have your request. We\'ll be in touch soon.' });
+      db.createInquiry(f);
+      notify(`New demo request: ${f.name} (${f.business})${f.phone ? `, ${f.phone}` : ''}${f.email ? `, ${f.email}` : ''}${f.website ? `, ${f.website}` : ''}${f.plan ? `, plan: ${PLANS[f.plan].name}` : ''}`);
+      return send(res, 201, { ok: true });
+    }
+
     if (p === '/api/login' && m === 'POST') {
       const ip = auth.clientIp(req);
       if (sessions.blocked(ip)) return send(res, 429, { error: 'Too many attempts. Please wait 15 minutes and try again.' });
@@ -456,10 +504,14 @@ function createApp(opts = {}) {
       sessions.succeeded(ip);
       return send(res, 200, { role: user.role, redirect: user.role === 'admin' ? '/admin' : '/app' }, { 'Set-Cookie': sessions.issue(req, user, Boolean(body.remember)) });
     }
+    if (p === '/api/session' && m === 'GET') {
+      const u = sessions.read(req, db.userById);
+      return send(res, 200, { signedIn: Boolean(u), role: u?.role || null });
+    }
     if (p === '/api/logout' && m === 'POST') return send(res, 204, undefined, { 'Set-Cookie': sessions.clear(req) });
 
     const user = sessions.read(req, db.userById);
-    const publicPage = ['/login', '/styles.css', '/login.js', '/common.js', '/favicon.svg'].includes(p);
+    const publicPage = p === '/login';
     if (!user && !publicPage) {
       if (p.startsWith('/api/')) return send(res, 401, { error: 'Please sign in' });
       return redirect(res, '/login' + (p === '/' ? '' : `?next=${encodeURIComponent(p + url.search)}`));
@@ -467,7 +519,6 @@ function createApp(opts = {}) {
 
     if (!p.startsWith('/api/')) {
       if (m !== 'GET' && m !== 'HEAD') return send(res, 405, { error: 'Method not allowed' });
-      if (p === '/') return redirect(res, user.role === 'admin' ? '/admin' : '/app');
       if (p === '/login') return user ? redirect(res, user.role === 'admin' ? '/admin' : '/app') : serveStatic(res, 'login.html');
       if (p === '/admin') return user.role === 'admin' ? serveStatic(res, 'admin.html') : redirect(res, '/app');
       if (p === '/app') return serveStatic(res, 'app.html');
@@ -495,9 +546,17 @@ function createApp(opts = {}) {
         return send(res, 200, db.businesses().map((b) => ({
           id: b.id, name: b.name, website: b.website, status: b.status, monthlyLimit: b.monthly_limit, notes: b.notes,
           createdAt: b.created_at, conversations: b.conversations, leads: b.leads, sources: b.sources,
-          messagesThisMonth: b.messages_this_month, ownerEmail: b.owner_email, botKey: b.bot_key, embed: embedCode(req, b),
+          messagesThisMonth: b.messages_this_month, ownerEmail: b.owner_email, botKey: b.bot_key, embed: embedCode(req, b), plan: b.plan,
         })));
       }
+      if (parts[0] === 'plans' && m === 'GET') return send(res, 200, PLANS);
+      if (parts[0] === 'inquiries' && !parts[1] && m === 'GET') return send(res, 200, db.inquiries());
+      if (parts[0] === 'inquiries' && parts[1] && m === 'PUT') {
+        const body = await readBody(req, 16 * 1024);
+        const status = ['new', 'contacted', 'won', 'lost'].includes(body.status) ? body.status : 'new';
+        return db.updateInquiry(parts[1], status) ? send(res, 200, { ok: true }) : send(res, 404, { error: 'Not found' });
+      }
+      if (parts[0] === 'inquiries' && parts[1] && m === 'DELETE') return db.deleteInquiry(parts[1]) ? send(res, 204) : send(res, 404, { error: 'Not found' });
       if (parts[0] === 'businesses' && !parts[1] && m === 'POST') {
         const body = await readBody(req, 64 * 1024);
         const name = str(body.name, 120);
@@ -508,14 +567,16 @@ function createApp(opts = {}) {
         const website = cleanWebsite(body.website);
         const password = str(body.ownerPassword, 200) || auth.randomPassword();
         if (password.length < 8) return send(res, 400, { error: 'Use at least 8 characters for the password.' });
+        const plan = PLANS[body.plan] ? body.plan : 'starter';
+        const limit = body.monthlyLimit !== undefined && body.monthlyLimit !== '' ? Number(body.monthlyLimit) : planOf(plan).messages;
         const b = db.createBusiness({
-          name, website, monthlyLimit: Math.max(0, Number(body.monthlyLimit) || 2000), notes: str(body.notes, 2000),
+          name, website, plan, monthlyLimit: Math.max(0, Number.isFinite(limit) ? limit : 1000), notes: str(body.notes, 2000),
           settings: { botName: str(body.botName, 60) || `${name} Assistant`, greeting: `Hi! Welcome to ${name}. How can I help you today?` },
         });
         db.createUser({ email: ownerEmail, name: str(body.ownerName, 120), passwordHash: auth.hashPassword(password), role: 'owner', businessId: b.id });
         let crawl = null;
         if (website && body.readWebsite !== false) {
-          try { crawl = startCrawl(b.id, website, 30).running; } catch (err) { crawl = err.message; }
+          try { crawl = startCrawl(b.id, website, planOf(plan).pages).running; } catch (err) { crawl = err.message; }
         }
         return send(res, 201, { id: b.id, ownerEmail, password, embed: embedCode(req, b), readingWebsite: Boolean(crawl) });
       }
@@ -530,6 +591,11 @@ function createApp(opts = {}) {
         if ('status' in body) fields.status = ['active', 'paused', 'suspended'].includes(body.status) ? body.status : b.status;
         if ('monthlyLimit' in body) fields.monthlyLimit = Math.max(0, Number(body.monthlyLimit) || 0);
         if ('notes' in body) fields.notes = str(body.notes, 2000);
+        if ('plan' in body && PLANS[body.plan]) {
+          fields.plan = body.plan;
+          // Changing plan sets its message limit unless a limit is given too.
+          if (!('monthlyLimit' in body) && PLANS[body.plan].messages) fields.monthlyLimit = PLANS[body.plan].messages;
+        }
         if ('ownerEmail' in body) {
           const email = str(body.ownerEmail, 200).toLowerCase();
           const owner = db.ownersOf(b.id)[0];
@@ -568,6 +634,7 @@ function createApp(opts = {}) {
       if (!a0 && m === 'GET') {
         return send(res, 200, {
           id: b.id, name: b.name, website: b.website, status: b.status, monthlyLimit: b.monthly_limit, settings: b.settings,
+          plan: { key: b.plan, ...planOf(b.plan) },
           botKey: b.bot_key, embed: embedCode(req, b), demoUrl: `${baseUrl(req)}/demo/${b.bot_key}`, stats: db.stats(b.id),
           crawl: crawls.get(b.id) ? { ...crawls.get(b.id), done: undefined } : null, viewer: user.role,
         });
@@ -607,7 +674,7 @@ function createApp(opts = {}) {
         const target = str(body.url, 500) || b.website;
         if (!target) return send(res, 400, { error: 'Enter the website address.' });
         try { await kn.assertPublicUrl(/^https?:\/\//i.test(target) ? target : `https://${target}`, allowPrivateUrls); } catch (err) { return send(res, 400, { error: err.message }); }
-        const state = startCrawl(b.id, target, Math.min(100, Math.max(1, Number(body.maxPages) || 30)));
+        const state = startCrawl(b.id, target, Math.min(planOf(b.plan).pages, Math.max(1, Number(body.maxPages) || 30)));
         if (!b.website) db.updateBusiness(b.id, { website: cleanWebsite(target) });
         return send(res, 202, { ...state, done: undefined });
       }
