@@ -285,7 +285,10 @@
     var rungs = [];
     dna.forEach(function (d) { d.items.forEach(function (name) { rungs.push({ domain: d.key, dname: d.name, color: d.color, name: name }); }); });
     var W = 720, H = 700, CX = 360, A = 128, TOP = 46, STEP = (H - 2 * TOP) / (rungs.length - 1);
-    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var narrow = window.matchMedia("(max-width: 640px)");
+    function setBox() { svg.setAttribute("viewBox", narrow.matches ? "190 20 340 660" : "0 0 " + W + " " + H); }
+    setBox();
+    if (narrow.addEventListener) narrow.addEventListener("change", setBox);
     var mk = function (tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); (parent || svg).appendChild(e); return e; };
     var defs = mk("defs", {});
     var grad = mk("linearGradient", { id: "hx-g", x1: "0", y1: "0", x2: "0", y2: "1" }, defs);

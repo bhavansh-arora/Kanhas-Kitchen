@@ -78,7 +78,7 @@ for (const f of files) {
   ].join("\n");
   out = fill(out, vars);
   // Keep ™ small inside display headings
-  out = out.replace(/<(h[1-3]|p class="statement")([^>]*)>([\s\S]*?)<\/(h[1-3]|p)>/g, (m) => m.replace(/™/g, '<sup class="tm">™</sup>'));
+  out = out.replace(/<(h[1-3]|p class="statement")([^>]*)>([\s\S]*?)<\/(h[1-3]|p)>/g, (m) => m.replace(/([^\s>]+)™/g, '<span class="nowrap">$1<sup class="tm">™</sup></span>'));
   writeFileSync(join(root, f), out);
   console.log("built", f);
 }

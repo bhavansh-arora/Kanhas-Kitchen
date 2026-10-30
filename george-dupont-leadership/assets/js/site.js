@@ -311,6 +311,34 @@
     run();
   }
 
+  /* ---------- equal title heights per visual row ---------- */
+  var EQ = [[".cards", ".card__t"], [".nn-grid", ".nn__t"], [".kn-grid", ".kn__t"], [".kn-grid", ".kn__sub"], [".trio", "h3"]];
+  function equalize() {
+    EQ.forEach(function (pair) {
+      $$(pair[0]).forEach(function (grid) {
+        var items = $$(pair[1], grid);
+        items.forEach(function (el) { el.style.minHeight = ""; });
+        var rows = {};
+        items.forEach(function (el) {
+          var cell = el; while (cell.parentElement !== grid) cell = cell.parentElement;
+          var key = Math.round(cell.getBoundingClientRect().top);
+          (rows[key] = rows[key] || []).push(el);
+        });
+        Object.keys(rows).forEach(function (k) {
+          var row = rows[k];
+          if (row.length < 2) return;
+          var max = Math.max.apply(null, row.map(function (el) { return el.getBoundingClientRect().height; }));
+          row.forEach(function (el) { el.style.minHeight = max + "px"; });
+        });
+      });
+    });
+  }
+  var eqT;
+  window.addEventListener("resize", function () { clearTimeout(eqT); eqT = setTimeout(equalize, 120); });
+  window.addEventListener("load", equalize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(equalize);
+  equalize();
+
   /* ---------- Dynasty Scorecard ---------- */
   var scWrap = $("[data-scorecard]");
   if (scWrap) {
