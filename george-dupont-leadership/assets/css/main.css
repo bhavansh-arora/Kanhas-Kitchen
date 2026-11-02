@@ -1252,3 +1252,9 @@ sup.tm { font-family: var(--f-body); font-style: normal; font-weight: 500; font-
 }
 .talk__for { transition: color .4s, opacity .3s; }
 .talk.is-covered .talk__for { opacity: 0; }
+/* podcast art: portrait card, title on top, George below it (face never covered) */
+.pod__art { aspect-ratio: 4 / 5; container-type: inline-size; }
+.pod__art .pod__title { left: 7cqw; right: 7cqw; top: 7cqw; gap: 12px; }
+.pod__art .pod__title b { font-size: 10cqw; line-height: .84; }
+.pod__art > img.fig { height: calc(86cqw - 24px); right: 1cqw; bottom: 0; }
+.pod__art .pod__live { left: 7cqw; bottom: 7cqw; }
