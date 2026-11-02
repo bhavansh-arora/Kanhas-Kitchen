@@ -268,22 +268,77 @@
   function initFloatList() {
     $$("[data-float-list]").forEach(function (list) {
       var box = document.createElement("div"); box.className = "float-img"; box.setAttribute("aria-hidden", "true");
-      var img = document.createElement("img"); img.alt = ""; box.appendChild(img); document.body.appendChild(box);
-      var x = gsap.quickTo(box, "x", { duration: 0.6, ease: "power3" }), y = gsap.quickTo(box, "y", { duration: 0.6, ease: "power3" });
+      var img = document.createElement("img"); img.alt = ""; img.decoding = "async"; box.appendChild(img); document.body.appendChild(box);
+      var qx = gsap.quickTo(box, "x", { duration: 0.55, ease: "power3" }), qy = gsap.quickTo(box, "y", { duration: 0.55, ease: "power3" });
       var rot = gsap.quickTo(box, "rotate", { duration: 0.8, ease: "power3" });
-      var lastX = 0;
+      var shown = false, cur = null, mx = 0, my = 0, lastX = 0, placed = false;
+      var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+
+      // Keep the photo beside the hovered title (never over it) and fully on screen.
+      function place(row, snap) {
+        var W = box.offsetWidth, H = box.offsetHeight;
+        var title = row.querySelector(".talk__t"), tag = row.querySelector(".talk__for");
+        // measure the words themselves, not their (full-width) block boxes
+        var textRight = 0, rg = document.createRange();
+        var walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) {
+          if (!walker.currentNode.textContent.trim()) continue;
+          rg.selectNodeContents(walker.currentNode);
+          [].forEach.call(rg.getClientRects(), function (r) { textRight = Math.max(textRight, r.right); });
+        }
+        var tr = tag ? tag.getBoundingClientRect() : { left: window.innerWidth, right: window.innerWidth };
+        // fit the photo into the gap between the title and the audience label
+        var room = tr.left - textRight - 80;
+        var Wt = room >= 240 ? 240 : room >= 160 ? Math.floor(room) : 240;
+        if (Wt !== W) { box.style.width = Wt + "px"; W = Wt; H = box.offsetHeight; }
+        var covered = room < 160;
+        $$(".talk.is-covered", list).forEach(function (r) { if (r !== row || !covered) r.classList.remove("is-covered"); });
+        var x;
+        if (!covered) x = clamp(mx + 40, textRight + 40, tr.left - W - 40);
+        else { x = tr.right - W; row.classList.add("is-covered"); } // no gap: sit over the label and fade it out
+        x = clamp(x, 16, window.innerWidth - W - 16);
+        var hdr = document.querySelector("[data-hdr]");
+        var top = hdr && !hdr.classList.contains("is-hidden") ? hdr.getBoundingClientRect().bottom + 16 : 16;
+        var y = clamp(my - H / 2, top, window.innerHeight - H - 16);
+        if (snap || !placed) { qx(x, x); qy(y, y); placed = true; }
+        else { qx(x); qy(y); }
+      }
+      function show(row) {
+        if (cur !== row) { cur = row; img.src = row.getAttribute("data-img"); }
+        if (!shown) { shown = true; place(row, true); gsap.to(box, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out", overwrite: "auto" }); }
+        else place(row);
+      }
+      function hide() {
+        if (!shown) return;
+        shown = false; cur = null; placed = false;
+        $$(".talk.is-covered", list).forEach(function (r) { r.classList.remove("is-covered"); });
+        gsap.to(box, { opacity: 0, scale: 0.7, duration: 0.3, ease: "power2.in", overwrite: "auto" });
+      }
+      function rowAtPointer() {
+        var el = document.elementFromPoint(mx, my);
+        var row = el && el.closest ? el.closest("[data-img]") : null;
+        return row && list.contains(row) ? row : null;
+      }
+
       list.addEventListener("mousemove", function (e) {
-        x(e.clientX + 32); y(e.clientY - 160); rot(Math.max(-8, Math.min(8, (e.clientX - lastX) * 0.6))); lastX = e.clientX;
+        mx = e.clientX; my = e.clientY;
+        var row = e.target.closest("[data-img]");
+        if (row && list.contains(row)) show(row); else hide();
+        rot(clamp((e.clientX - lastX) * 0.5, -6, 6)); lastX = e.clientX;
       });
-      $$("[data-img]", list).forEach(function (row) {
-        row.addEventListener("mouseenter", function () {
-          img.src = row.getAttribute("data-img");
-          gsap.to(box, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" });
-        });
-      });
-      list.addEventListener("mouseleave", function () { gsap.to(box, { opacity: 0, scale: 0.6, duration: 0.4, ease: "power3.in" }); });
+      list.addEventListener("mouseleave", hide);
+      // Scrolling moves the rows under a still pointer: re-check, so the photo
+      // never travels with the page into other sections.
+      window.addEventListener("scroll", function () {
+        if (!shown) return;
+        var row = rowAtPointer();
+        if (row) show(row); else hide();
+      }, { passive: true });
+      window.addEventListener("blur", hide);
+      document.addEventListener("mouseleave", hide);
     });
   }
+
 
   /* ---------- DNA helix ---------- */
   function initHelix() {
