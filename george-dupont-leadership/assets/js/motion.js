@@ -7,6 +7,7 @@
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var loader = $(".loader");
   var CFG = window.GDL || {};
+  var CLEAR = "transform,translate,rotate,scale,opacity";
 
   // Helix and embers draw without GSAP, so set them up first.
   initHelix();
@@ -23,7 +24,7 @@
 
   /* ---------- smooth scroll ---------- */
   if (!reduced && window.Lenis) {
-    var lenis = new window.Lenis({ lerp: 0.105, wheelMultiplier: 1, smoothWheel: true });
+    var lenis = new window.Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true });
     window.__lenis = lenis;
     lenis.on("scroll", ST.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
@@ -146,16 +147,16 @@
     $$("[data-split]").forEach(function (h) {
       if (h.__done) return;
       var words = splitWords(h);
-      gsap.from(words, { yPercent: 110, duration: 1.2, ease: "expo.out", stagger: 0.03, scrollTrigger: { trigger: h, start: "top 88%" } });
+      gsap.from(words, { yPercent: 110, duration: 1.2, ease: "expo.out", stagger: 0.03, clearProps: CLEAR, scrollTrigger: { trigger: h, start: "top 88%", once: true } });
     });
 
     $$("[data-reveal]").forEach(function (el) {
       if (el.__done) return;
-      gsap.from(el, { y: 44, opacity: 0, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" } });
+      gsap.from(el, { y: 44, opacity: 0, duration: 1.2, ease: "expo.out", clearProps: CLEAR, scrollTrigger: { trigger: el, start: "top 92%", once: true } });
     });
 
     $$("[data-stagger]").forEach(function (el) {
-      gsap.from(el.children, { y: 40, opacity: 0, duration: 1.1, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: el, start: "top 86%" } });
+      gsap.from(el.children, { y: 40, opacity: 0, duration: 1.1, ease: "expo.out", stagger: 0.08, clearProps: CLEAR, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
     });
 
     $$("[data-count]").forEach(function (el) {
@@ -171,9 +172,6 @@
       gsap.fromTo(img, { yPercent: -8 }, { yPercent: 6, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
     });
 
-    $$("[data-panel]").forEach(function (p) {
-      gsap.fromTo(p, { scale: 0.955, y: 40 }, { scale: 1, y: 0, ease: "none", scrollTrigger: { trigger: p, start: "top bottom", end: "top 35%", scrub: true } });
-    });
 
     $$("[data-highlight]").forEach(function (el) {
       var words = splitWords(el).map(function (w) { return w.parentNode; });
@@ -200,6 +198,14 @@
     initMarquee();
     if (fine) { initCursor(); initMagnetic(); initFloatList(); }
     window.addEventListener("load", function () { ST.refresh(); });
+    if ("ResizeObserver" in window) {
+      var rt, lastH = document.body.scrollHeight;
+      new ResizeObserver(function () {
+        var h = document.body.scrollHeight;
+        if (Math.abs(h - lastH) < 2) return;
+        lastH = h; clearTimeout(rt); rt = setTimeout(function () { ST.refresh(); }, 150);
+      }).observe(document.body);
+    }
   }
 
   /* ---------- marquee ---------- */
@@ -212,14 +218,17 @@
       for (var i = 0; i < copies; i++) track.appendChild(group.cloneNode(true));
       var dir = m.hasAttribute("data-reverse") ? 1 : -1;
       var tween = gsap.fromTo(track, { x: dir < 0 ? 0 : -w }, { x: dir < 0 ? -w : 0, duration: w / 70, ease: "none", repeat: -1 });
-      var speed = { v: 1 };
-      ST.create({
+      var cur = 1, boost = 1, onScreen = true;
+      var st = ST.create({
         trigger: m, start: "top bottom", end: "bottom top",
-        onUpdate: function (self) {
-          var v = Math.min(Math.abs(self.getVelocity()) / 400, 5);
-          gsap.to(speed, { v: 1 + v, duration: 0.2, overwrite: true, onUpdate: function () { tween.timeScale(speed.v); } });
-          gsap.to(speed, { v: 1, duration: 1.2, delay: 0.2, ease: "power2.out", onUpdate: function () { tween.timeScale(speed.v); } });
-        },
+        onToggle: function (self) { onScreen = self.isActive; tween.paused(!onScreen); },
+        onUpdate: function (self) { boost = 1 + Math.min(Math.abs(self.getVelocity()) / 500, 4); },
+      });
+      gsap.ticker.add(function () {
+        if (!onScreen) return;
+        boost += (1 - boost) * 0.06;
+        cur += (boost - cur) * 0.12;
+        tween.timeScale(cur);
       });
     });
   }
@@ -297,7 +306,7 @@
     var back = mk("g", {}), mid = mk("g", {}), front = mk("g", {}), labels = mk("g", {});
     var pathA = mk("path", { fill: "none", stroke: "url(#hx-g)", "stroke-width": "2", opacity: ".9" }, back);
     var pathB = mk("path", { fill: "none", stroke: "url(#hx-g)", "stroke-width": "2", opacity: ".55" }, back);
-    var BEADS = 46;
+    var BEADS = 34;
     var beads = [];
     for (var b = 0; b < BEADS * 2; b++) beads.push(mk("circle", { r: "2", fill: "#d6aa4f" }, back));
     var R = rungs.map(function (r, i) {
@@ -388,10 +397,14 @@
         o.num.style.opacity = on ? 1 : 0.25;
       });
     }
+    var lastDraw = 0;
     function loop(now) {
       var dt = Math.min(now - last, 50) / 1000; last = now;
       speed += (target - speed) * 0.06;
-      if (visible && !reduced) { t += dt * 0.55 * speed; draw(); }
+      if (visible && !reduced) {
+        t += dt * 0.55 * speed;
+        if (now - lastDraw > 30) { lastDraw = now; draw(); } // ambient motion: ~30fps is plenty
+      }
       requestAnimationFrame(loop);
     }
     t = 0.4; draw();
@@ -403,14 +416,14 @@
     var cv = $("[data-embers]");
     if (!cv || reduced) return;
     var ctx = cv.getContext("2d");
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     var w, h, parts = [], visible = true;
     function size() {
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     size(); window.addEventListener("resize", size);
-    var N = window.innerWidth < 760 ? 26 : 60;
+    var N = window.innerWidth < 760 ? 22 : 42;
     function spawn(p, init) {
       p.x = w * (0.35 + Math.random() * 0.65);
       p.y = init ? Math.random() * h : h + 10;
@@ -423,17 +436,20 @@
     }
     for (var i = 0; i < N; i++) parts.push(spawn({}, true));
     if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(cv);
-    (function frame() {
-      if (visible) {
+    var lastF = 0;
+    (function frame(now) {
+      now = now || 0;
+      if (visible && now - lastF > 30) {
+        lastF = now;
         ctx.clearRect(0, 0, w, h);
         parts.forEach(function (p) {
-          p.life++; p.y -= p.vy; p.x += p.vx + Math.sin((p.life + p.r * 100) / 40) * 0.15;
+          p.life += 2; p.y -= p.vy * 2; p.x += p.vx * 2 + Math.sin((p.life + p.r * 100) / 40) * 0.3;
           var a = Math.sin(Math.min(p.life / p.max, 1) * Math.PI) * 0.8;
           if (p.life > p.max || p.y < -10) spawn(p);
-          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(" + p.hue + "," + (a * 0.18).toFixed(3) + ")";
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3.2, 0, Math.PI * 2); ctx.fill();
           ctx.fillStyle = "rgba(" + p.hue + "," + a.toFixed(3) + ")";
-          ctx.shadowBlur = 8; ctx.shadowColor = "rgba(" + p.hue + ",.8)";
-          ctx.fill();
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
         });
       }
       requestAnimationFrame(frame);

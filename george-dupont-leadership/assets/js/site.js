@@ -165,10 +165,6 @@
     var prev = $("[data-q-prev]", wrap), next = $("[data-q-next]", wrap);
     if (prev) prev.addEventListener("click", function () { show(cur - 1); });
     if (next) next.addEventListener("click", function () { show(cur + 1); });
-    wrap.addEventListener("mouseenter", function () { paused = true; });
-    wrap.addEventListener("mouseleave", function () { paused = false; });
-    wrap.addEventListener("focusin", function () { paused = true; });
-    wrap.addEventListener("focusout", function () { paused = false; });
     // swipe
     var sx = null;
     wrap.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
