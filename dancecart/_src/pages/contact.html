@@ -1,0 +1,119 @@
+---
+title: Contact Dance Cart | Book a call with Amy
+description: Questions about dance at your school? Call Amy on 0438 739 709, send a message or book a 15 minute call online.
+page: contact
+scripts: calendar contact
+---
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="hero__bg" aria-hidden="true"><div class="hero__grid-lines"></div><div class="blob blob--pink"></div><div class="blob blob--orange"></div></div>
+      <div class="container">
+        <nav class="page-hero__crumbs label" aria-label="Breadcrumb" data-reveal="fade"><a href="index.html">Home</a><span>/</span><span>Contact</span></nav>
+        <h1 class="page-hero__title" id="page-title" data-split><span>Let&rsquo;s talk</span><span><em>dance.</em></span></h1>
+        <div class="page-hero__row">
+          <p class="page-hero__lead" data-reveal style="--d:.3s">Whether you&rsquo;re planning next year, chasing a fete date or just curious, Amy answers every message personally.</p>
+          <div class="page-hero__aside" data-reveal style="--d:.4s">
+            <a class="btn btn--primary btn--lg" href="#call" data-magnetic><span class="btn__text" data-text="Book a call">Book a call</span><span class="btn__icon"><svg class="i"><use href="#i-calendar"/></svg></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper-2" aria-label="Send a message" style="padding-top:clamp(64px,8vw,112px)">
+      <div class="container contact">
+        <div class="contact__form panel" data-contact data-reveal>
+          <div class="form-fields">
+            <p class="label"><span class="label__num">(01)</span><span class="label__line"></span>Send a message</p>
+            <h2 class="panel__title" style="margin-top:16px">What can we help with?</h2>
+            <form class="panel__body" novalidate data-contact-form>
+              <div class="field"><span class="field__label">I&rsquo;m asking about</span>
+                <div class="choice-row">
+                  <label class="choice"><input type="radio" name="topic" value="Online program" checked><span>Online program</span></label>
+                  <label class="choice"><input type="radio" name="topic" value="In-school term"><span>In-school term</span></label>
+                  <label class="choice"><input type="radio" name="topic" value="Fete or graduation"><span>Fete or graduation</span></label>
+                  <label class="choice"><input type="radio" name="topic" value="Grants"><span>Grants &amp; pricing</span></label>
+                  <label class="choice"><input type="radio" name="topic" value="Other"><span>Something else</span></label>
+                </div>
+              </div>
+              <div class="form-grid" style="margin-top:24px">
+                <div class="field"><label for="c-name">Your name</label><input class="input" id="c-name" name="name" autocomplete="name" required><span class="field__error">Please enter your name.</span></div>
+                <div class="field"><label for="c-school">School</label><input class="input" id="c-school" name="school" autocomplete="organization"></div>
+                <div class="field"><label for="c-email">Email</label><input class="input" id="c-email" name="email" type="email" autocomplete="email" required><span class="field__error">Please enter a valid email.</span></div>
+                <div class="field"><label for="c-phone">Phone</label><input class="input" id="c-phone" name="phone" type="tel" autocomplete="tel"></div>
+                <div class="field span-2"><label for="c-msg">Message</label><textarea class="textarea" id="c-msg" name="message" required placeholder="Tell us about your school and what you have in mind"></textarea><span class="field__error">Please add a short message.</span></div>
+              </div>
+              <div class="enrol__nav">
+                <p class="small muted">We reply within two school days.</p>
+                <button class="btn btn--primary" type="submit"><span class="btn__text" data-text="Send message">Send message</span><span class="btn__icon"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+              </div>
+            </form>
+          </div>
+          <div class="form-success">
+            <div class="done__icon"><svg class="i"><use href="#i-check"/></svg></div>
+            <h2 class="panel__title">Message sent!</h2>
+            <p class="panel__sub" style="margin:12px auto 0">Thanks for reaching out. Amy will be in touch soon.</p>
+          </div>
+        </div>
+
+        <aside class="contact__aside">
+          <a class="ccard ccard--ink" href="tel:+61438739709" data-reveal>
+            <span class="ccard__icon"><svg class="i"><use href="#i-phone"/></svg></span>
+            <span class="label" style="color:var(--muted-light)">Call Amy</span>
+            <span class="ccard__big">0438 739 709</span>
+          </a>
+          <a class="ccard" href="mailto:amy@dancecart.com.au" data-reveal style="--d:.08s">
+            <span class="ccard__icon"><svg class="i"><use href="#i-mail"/></svg></span>
+            <span class="label muted">Email</span>
+            <span class="ccard__big">amy@dancecart.com.au</span>
+          </a>
+          <div class="ccard ccard--sun" data-reveal style="--d:.16s">
+            <span class="ccard__icon"><svg class="i"><use href="#i-pin"/></svg></span>
+            <span class="label">Based in</span>
+            <span class="ccard__big">Brisbane, teaching Australia-wide</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section--ink section--round" id="call" aria-labelledby="call-title">
+      <div class="container booker">
+        <div class="booker__info">
+          <p class="label" data-reveal><span class="label__num">(02)</span><span class="label__line"></span>Book a call</p>
+          <h2 class="h2" id="call-title" data-split><span>15 minutes.</span><span><em>Zero pressure.</em></span></h2>
+          <p class="lead muted" data-reveal>Pick a time that suits you and Amy will call. Perfect for planning next year or talking through options for your school.</p>
+          <div class="booker__pick" data-reveal aria-live="polite">
+            <p class="label" style="color:var(--muted-light)">Your call</p>
+            <p class="booker__pick-date" data-call-out>Choose a day and time</p>
+            <div class="form-grid" data-call-fields style="display:none">
+              <div class="field"><label for="b-name" style="color:var(--paper)">Name</label><input class="input" id="b-name" autocomplete="name"></div>
+              <div class="field"><label for="b-phone" style="color:var(--paper)">Phone</label><input class="input" id="b-phone" type="tel" autocomplete="tel"></div>
+            </div>
+            <button class="btn btn--primary is-disabled" type="button" data-call-book><span class="btn__text" data-text="Confirm call">Confirm call</span><span class="btn__icon"><svg class="i"><use href="#i-check"/></svg></span></button>
+          </div>
+        </div>
+        <div class="booker__cal" data-reveal="scale">
+          <div class="cal">
+            <div data-call-cal></div>
+            <div class="slots" data-call-slots></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resources" aria-labelledby="res-title">
+      <div class="container">
+        <div class="callout" data-reveal>
+          <span class="callout__icon"><svg class="i"><use href="#i-download"/></svg></span>
+          <div>
+            <p class="callout__title" id="res-title">Free classroom dance resources</p>
+            <p>Join the Dance Cart community and we&rsquo;ll send awesome dance resources for your classroom straight to your inbox.</p>
+          </div>
+          <form class="signup" data-signup style="margin:0;min-width:min(380px,100%)">
+            <label class="signup__label sr-only" for="res-email">Your email</label>
+            <div class="signup__row">
+              <input id="res-email" type="email" name="email" placeholder="you@school.edu.au" autocomplete="email" required>
+              <button class="signup__btn" type="submit" aria-label="Sign up"><svg class="i"><use href="#i-arrow"/></svg></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>

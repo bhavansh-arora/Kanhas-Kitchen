@@ -1,0 +1,52 @@
+  <header class="header" data-header>
+    <div class="header__inner">
+      <a class="brand" href="index.html" aria-label="Dance Cart home">
+        <img class="brand__mark" src="assets/img/dc-mark.png" alt="" width="44" height="44">
+        <span class="brand__word">Dance<span>Cart</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Main">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="programs.html" data-nav="programs">Programs</a></li>
+          <li><a class="nav__link" href="online-foundation.html" data-nav="online-foundation">Online program</a></li>
+          <li><a class="nav__link" href="events.html" data-nav="events">Fete &amp; graduation</a></li>
+          <li><a class="nav__link" href="about.html" data-nav="about">About</a></li>
+          <li><a class="nav__link" href="contact.html" data-nav="contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <a class="header__login" href="https://www.dancecart.com.au/online-courses/">Teacher login</a>
+        <button class="cart-btn" type="button" data-cart-open aria-label="Open your enrolment cart">
+          <svg class="i"><use href="#i-cart"/></svg>
+          <span class="cart-btn__count" data-cart-count>0</span>
+        </button>
+        <a class="btn btn--primary btn--sm header__cta" href="enrol.html" data-magnetic><span class="btn__text" data-text="Enrol now">Enrol now</span></a>
+        <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="menu__bg"></div>
+    <nav class="menu__inner" aria-label="Mobile">
+      <ul class="menu__list">
+        <li><a href="index.html" data-nav="home"><span class="menu__num">01</span>Home</a></li>
+        <li><a href="programs.html" data-nav="programs"><span class="menu__num">02</span>Programs</a></li>
+        <li><a href="online-foundation.html" data-nav="online-foundation"><span class="menu__num">03</span>Online program</a></li>
+        <li><a href="events.html" data-nav="events"><span class="menu__num">04</span>Fete &amp; grad</a></li>
+        <li><a href="about.html" data-nav="about"><span class="menu__num">05</span>About</a></li>
+        <li><a href="contact.html" data-nav="contact"><span class="menu__num">06</span>Contact</a></li>
+      </ul>
+      <div class="menu__foot">
+        <a class="btn btn--primary" href="enrol.html"><span class="btn__text" data-text="Enrol your school">Enrol your school</span><span class="btn__icon"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <div class="menu__contact">
+          <a href="tel:+61438739709">0438 739 709</a>
+          <a href="mailto:amy@dancecart.com.au">amy@dancecart.com.au</a>
+          <a href="https://www.dancecart.com.au/online-courses/">Teacher login</a>
+        </div>
+      </div>
+    </nav>
+  </div>

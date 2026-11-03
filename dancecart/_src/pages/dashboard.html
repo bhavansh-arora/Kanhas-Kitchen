@@ -1,0 +1,46 @@
+---
+title: Admin preview | Dance Cart
+description: A preview of the Dance Cart admin view: enrolments, payments, invoices and Zoom inductions in one place.
+page: dashboard
+robots: noindex, nofollow
+bodyClass: dash
+scripts: dashboard
+footer: none
+---
+    <div class="dash__top">
+      <div class="dash__banner"><svg class="i" style="color:var(--sun)"><use href="#i-spark"/></svg><span><strong>Admin preview.</strong> This is the back-office view Amy sees when schools enrol. Sample data plus anything you enrol in this browser.</span><a href="enrol.html">Try an enrolment</a></div>
+    </div>
+    <div class="container" style="padding-top:40px">
+      <div class="dash__head">
+        <div>
+          <p class="label"><span class="label__dot"></span>Live &middot; <span data-today></span></p>
+          <h1 class="h2">Good morning, <em>Amy.</em></h1>
+        </div>
+        <div class="row">
+          <button class="btn btn--ghost btn--sm" type="button" data-reset-demo><span class="btn__text" data-text="Reset demo">Reset demo</span></button>
+          <button class="btn btn--dark btn--sm" type="button" data-export><span class="btn__text" data-text="Export CSV">Export CSV</span></button>
+        </div>
+      </div>
+
+      <div class="kpis" data-kpis></div>
+
+      <div class="dash__grid">
+        <section class="dcard dcard--8" aria-labelledby="t-enrol">
+          <div class="dcard__head"><h2 class="dcard__title" id="t-enrol">Recent enrolments</h2><div class="filters__group" role="group" aria-label="Filter by status" data-status-filter></div></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>Ref</th><th>School</th><th>Programs</th><th>Payment</th><th>Total</th><th>Date</th></tr></thead><tbody data-rows></tbody></table></div>
+        </section>
+        <section class="dcard dcard--4" aria-labelledby="t-ind">
+          <div class="dcard__head"><h2 class="dcard__title" id="t-ind">Upcoming inductions</h2><span class="chip">Zoom</span></div>
+          <ul class="upcoming" data-upcoming></ul>
+        </section>
+        <section class="dcard dcard--8" aria-labelledby="t-rev">
+          <div class="dcard__head"><h2 class="dcard__title" id="t-rev">Revenue by month</h2><span class="small muted">AUD, last 12 months</span></div>
+          <div class="chart" data-chart></div>
+        </section>
+        <section class="dcard dcard--4" aria-labelledby="t-band">
+          <div class="dcard__head"><h2 class="dcard__title" id="t-band">Enrolments by band</h2></div>
+          <div class="bars" data-bands></div>
+          <p class="small muted" style="margin-top:20px">Whole-school enrolments count towards every band.</p>
+        </section>
+      </div>
+    </div>

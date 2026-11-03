@@ -1,0 +1,101 @@
+---
+title: Program catalogue | Dance Cart school dance programs
+description: Browse every Dance Cart program in one place. Filter by year level and format, compare prices and enrol your school online in minutes.
+page: programs
+scripts: catalogue
+---
+    <section class="page-hero" aria-labelledby="page-title">
+      <div class="hero__bg" aria-hidden="true"><div class="hero__grid-lines"></div><div class="blob blob--pink"></div><div class="blob blob--orange"></div></div>
+      <div class="container">
+        <nav class="page-hero__crumbs label" aria-label="Breadcrumb" data-reveal="fade"><a href="index.html">Home</a><span>/</span><span>Programs</span></nav>
+        <h1 class="page-hero__title" id="page-title" data-split><span>The program</span><span><em>catalogue.</em></span></h1>
+        <div class="page-hero__row">
+          <p class="page-hero__lead" data-reveal style="--d:.3s">Every Dance Cart program in one place. Filter by year level and format, see the price up front and add to your enrolment. No email chains, no waiting for a reply.</p>
+          <div class="page-hero__aside" data-reveal style="--d:.4s">
+            <span class="chip chip--glass"><svg class="i"><use href="#i-check"/></svg>Curriculum aligned</span>
+            <span class="chip chip--glass"><svg class="i"><use href="#i-card"/></svg>Card, invoice or PO</span>
+            <span class="chip chip--sun"><svg class="i"><use href="#i-spark"/></svg>Small-school grants</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight" aria-label="All programs" style="padding-top:clamp(48px,6vw,80px)">
+      <div class="container">
+        <div class="filters" data-reveal="fade">
+          <div class="filters__bar">
+            <div class="filters__group" role="group" aria-label="Year level" data-filter="band"></div>
+            <div class="filters__group" role="group" aria-label="Format" data-filter="mode"></div>
+            <label class="filters__search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Search programs</span><input type="search" placeholder="Search programs" data-search></label>
+          </div>
+        </div>
+        <div class="filters__meta">
+          <p class="filters__count" data-count-out aria-live="polite">Showing 9 programs</p>
+          <label class="filters__sort">Sort by
+            <select data-sort>
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="name">Name</option>
+            </select>
+          </label>
+        </div>
+        <div class="cat-grid" data-catalogue style="margin-top:24px"></div>
+
+        <div class="callout callout--sun" style="margin-top:clamp(56px,7vw,96px)" data-reveal>
+          <span class="callout__icon"><svg class="i"><use href="#i-award"/></svg></span>
+          <div>
+            <p class="callout__title">Small school? Big dreams.</p>
+            <p>We offer flexible pricing and grants so every school can dance. Tick &ldquo;small school&rdquo; when you enrol and Amy will be in touch.</p>
+          </div>
+          <a class="btn btn--dark" href="contact.html"><span class="btn__text" data-text="Ask about grants">Ask about grants</span><span class="btn__icon"><svg class="i"><use href="#i-arrow"/></svg></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--ink section--round" id="in-school" aria-labelledby="inschool-title">
+      <div class="container split">
+        <div class="split__media">
+          <div class="split__frame" data-clip><img src="assets/img/rainbow-studio-1242.webp" alt="Dance Cart teachers performing a routine in front of a rainbow wall" loading="lazy" width="1242" height="698" style="object-position:60% 50%"></div>
+        </div>
+        <div class="split__body">
+          <p class="label" data-reveal><span class="label__num">(01)</span><span class="label__line"></span>In-school term program</p>
+          <h2 class="h2" id="inschool-title" data-split><span>Our teachers.</span><span><em>Your hall.</em></span></h2>
+          <p class="lead muted" data-reveal>Dance Cart specialists teach weekly lessons at your school for a full term, then bring it all together in a performance your community will love.</p>
+          <ul class="ticks" data-reveal>
+            <li><svg class="i"><use href="#i-check"/></svg>Taught on site by education specialists</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Curriculum-aligned units with assessment support</li>
+            <li><svg class="i"><use href="#i-check"/></svg>A culminating performance to celebrate learning</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Music and choreography students love</li>
+          </ul>
+          <div class="spot__ctas" data-reveal>
+            <button class="btn btn--primary" type="button" data-add="in-school" data-magnetic><span class="btn__text" data-text="Request a quote">Request a quote</span><span class="btn__icon"><svg class="i"><use href="#i-plus"/></svg></span></button>
+            <a class="btn btn--ghost-light" href="contact.html"><span class="btn__text" data-text="Talk it through">Talk it through</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="compare-title">
+      <div class="container">
+        <div class="sec-head">
+          <p class="sec-head__label label" data-reveal><span class="label__num">(02)</span><span class="label__line"></span>Compare</p>
+          <h2 class="sec-head__title h2" id="compare-title" data-split><span>Which one</span><span><em>fits your school?</em></span></h2>
+          <div class="sec-head__aside" data-reveal><p class="muted">Most schools mix and match: online units through the year, a term with us on site, and a showstopper for fete day.</p></div>
+        </div>
+        <div class="compare" data-reveal>
+          <div class="compare__row compare__row--head">
+            <span></span>
+            <span><strong>Online Foundation</strong><small>From $799</small></span>
+            <span><strong>In-School Term</strong><small>Tailored quote</small></span>
+            <span><strong>Fete &amp; Graduation</strong><small>Tailored quote</small></span>
+          </div>
+          <div class="compare__row"><span>Who teaches</span><span>Dance Cart on-screen</span><span>Dance Cart on site</span><span>Dance Cart on site</span></div>
+          <div class="compare__row"><span>Your teachers</span><span>Join in or observe</span><span>Join in or observe</span><span>Help on show day</span></div>
+          <div class="compare__row"><span>Length</span><span>12 months access</span><span>One school term</span><span>Rehearsals + the big day</span></div>
+          <div class="compare__row"><span>Assessment</span><span><svg class="i"><use href="#i-check"/></svg>Rubrics included</span><span><svg class="i"><use href="#i-check"/></svg>Supported</span><span>&mdash;</span></div>
+          <div class="compare__row"><span>Performance</span><span>Class showcase</span><span><svg class="i"><use href="#i-check"/></svg>End of term</span><span><svg class="i"><use href="#i-check"/></svg>The main event</span></div>
+          <div class="compare__row"><span>Best for</span><span>Any school, anywhere</span><span>Schools near our team</span><span>Fetes, concerts, Year 6</span></div>
+        </div>
+      </div>
+    </section>

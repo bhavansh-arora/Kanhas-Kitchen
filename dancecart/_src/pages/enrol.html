@@ -1,0 +1,181 @@
+---
+title: Enrol your school | Dance Cart
+description: Enrol your school in Dance Cart programs online. Choose programs, add your school details, book your Zoom induction and pay by card, invoice or purchase order.
+page: enrol
+scripts: calendar enrol
+---
+    <section class="page-hero" aria-labelledby="page-title" style="padding-bottom:clamp(48px,6vw,80px)">
+      <div class="hero__bg" aria-hidden="true"><div class="hero__grid-lines"></div><div class="blob blob--pink"></div><div class="blob blob--orange"></div></div>
+      <div class="container">
+        <nav class="page-hero__crumbs label" aria-label="Breadcrumb" data-reveal="fade"><a href="index.html">Home</a><span>/</span><a href="programs.html">Programs</a><span>/</span><span>Enrol</span></nav>
+        <h1 class="page-hero__title" id="page-title" data-split><span>Enrol your</span><span><em>school.</em></span></h1>
+        <div class="page-hero__row">
+          <p class="page-hero__lead" data-reveal style="--d:.3s">Four quick steps. Choose your programs, tell us about your school, pick a time for your induction and pay the way your school prefers.</p>
+          <div class="page-hero__aside" data-reveal style="--d:.4s">
+            <span class="chip chip--glass"><svg class="i"><use href="#i-clock"/></svg>About 3 minutes</span>
+            <span class="chip chip--glass"><svg class="i"><use href="#i-lock"/></svg>Secure checkout</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--paper-2" style="padding-top:clamp(48px,6vw,80px)" aria-label="Enrolment form">
+      <div class="container enrol" data-enrol>
+        <div class="enrol__main">
+          <div class="stepper" data-stepper>
+            <button class="stepper__item" type="button" data-goto="0"><span class="stepper__bar"></span><span><span class="stepper__n">01</span> <span class="stepper__label">Programs</span></span></button>
+            <button class="stepper__item" type="button" data-goto="1"><span class="stepper__bar"></span><span><span class="stepper__n">02</span> <span class="stepper__label">School</span></span></button>
+            <button class="stepper__item" type="button" data-goto="2"><span class="stepper__bar"></span><span><span class="stepper__n">03</span> <span class="stepper__label">Schedule</span></span></button>
+            <button class="stepper__item" type="button" data-goto="3"><span class="stepper__bar"></span><span><span class="stepper__n">04</span> <span class="stepper__label">Payment</span></span></button>
+          </div>
+
+          <form novalidate data-enrol-form>
+            <!-- Step 1 -->
+            <div class="estep" data-step="0">
+              <div class="panel">
+                <h2 class="panel__title">Your programs</h2>
+                <p class="panel__sub">Review what&rsquo;s in your cart, or add more below. Programs marked &ldquo;Quote&rdquo; get a tailored price from Amy.</p>
+                <div class="panel__body">
+                  <div data-enrol-lines></div>
+                  <div class="quick-add">
+                    <p class="label">Add more</p>
+                    <div class="quick-add__grid" data-quick-add></div>
+                  </div>
+                </div>
+              </div>
+              <div class="enrol__nav">
+                <a class="back-btn" href="programs.html"><svg class="i"><use href="#i-arrow-l"/></svg>Back to catalogue</a>
+                <button class="btn btn--dark" type="button" data-next><span class="btn__text" data-text="School details">School details</span><span class="btn__icon"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="estep" data-step="1">
+              <div class="panel">
+                <h2 class="panel__title">About your school</h2>
+                <p class="panel__sub">Entered once, used for your logins, invoice and induction. No need to repeat yourself over email.</p>
+                <div class="panel__body form-grid">
+                  <div class="field span-2"><label for="f-school">School name</label><input class="input" id="f-school" name="school" autocomplete="organization" required placeholder="e.g. Sunnybank Hills State School"><span class="field__error">Please enter your school&rsquo;s name.</span></div>
+                  <div class="field"><label for="f-state">State or territory</label>
+                    <select class="select" id="f-state" name="state" required>
+                      <option value="">Select&hellip;</option><option>QLD</option><option>NSW</option><option>VIC</option><option>SA</option><option>WA</option><option>TAS</option><option>NT</option><option>ACT</option>
+                    </select><span class="field__error">Please choose a state.</span></div>
+                  <div class="field"><label for="f-postcode">Postcode</label><input class="input" id="f-postcode" name="postcode" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="4000" autocomplete="postal-code"><span class="field__error">Postcodes have 4 digits.</span></div>
+                  <div class="field span-2"><span class="field__label">Sector</span>
+                    <div class="choice-row">
+                      <label class="choice"><input type="radio" name="sector" value="State" checked><span>State</span></label>
+                      <label class="choice"><input type="radio" name="sector" value="Catholic"><span>Catholic</span></label>
+                      <label class="choice"><input type="radio" name="sector" value="Independent"><span>Independent</span></label>
+                    </div>
+                  </div>
+                  <div class="field"><label for="f-name">Your name</label><input class="input" id="f-name" name="name" autocomplete="name" required placeholder="First and last name"><span class="field__error">Please enter your name.</span></div>
+                  <div class="field"><label for="f-role">Your role</label><input class="input" id="f-role" name="role" placeholder="e.g. HPE teacher, Principal"></div>
+                  <div class="field"><label for="f-email">Email</label><input class="input" id="f-email" name="email" type="email" autocomplete="email" required placeholder="you@school.edu.au"><span class="field__error">Please enter a valid email.</span></div>
+                  <div class="field"><label for="f-phone">Phone</label><input class="input" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="07 0000 0000"></div>
+                  <div class="field"><label for="f-students">Approx. students</label><input class="input" id="f-students" name="students" type="number" min="1" placeholder="e.g. 120"></div>
+                  <div class="field"><label for="f-classes">Number of classes</label><input class="input" id="f-classes" name="classes" type="number" min="1" placeholder="e.g. 5"></div>
+                  <label class="check span-2"><input type="checkbox" name="small"><span class="check__box"><svg class="i"><use href="#i-check"/></svg></span><span><strong>We&rsquo;re a small school.</strong> Tell me about flexible pricing and grants.</span></label>
+                </div>
+              </div>
+              <div class="enrol__nav">
+                <button class="back-btn" type="button" data-prev><svg class="i"><use href="#i-arrow-l"/></svg>Back</button>
+                <button class="btn btn--dark" type="button" data-next><span class="btn__text" data-text="Schedule">Schedule</span><span class="btn__icon"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="estep" data-step="2">
+              <div class="panel">
+                <h2 class="panel__title">When suits you?</h2>
+                <p class="panel__sub">Tell us when you&rsquo;d like to start. For online programs, book your 30 minute Zoom induction right now.</p>
+                <div class="panel__body">
+                  <div class="field">
+                    <span class="field__label">Preferred start</span>
+                    <div class="choice-row" data-terms></div>
+                  </div>
+                  <div data-induction style="margin-top:36px">
+                    <p class="field__label">Zoom induction <span class="muted" style="font-weight:400">(optional, you can book later)</span></p>
+                    <div class="cal" style="margin-top:12px;padding:0" data-induction-cal></div>
+                    <div class="slots" data-induction-slots></div>
+                  </div>
+                  <div class="field" style="margin-top:36px">
+                    <label for="f-notes">Anything we should know?</label>
+                    <textarea class="textarea" id="f-notes" name="notes" placeholder="Hall availability, preferred days, performance dates, accessibility needs&hellip;"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="enrol__nav">
+                <button class="back-btn" type="button" data-prev><svg class="i"><use href="#i-arrow-l"/></svg>Back</button>
+                <button class="btn btn--dark" type="button" data-next><span class="btn__text" data-text="Payment">Payment</span><span class="btn__icon"><svg class="i"><use href="#i-arrow"/></svg></span></button>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="estep" data-step="3">
+              <div class="panel">
+                <h2 class="panel__title" data-pay-title>How would you like to pay?</h2>
+                <p class="panel__sub" data-pay-sub>Schools pay in all sorts of ways. Choose what works for your finance office.</p>
+                <div class="panel__body">
+                  <div data-pay-block>
+                    <div class="pay-methods" role="radiogroup" aria-label="Payment method">
+                      <label class="pay"><input type="radio" name="method" value="card" checked><span class="pay__box"><svg class="i"><use href="#i-card"/></svg><strong>Card</strong><span>Pay now. Instant access to lessons.</span></span></label>
+                      <label class="pay"><input type="radio" name="method" value="invoice"><span class="pay__box"><svg class="i"><use href="#i-receipt"/></svg><strong>Invoice</strong><span>We email a tax invoice to your finance office.</span></span></label>
+                      <label class="pay"><input type="radio" name="method" value="po"><span class="pay__box"><svg class="i"><use href="#i-doc"/></svg><strong>Purchase order</strong><span>Enter your PO number, we invoice against it.</span></span></label>
+                    </div>
+
+                    <div class="pay-panel is-active" data-pay-panel="card">
+                      <div class="form-grid">
+                        <div class="field span-2"><label for="f-cardname">Name on card</label><input class="input" id="f-cardname" name="cardname" autocomplete="cc-name" placeholder="As shown on card"><span class="field__error">Please enter the name on the card.</span></div>
+                        <div class="field span-2"><label for="f-card">Card number</label><div class="card-field"><input class="input" id="f-card" name="card" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" maxlength="19"><span class="card-brands" aria-hidden="true"><span>VISA</span><span>MC</span><span>AMEX</span></span></div><span class="field__error">Please enter a valid card number.</span></div>
+                        <div class="field"><label for="f-exp">Expiry</label><input class="input" id="f-exp" name="exp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" maxlength="7"><span class="field__error">Use MM / YY.</span></div>
+                        <div class="field"><label for="f-cvc">Security code</label><input class="input" id="f-cvc" name="cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4"><span class="field__error">3 or 4 digits.</span></div>
+                      </div>
+                      <p class="secure"><svg class="i"><use href="#i-lock"/></svg>Payments are processed securely by Stripe. Dance Cart never sees your card number.</p>
+                    </div>
+                    <div class="pay-panel" data-pay-panel="invoice">
+                      <div class="form-grid">
+                        <div class="field span-2"><label for="f-finance">Finance office email</label><input class="input" id="f-finance" name="finance" type="email" placeholder="finance@school.edu.au"><span class="field__error">Please enter a valid email.</span><span class="field__hint">Your tax invoice goes here. Lessons unlock as soon as you enrol.</span></div>
+                      </div>
+                    </div>
+                    <div class="pay-panel" data-pay-panel="po">
+                      <div class="form-grid">
+                        <div class="field"><label for="f-po">Purchase order number</label><input class="input" id="f-po" name="po" placeholder="PO-000000"><span class="field__error">Please enter your PO number.</span></div>
+                        <div class="field"><label for="f-poemail">Accounts email</label><input class="input" id="f-poemail" name="poemail" type="email" placeholder="accounts@school.edu.au"><span class="field__error">Please enter a valid email.</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <label class="check" style="margin-top:28px"><input type="checkbox" name="terms" data-terms-check><span class="check__box"><svg class="i"><use href="#i-check"/></svg></span><span>I agree to the Dance Cart <a href="https://www.dancecart.com.au/wp-content/uploads/2021/01/Dance-Cart-Terms-and-Conditions.pdf" target="_blank" rel="noopener" style="text-decoration:underline">terms and conditions</a>.</span></label>
+                  <p class="field__error" data-terms-error style="margin-top:8px">Please accept the terms to continue.</p>
+
+                  <div class="demo-note"><svg class="i" style="color:var(--pink);flex:none"><use href="#i-spark"/></svg><span><strong>Demo checkout.</strong> This preview doesn&rsquo;t charge a card or send emails. Try it end to end, then see your enrolment appear in the <a href="dashboard.html" style="text-decoration:underline">admin preview</a>.</span></div>
+                </div>
+              </div>
+              <div class="enrol__nav">
+                <button class="back-btn" type="button" data-prev><svg class="i"><use href="#i-arrow-l"/></svg>Back</button>
+                <button class="btn btn--primary btn--lg" type="submit" data-submit><span class="btn__text" data-text="Complete enrolment">Complete enrolment</span><span class="btn__icon"><svg class="i"><use href="#i-check"/></svg></span></button>
+              </div>
+            </div>
+
+            <!-- Done -->
+            <div class="estep" data-step="4">
+              <div class="panel done" data-done></div>
+            </div>
+          </form>
+        </div>
+
+        <aside class="enrol__aside" data-enrol-aside>
+          <div class="summary">
+            <p class="label" style="color:var(--muted-light)">Order summary</p>
+            <p class="summary__title">Your enrolment</p>
+            <div class="summary__lines" data-sum-lines></div>
+            <div class="summary__total"><span data-sum-label>Due today</span><strong data-sum-total>$0</strong></div>
+            <p class="summary__note" data-sum-note>All prices in AUD.</p>
+          </div>
+          <div class="summary__help">
+            <img src="assets/img/dc-mark.png" alt="" width="48" height="48">
+            <span>Questions about your enrolment? Call Amy on <a href="tel:+61438739709">0438 739 709</a></span>
+          </div>
+        </aside>
+      </div>
+    </section>
