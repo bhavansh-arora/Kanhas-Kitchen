@@ -9,9 +9,10 @@
   var CFG = window.GDL || {};
   var CLEAR = "transform,translate,rotate,scale,opacity";
 
-  // Helix and embers draw without GSAP, so set them up first.
+  // Helix, embers and the footer wordmark work without GSAP, so set them up first.
   initHelix();
   initEmbers();
+  initFooterWord();
 
   if (!window.gsap || !window.ScrollTrigger) {
     if (loader) loader.classList.add("is-done");
@@ -191,9 +192,9 @@
     var fill = $("[data-timeline-fill]");
     if (fill) gsap.to(fill, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-timeline]", start: "top 70%", end: "bottom 60%", scrub: 0.4 } });
 
-    // footer word
-    var fw = $(".ftr__word");
-    if (fw) gsap.from(fw, { yPercent: 40, opacity: 0, ease: "none", scrollTrigger: { trigger: ".ftr", start: "top bottom", end: "bottom bottom", scrub: true } });
+    // footer wordmark: letters rise one by one as the footer arrives
+    var fwl = $$(".ftr__word .fw");
+    if (fwl.length) gsap.from(fwl, { yPercent: 105, duration: 1.3, ease: "expo.out", stagger: 0.07, clearProps: CLEAR, scrollTrigger: { trigger: ".ftr__word", start: "top 96%", once: true } });
 
     initMarquee();
     if (fine) { initCursor(); initMagnetic(); initFloatList(); }
@@ -206,6 +207,20 @@
         lastH = h; clearTimeout(rt); rt = setTimeout(function () { ST.refresh(); }, 150);
       }).observe(document.body);
     }
+  }
+
+  /* ---------- footer wordmark ---------- */
+  function initFooterWord() {
+    var w = $(".ftr__word");
+    if (!w || w.querySelector(".fw")) return;
+    var txt = w.textContent.trim(); w.textContent = "";
+    txt.split("").forEach(function (ch, i) {
+      var s = document.createElement("span"); s.className = "fw"; s.textContent = ch; s.style.setProperty("--i", i);
+      w.appendChild(s);
+    });
+    // run the gold shine only while the footer is on screen
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { w.classList.toggle("is-live", en[0].isIntersecting); }).observe(w);
+    else w.classList.add("is-live");
   }
 
   /* ---------- marquee ---------- */

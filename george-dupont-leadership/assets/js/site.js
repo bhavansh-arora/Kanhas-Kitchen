@@ -48,14 +48,12 @@
 
   /* ---------- header ---------- */
   var hdr = $("[data-hdr]");
-  var phone = window.matchMedia("(max-width: 760px)");
   var lastY = window.scrollY;
   function onScroll() {
     var y = window.scrollY;
     if (hdr) {
       hdr.classList.toggle("is-scrolled", y > 24);
-      // phones keep the header in place, so the status-bar area stays solid
-      var goingDown = y > lastY && y > 320 && !phone.matches;
+      var goingDown = y > lastY && y > 320;
       if (!document.body.classList.contains("menu-open")) hdr.classList.toggle("is-hidden", goingDown);
     }
     lastY = y;

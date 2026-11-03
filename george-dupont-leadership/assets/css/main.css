@@ -1300,9 +1300,8 @@ sup.tm { font-family: var(--f-body); font-style: normal; font-weight: 500; font-
 /* header: a real, solid background (Safari tints the status bar from it), no hairline */
 .hdr::before { display: none; }
 .hdr { background-color: transparent; transition: transform .6s var(--ease), background-color .4s var(--ease), box-shadow .4s var(--ease); }
-.hdr.is-scrolled { background-color: #0b0a08; box-shadow: 0 12px 32px -12px rgba(0, 0, 0, .7); }
+.hdr.is-scrolled { background-color: rgba(11, 10, 8, .86); box-shadow: 0 12px 32px -12px rgba(0, 0, 0, .6); }
 @media (max-width: 760px) {
-  .hdr { background-color: #0b0a08; }
   .progress { display: none; }
   :root { --sec: 64px; --head: 36px; }
   .mt-l { margin-top: 40px; }
@@ -1312,3 +1311,35 @@ sup.tm { font-family: var(--f-body); font-style: normal; font-weight: 500; font-
   /* two dark sections in a row read as one block on a phone: one shared gap, not two */
   .section + .section:not(.section--flush-top) { padding-top: 40px; }
 }
+
+/* phones & tablets: floating rounded, see-through header capsule (matches the desktop nav pill) */
+@media (max-width: 1180px) {
+  .hdr, .hdr.is-scrolled { background: none; box-shadow: none; padding: 10px 12px 0; height: calc(var(--hdr) + 10px); }
+  .hdr__inner {
+    height: 100%; max-width: none; padding: 0 7px 0 18px; border-radius: 999px;
+    background: rgba(11, 10, 8, .5);
+    -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: inset 0 0 0 1px rgba(243, 236, 224, .14), 0 12px 30px -14px rgba(0, 0, 0, .7);
+    transition: background .4s var(--ease);
+  }
+  .hdr.is-scrolled .hdr__inner { background: rgba(11, 10, 8, .74); }
+  .menu-btn { height: 46px; background: rgba(243, 236, 224, .06); box-shadow: inset 0 0 0 1px rgba(243, 236, 224, .16); }
+  .menu-open .hdr__inner { background: rgba(11, 10, 8, .35); }
+}
+@media (max-width: 760px) { .hdr { --hdr: 62px; } .brand img { width: 24px; } }
+
+/* footer wordmark: per-letter rise, travelling gold shine, gold fill on hover */
+.ftr__word { display: flex; justify-content: center; background: none; -webkit-background-clip: border-box; background-clip: border-box; -webkit-text-stroke: 0; overflow: hidden; padding-top: .04em; }
+.ftr__word .fw {
+  display: inline-block; color: transparent; -webkit-text-stroke: 1px rgba(214, 170, 79, .38);
+  background: linear-gradient(100deg, rgba(214, 170, 79, .1) 0%, rgba(214, 170, 79, .1) 38%, rgba(246, 216, 142, .9) 50%, rgba(214, 170, 79, .1) 62%, rgba(214, 170, 79, .1) 100%);
+  background-size: 400% 100%; background-position: 100% 0;
+  -webkit-background-clip: text; background-clip: text;
+  transition: color .5s var(--ease), -webkit-text-stroke-color .5s var(--ease), translate .6s var(--ease);
+}
+.ftr__word.is-live .fw { animation: fwShine 6s cubic-bezier(.55, 0, .45, 1) infinite; animation-delay: calc(var(--i) * .12s); }
+@keyframes fwShine { 0% { background-position: 100% 0; } 55%, 100% { background-position: 0% 0; } }
+@media (hover: hover) and (pointer: fine) {
+  .ftr__word .fw:hover { color: var(--gold); -webkit-text-stroke-color: var(--gold); translate: 0 -5%; }
+}
+@media (prefers-reduced-motion: reduce) { .ftr__word.is-live .fw { animation: none; } }
