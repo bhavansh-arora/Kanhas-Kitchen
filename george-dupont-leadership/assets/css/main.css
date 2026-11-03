@@ -1290,3 +1290,25 @@ sup.tm { font-family: var(--f-body); font-style: normal; font-weight: 500; font-
     line-height: .74;
   }
 }
+
+/* ---------- phone polish ---------- */
+.gcol-a { grid-column: 1 / span 5; }
+.gcol-b { grid-column: 7 / span 6; }
+.gcol-lead { grid-column: 1 / span 6; }
+@media (max-width: 900px) { .gcol-a, .gcol-b, .gcol-lead { grid-column: 1 / -1; } }
+
+/* header: a real, solid background (Safari tints the status bar from it), no hairline */
+.hdr::before { display: none; }
+.hdr { background-color: transparent; transition: transform .6s var(--ease), background-color .4s var(--ease), box-shadow .4s var(--ease); }
+.hdr.is-scrolled { background-color: #0b0a08; box-shadow: 0 12px 32px -12px rgba(0, 0, 0, .7); }
+@media (max-width: 760px) {
+  .hdr { background-color: #0b0a08; }
+  .progress { display: none; }
+  :root { --sec: 64px; --head: 36px; }
+  .mt-l { margin-top: 40px; }
+
+}
+@media (max-width: 760px) {
+  /* two dark sections in a row read as one block on a phone: one shared gap, not two */
+  .section + .section:not(.section--flush-top) { padding-top: 40px; }
+}
