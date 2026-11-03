@@ -1335,11 +1335,7 @@ sup.tm { font-family: var(--f-body); font-style: normal; font-weight: 500; font-
   background: linear-gradient(100deg, rgba(214, 170, 79, .1) 0%, rgba(214, 170, 79, .1) 38%, rgba(246, 216, 142, .9) 50%, rgba(214, 170, 79, .1) 62%, rgba(214, 170, 79, .1) 100%);
   background-size: 400% 100%; background-position: 100% 0;
   -webkit-background-clip: text; background-clip: text;
-  transition: color .5s var(--ease), -webkit-text-stroke-color .5s var(--ease), translate .6s var(--ease);
 }
 .ftr__word.is-live .fw { animation: fwShine 6s cubic-bezier(.55, 0, .45, 1) infinite; animation-delay: calc(var(--i) * .12s); }
 @keyframes fwShine { 0% { background-position: 100% 0; } 55%, 100% { background-position: 0% 0; } }
-@media (hover: hover) and (pointer: fine) {
-  .ftr__word .fw:hover { color: var(--gold); -webkit-text-stroke-color: var(--gold); translate: 0 -5%; }
-}
 @media (prefers-reduced-motion: reduce) { .ftr__word.is-live .fw { animation: none; } }
