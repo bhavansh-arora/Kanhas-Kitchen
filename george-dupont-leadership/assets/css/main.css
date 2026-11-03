@@ -1262,3 +1262,31 @@ sup.tm { font-family: var(--f-body); font-style: normal; font-weight: 500; font-
 .pod__art .pod__title b { font-size: 10cqw; line-height: .84; }
 .pod__art > img.fig { height: calc(86cqw - 24px); right: 1cqw; bottom: 0; }
 .pod__art .pod__live { left: 7cqw; bottom: 7cqw; }
+
+/* hero: George stands on the stats divider (photo is cropped at the bottom) */
+.hero__figure::after { display: none; }
+@media (min-width: 1081px) {
+  .hero__figure { bottom: var(--proof-h, 128px); height: min(calc(100% - var(--hdr) - var(--proof-h, 128px) - 40px), 860px); }
+  .hero__figure img { filter: none; }
+}
+@media (max-width: 1080px) {
+  .hero__proof { margin-top: 0; }
+  .hero__figure img { filter: none; }
+}
+/* spacing clean-up */
+.drow:last-child { padding-bottom: 0; }
+.quotes__mark { height: 52px; margin-bottom: 14px; }
+@media (max-width: 760px) { .quotes__mark { height: 40px; margin-bottom: 10px; } }
+@media (max-width: 1080px) { .portrait-band { aspect-ratio: 16 / 11; } }
+@media (max-width: 560px) { .portrait-band { aspect-ratio: 4 / 4.4; } }
+/* outlined "DYNASTY" sits behind George only, on the same divider line */
+@media (min-width: 1081px) {
+  .hero__word {
+    left: auto; transform: none;
+    --wr: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    right: var(--wr);
+    bottom: var(--proof-h, 128px);
+    font-size: min(18vw, 300px, calc((100vw - var(--wr) - var(--lead-right) - 32px) / 3.5));
+    line-height: .74;
+  }
+}

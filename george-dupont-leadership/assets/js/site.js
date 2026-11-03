@@ -38,6 +38,14 @@
     el.setAttribute("title", text);
   });
 
+  /* ---------- hero: let the portrait stand exactly on the stats divider ---------- */
+  var heroEl = $(".hero"), proofEl = $(".hero__proof");
+  function proofH() { if (heroEl && proofEl) heroEl.style.setProperty("--proof-h", proofEl.offsetHeight + "px"); }
+  proofH();
+  window.addEventListener("resize", proofH);
+  window.addEventListener("load", proofH);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(proofH);
+
   /* ---------- header ---------- */
   var hdr = $("[data-hdr]");
   var lastY = window.scrollY;

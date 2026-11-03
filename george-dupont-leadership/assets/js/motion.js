@@ -183,7 +183,7 @@
     var fig = $("[data-hero-figure]");
     if (fig) gsap.to(fig, { yPercent: 10, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
     var word = $("[data-hero-word]");
-    if (word) gsap.to(word, { xPercent: -14, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+    if (word) gsap.to(word, { xPercent: 10, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
     var pbg = $(".phero__bg img");
     if (pbg) gsap.to(pbg, { yPercent: 14, scale: 1.08, ease: "none", scrollTrigger: { trigger: ".phero", start: "top top", end: "bottom top", scrub: true } });
 
