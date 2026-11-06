@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /ideas.html
+
+Sitemap: https://www.takerootlifecoaching.com/sitemap.xml
