@@ -1,0 +1,96 @@
+<!--
+title: Contact Lithium — Yucaipa, CA
+description: Call (951) 662-6748, email rowan@socalenergy.info, or send a message. Lithium LLC, 12003 Fremont St, Yucaipa, CA 92399.
+page: contact
+bodyClass: page-contact
+scripts: contact
+-->
+
+<section class="page-hero">
+  <div class="page-hero__bg" data-parallax="8"><img src="assets/img/grid-sunset-2000.webp" alt="" fetchpriority="high"></div>
+  <span class="page-hero__index" aria-hidden="true">06</span>
+  <div class="wrap">
+    <div class="page-hero__crumbs label" data-reveal><a href="index.html">Home</a><span>/</span><span style="color:var(--sun)">Contact</span></div>
+    <h1 class="h-1" data-split="hero">Let’s talk<br><em>power.</em></h1>
+    <div class="page-hero__row">
+      <p class="lead" data-reveal data-delay=".2">Questions, a project in progress, or a partnership idea. Call, email or send a note below and the team will get back to you.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" style="padding-top:0">
+  <div class="wrap">
+    <div class="contact">
+      <div class="contact__cards">
+        <a class="ccard" href="{{phoneHref}}" data-reveal data-cursor="Call">
+          <span class="label">Call anytime</span>
+          <b>{{phone}}</b>
+          <span class="muted">24/7 customer service and technical support</span>
+        </a>
+        <a class="ccard" href="mailto:{{email}}" data-reveal data-delay=".08" data-cursor="Email">
+          <span class="label">Email</span>
+          <b>{{email}}</b>
+          <span class="muted">Best for documents, bills and photos</span>
+        </a>
+        <a class="map-card" href="https://maps.google.com/?q=12003+Fremont+St+Yucaipa+CA+92399" target="_blank" rel="noopener" data-reveal data-delay=".16" data-cursor="Map">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><radialGradient id="mg" cx="58%" cy="46%" r="60%"><stop offset="0" stop-color="#12304d"/><stop offset="1" stop-color="#06111f"/></radialGradient></defs>
+            <rect width="400" height="300" fill="url(#mg)"/>
+            <g stroke="rgba(234,240,247,.08)" fill="none">
+              <path d="M0 60h400M0 120h400M0 180h400M0 240h400M60 0v300M140 0v300M220 0v300M300 0v300M380 0v300"/>
+            </g>
+            <g stroke="rgba(74,163,255,.35)" stroke-width="2" fill="none">
+              <path d="M-10 210C80 190 150 160 232 138S360 90 420 70"/>
+              <path d="M120 -10C150 80 200 120 232 138S260 230 250 320"/>
+            </g>
+            <g stroke="rgba(234,240,247,.14)" stroke-width="1" fill="none">
+              <path d="M0 150c60 10 120-20 180-10s120 40 220 20"/>
+              <path d="M40 300c20-60 60-100 120-120s140-30 200-100"/>
+            </g>
+          </svg>
+          <span class="map-card__pin"><i></i></span>
+          <span class="map-card__label">
+            <span><span class="label">Visit</span><br><b style="font-weight:700;font-stretch:115%;font-size:20px">{{street}}, {{city}}</b></span>
+            <span class="label label--sun">Open in Maps ↗</span>
+          </span>
+        </a>
+      </div>
+
+      <form class="contact__form ccard" data-contact-form novalidate data-reveal data-delay=".1" style="gap:22px">
+        <div>
+          <span class="label label--sun">Send a message</span>
+          <h2 class="h-3 mt-s">How can we help?</h2>
+        </div>
+        <div class="field">
+          <span class="label">I’m a</span>
+          <div class="choices choices--stack" style="--cols:3">
+            <label class="choice choice--sm"><input type="radio" name="topic" value="Homeowner" checked><span class="choice__box"><b>Homeowner</b></span></label>
+            <label class="choice choice--sm"><input type="radio" name="topic" value="Business"><span class="choice__box"><b>Business</b></span></label>
+            <label class="choice choice--sm"><input type="radio" name="topic" value="Contractor"><span class="choice__box"><b>Contractor</b></span></label>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for="ct-name">Name</label><input class="input" id="ct-name" name="name" autocomplete="name" required><span class="field__error" aria-live="polite"></span></div>
+          <div class="field"><label for="ct-phone">Phone</label><input class="input" id="ct-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"><span class="field__error" aria-live="polite"></span></div>
+          <div class="field span-2"><label for="ct-email">Email</label><input class="input" id="ct-email" name="email" type="email" autocomplete="email" required><span class="field__error" aria-live="polite"></span></div>
+          <div class="field span-2"><label for="ct-msg">Message</label><textarea class="input" id="ct-msg" name="message" rows="5" required placeholder="Tell us about your property or question"></textarea><span class="field__error" aria-live="polite"></span></div>
+        </div>
+        <label class="check"><input type="checkbox" name="consent" required> I agree Lithium may contact me about my enquiry. See our <a href="privacy.html" style="color:var(--sun)">privacy notice</a>.</label>
+        <div class="btn-row" style="justify-content:space-between">
+          <button class="btn btn--sun" type="submit" data-magnetic><span>Send message</span><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <a class="link-arrow" href="quote.html"><span>Want numbers? Get a quote</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <p class="field__error" data-form-status aria-live="polite" style="color:#7ee2a8"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="marquee marquee--sun" data-marquee data-speed="40" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__group">
+      <span class="marquee__item">Call {{phone}} <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="9" fill="currentColor"/></svg></span>
+      <span class="marquee__item is-outline">Power for life <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="9" fill="currentColor"/></svg></span>
+    </div>
+  </div>
+</div>

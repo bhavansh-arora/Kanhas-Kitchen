@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solar Savings Calculator — Lithium</title>
+<meta name="description" content="Estimate your solar system size, payback and 25-year savings in Southern California. Adjust every assumption, see the numbers live, then lock them in with a free site assessment.">
+<link rel="canonical" href="https://lisolarenergy.com/savings.html">
+<meta name="theme-color" content="#040b14">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Lithium — Power for life">
+<meta property="og:title" content="Solar Savings Calculator — Lithium">
+<meta property="og:description" content="Estimate your solar system size, payback and 25-year savings in Southern California. Adjust every assumption, see the numbers live, then lock them in with a free site assessment.">
+<meta property="og:image" content="https://lisolarenergy.com/assets/img/field-sky-1000.webp">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/brand/lithium-mark.svg" type="image/svg+xml">
+<link rel="icon" href="assets/brand/favicon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/archivo-normal-100-900.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/instrument-serif-italic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/main.css">
+<script>
+  document.documentElement.classList.add('js');
+  try { if (sessionStorage.getItem('li-visited')) document.documentElement.classList.add('is-returning'); } catch (e) {}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SolarEnergyContractor",
+  "name": "Lithium LLC",
+  "slogan": "Power for life",
+  "url": "https://lisolarenergy.com",
+  "telephone": "+1-951-662-6748",
+  "email": "rowan@socalenergy.info",
+  "address": { "@type": "PostalAddress", "streetAddress": "12003 Fremont St", "addressLocality": "Yucaipa", "addressRegion": "CA", "postalCode": "92399", "addressCountry": "US" },
+  "areaServed": "Southern California",
+  "sameAs": ["https://x.com/1Lithiumllc", "https://www.instagram.com/llclithium/"]
+}
+</script>
+</head>
+<body class="page-savings" data-page="savings">
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__sun"></div>
+  <div class="preloader__top">
+    <span class="label">Lithium LLC</span>
+    <span class="label">Yucaipa, California</span>
+  </div>
+  <div class="preloader__count"><span data-preload-count>000</span><sup>%</sup></div>
+  <div class="preloader__bottom">
+    <span class="label">Charging</span>
+    <div class="preloader__bar"><i></i></div>
+    <span class="label">Power for life</span>
+  </div>
+</div>
+
+<div class="curtain" aria-hidden="true">
+  <img src="assets/brand/lithium-mark.svg" alt="" width="72" height="72">
+</div>
+
+<div class="cursor" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"><span class="cursor__label"></span></div></div>
+
+<header class="site-header" data-header>
+  <div class="site-header__inner wrap">
+    <a class="brand" href="index.html" aria-label="Lithium — home" data-magnetic>
+      <img src="assets/brand/lithium-wordmark-white.svg" alt="Lithium" width="148" height="34">
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="residential.html" data-nav="residential">Residential</a>
+      <a href="commercial.html" data-nav="commercial">Commercial</a>
+      <a href="process.html" data-nav="process">Process</a>
+      <a href="savings.html" data-nav="savings" aria-current="page">Savings</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+    <div class="site-header__actions">
+      <a class="header-link" href="track.html" data-nav="track"><span class="pulse-dot"></span>Track a project</a>
+      <a class="btn btn--sun btn--sm" href="quote.html" data-magnetic data-cursor="Start">
+        <span>Free quote</span>
+        <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+        <span class="sr-only">Menu</span><i></i><i></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" data-menu aria-hidden="true">
+  <div class="menu__glow"></div>
+  <nav class="menu__nav wrap" aria-label="Mobile">
+    <a href="index.html" data-nav="home"><span class="label">01</span>Home</a>
+    <a href="residential.html" data-nav="residential"><span class="label">02</span>Residential</a>
+    <a href="commercial.html" data-nav="commercial"><span class="label">03</span>Commercial</a>
+    <a href="process.html" data-nav="process"><span class="label">04</span>Process</a>
+    <a href="savings.html" data-nav="savings" aria-current="page"><span class="label">05</span>Savings</a>
+    <a href="about.html" data-nav="about"><span class="label">06</span>About</a>
+    <a href="track.html" data-nav="track"><span class="label">07</span>Track a project</a>
+    <a href="contact.html" data-nav="contact"><span class="label">08</span>Contact</a>
+  </nav>
+  <div class="menu__foot wrap">
+    <a class="btn btn--sun" href="quote.html"><span>Get my free quote</span><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <div class="menu__contact">
+      <a href="tel:+19516626748">(951) 662-6748</a>
+      <a href="mailto:rowan@socalenergy.info">rowan@socalenergy.info</a>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+<section class="page-hero">
+  <div class="page-hero__bg" data-parallax="8"><img src="assets/img/panel-sky-2000.webp" alt="" fetchpriority="high"></div>
+  <span class="page-hero__index" aria-hidden="true">04</span>
+  <div class="wrap">
+    <div class="page-hero__crumbs label" data-reveal><a href="index.html">Home</a><span>/</span><span style="color:var(--sun)">Savings calculator</span></div>
+    <h1 class="h-1" data-split="hero">See your savings<br><em>before</em> you sign.</h1>
+    <div class="page-hero__row">
+      <p class="lead" data-reveal data-delay=".2">Move the sliders and watch the numbers change. Every assumption is visible and editable, because a good decision starts with numbers you can check.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" style="padding-top:0">
+  <div class="wrap">
+    <div class="calc" data-calc>
+      <form class="calc__inputs" onsubmit="return false" aria-label="Savings inputs">
+        <div class="row-between">
+          <span class="label">Property</span>
+          <div class="seg" role="group" aria-label="Property type">
+            <button type="button" data-type="home" aria-pressed="true">Home</button>
+            <button type="button" data-type="business" aria-pressed="false">Business</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="row-between"><label class="label" for="c-bill">Average monthly bill</label></div>
+          <div class="bill-display" data-c-bill aria-live="polite">$250</div>
+          <input class="range" id="c-bill" type="range" min="50" max="1000" step="10" value="250">
+          <div class="range-scale"><span class="label" data-min-label>$50</span><span class="label" data-max-label>$1,000</span></div>
+        </div>
+        <div class="field">
+          <div class="row-between"><label class="label" for="c-offset">Bill to cover with solar</label><span class="h-4 num" data-c-offset>100%</span></div>
+          <input class="range" id="c-offset" type="range" min="50" max="100" step="5" value="100">
+        </div>
+        <details class="details">
+          <summary>Adjust assumptions</summary>
+          <div class="form-grid">
+            <div class="field"><label class="label" for="c-rate">Rate ($/kWh)</label><input class="input" id="c-rate" type="number" step="0.01" min="0.1" max="1" value="0.34" inputmode="decimal"></div>
+            <div class="field"><label class="label" for="c-sun">Peak sun hrs/day</label><input class="input" id="c-sun" type="number" step="0.1" min="3" max="8" value="5.6" inputmode="decimal"></div>
+            <div class="field"><label class="label" for="c-cpw">Installed cost ($/W)</label><input class="input" id="c-cpw" type="number" step="0.05" min="1.5" max="6" value="3.10" inputmode="decimal"></div>
+            <div class="field"><label class="label" for="c-esc">Utility increase (%/yr)</label><input class="input" id="c-esc" type="number" step="0.5" min="0" max="10" value="3" inputmode="decimal"></div>
+          </div>
+        </details>
+        <a class="btn btn--sun" href="quote.html" data-calc-go data-magnetic data-cursor="Lock it"><span>Get my exact numbers</span><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </form>
+
+      <div class="calc__outputs">
+        <div class="calc__kpis" aria-live="polite">
+          <div class="is-hero"><span class="label">Estimated 25-year net savings</span><span class="estimator__val" data-k="net">$0</span></div>
+          <div><span class="label">System size</span><span class="estimator__val" data-k="kw">0 kW</span></div>
+          <div><span class="label">Panels</span><span class="estimator__val" data-k="panels">0</span></div>
+          <div><span class="label">Est. cost</span><span class="estimator__val" data-k="cost">$0</span></div>
+          <div><span class="label">Year-one savings</span><span class="estimator__val" data-k="year1">$0</span></div>
+          <div><span class="label">Payback</span><span class="estimator__val" data-k="payback">0 yrs</span></div>
+          <div><span class="label">CO₂ avoided</span><span class="estimator__val" data-k="co2">0 t</span></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card__head">
+            <div>
+              <h2 class="h-4">Cumulative energy cost, next 25 years</h2>
+              <p class="label mt-s">Total spent on electricity, including the system</p>
+            </div>
+            <div class="seg" role="group" aria-label="Chart view">
+              <button type="button" data-view="chart" aria-pressed="true">Chart</button>
+              <button type="button" data-view="table" aria-pressed="false">Table</button>
+            </div>
+          </div>
+          <div class="legend" aria-hidden="true">
+            <span><i style="background:#d9772a"></i>Utility only</span>
+            <span><i style="background:#3f8ae6"></i>With Lithium solar</span>
+          </div>
+          <div class="chart mt-s" data-chart>
+            <div class="tip" data-tip></div>
+          </div>
+          <div class="table-wrap" data-table hidden></div>
+        </div>
+        <p class="estimator__note">Estimates only. Based on the assumptions shown, before any incentives, rebates or financing costs. Real production depends on your roof, shading, equipment and utility plan; your free site assessment confirms the numbers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--paper">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-head__meta"><span class="label" style="color:var(--blue)">(02)</span><span class="label">How the math works</span></div>
+      <h2 class="h-2 sec-head__title" data-split>No black box. <em>Just math.</em></h2>
+    </div>
+    <div class="trio">
+      <div class="trio__card" data-reveal><span class="label">01 — Usage</span><h3 class="h-4">Your bill becomes kilowatt-hours.</h3><p>Monthly bill ÷ your rate = the energy you use. That’s what your system needs to produce.</p><span class="big">$ → <em>kWh</em></span></div>
+      <div class="trio__card" data-reveal data-delay=".08"><span class="label">02 — Size</span><h3 class="h-4">Sun hours set the system size.</h3><p>Yearly energy ÷ (sun hours × 365 × 80% efficiency) = the kilowatts of panels you need.</p><span class="big">kWh → <em>kW</em></span></div>
+      <div class="trio__card" data-reveal data-delay=".16"><span class="label">03 — Savings</span><h3 class="h-4">Rising rates, honestly modeled.</h3><p>We project utility prices rising each year and panels losing 0.5% a year, then compare both paths.</p><span class="big">25 <em>years</em></span></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="cta-final" data-theme="dark">
+  <canvas class="sun-canvas" data-sun="cta" aria-hidden="true"></canvas>
+  <div class="cta-final__inner wrap">
+    <p class="label label--sun" data-reveal>( Free consultation · No obligation )</p>
+    <h2 class="h-mega cta-final__title" data-split>The sun doesn’t<br><em>send a bill.</em></h2>
+    <p class="lead cta-final__lead" data-reveal>Tell us about your property in about two minutes. We’ll design your system, show you the numbers, and book your free site assessment.</p>
+    <div class="btn-row" data-reveal>
+      <a class="btn btn--sun btn--lg" href="quote.html" data-magnetic data-cursor="Start"><span>Get my free quote</span><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--ghost btn--lg" href="tel:+19516626748" data-magnetic><span>Call (951) 662-6748</span></a>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img src="assets/brand/lithium-logo-white.svg" alt="Lithium — Power for life" width="220" height="74" loading="lazy">
+        <p>Custom solar, battery backup and EV charging for Southern California homes and businesses. 17+ years in power and renewable energy.</p>
+      </div>
+      <div class="site-footer__cols">
+        <div>
+          <p class="label">Explore</p>
+          <a href="residential.html">Residential</a>
+          <a href="commercial.html">Commercial</a>
+          <a href="process.html">Our process</a>
+          <a href="savings.html">Savings calculator</a>
+          <a href="about.html">About</a>
+        </div>
+        <div>
+          <p class="label">Customers</p>
+          <a href="quote.html">Free quote</a>
+          <a href="track.html">Track a project</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy</a>
+        </div>
+        <div>
+          <p class="label">Reach us</p>
+          <a href="tel:+19516626748">(951) 662-6748</a>
+          <a href="mailto:rowan@socalenergy.info">rowan@socalenergy.info</a>
+          <a href="https://maps.google.com/?q=12003+Fremont+St+Yucaipa+CA+92399" target="_blank" rel="noopener">12003 Fremont St<br>Yucaipa, CA 92399</a>
+          <div class="socials">
+            <a href="https://www.instagram.com/llclithium/" target="_blank" rel="noopener" aria-label="Lithium on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="fill"/></svg></a>
+            <a href="https://x.com/1Lithiumllc" target="_blank" rel="noopener" aria-label="Lithium on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer__mega" aria-hidden="true">
+      <span>Power</span><em>for</em><span>life</span>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 Lithium LLC. All rights reserved.</span>
+      <span class="site-footer__clock" data-sunclock="footer">Yucaipa, CA</span>
+      <a href="#main" data-to-top>Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<div class="dock" data-dock>
+  <a class="dock__call" href="tel:+19516626748" aria-label="Call Lithium">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    <span>Call</span>
+  </a>
+  <a class="dock__quote" href="quote.html"><span>Get my free quote</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/vendor/SplitText.min.js" defer></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script src="assets/js/calc.js" defer></script>
+<script src="assets/js/sun.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+<script src="assets/js/savings.js" defer></script>
+</body>
+</html>

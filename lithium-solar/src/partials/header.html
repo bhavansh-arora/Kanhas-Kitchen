@@ -1,0 +1,49 @@
+
+<header class="site-header" data-header>
+  <div class="site-header__inner wrap">
+    <a class="brand" href="index.html" aria-label="Lithium — home" data-magnetic>
+      <img src="assets/brand/lithium-wordmark-white.svg" alt="Lithium" width="148" height="34">
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="residential.html" data-nav="residential">Residential</a>
+      <a href="commercial.html" data-nav="commercial">Commercial</a>
+      <a href="process.html" data-nav="process">Process</a>
+      <a href="savings.html" data-nav="savings">Savings</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+    <div class="site-header__actions">
+      <a class="header-link" href="track.html" data-nav="track"><span class="pulse-dot"></span>Track a project</a>
+      <a class="btn btn--sun btn--sm" href="quote.html" data-magnetic data-cursor="Start">
+        <span>Free quote</span>
+        <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+        <span class="sr-only">Menu</span><i></i><i></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" data-menu aria-hidden="true">
+  <div class="menu__glow"></div>
+  <nav class="menu__nav wrap" aria-label="Mobile">
+    <a href="index.html" data-nav="home"><span class="label">01</span>Home</a>
+    <a href="residential.html" data-nav="residential"><span class="label">02</span>Residential</a>
+    <a href="commercial.html" data-nav="commercial"><span class="label">03</span>Commercial</a>
+    <a href="process.html" data-nav="process"><span class="label">04</span>Process</a>
+    <a href="savings.html" data-nav="savings"><span class="label">05</span>Savings</a>
+    <a href="about.html" data-nav="about"><span class="label">06</span>About</a>
+    <a href="track.html" data-nav="track"><span class="label">07</span>Track a project</a>
+    <a href="contact.html" data-nav="contact"><span class="label">08</span>Contact</a>
+  </nav>
+  <div class="menu__foot wrap">
+    <a class="btn btn--sun" href="quote.html"><span>Get my free quote</span><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <div class="menu__contact">
+      <a href="{{phoneHref}}">{{phone}}</a>
+      <a href="mailto:{{email}}">{{email}}</a>
+    </div>
+  </div>
+</div>
+
+<main id="main">

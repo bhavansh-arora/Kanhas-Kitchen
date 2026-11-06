@@ -1,0 +1,65 @@
+<!--
+title: Track Your Solar Project — Lithium
+description: Check your Lithium solar project's progress any time, from consultation and permitting to installation, inspection and permission to operate.
+page: track
+bodyClass: page-track
+scripts: track
+-->
+
+<section class="page-hero">
+  <div class="page-hero__bg" data-parallax="8"><img src="assets/img/aerial-rows-2000.webp" alt="" fetchpriority="high"></div>
+  <span class="page-hero__index" aria-hidden="true">07</span>
+  <div class="wrap">
+    <div class="page-hero__crumbs label" data-reveal><a href="index.html">Home</a><span>/</span><span style="color:var(--sun)">Track a project</span></div>
+    <h1 class="h-1" data-split="hero">Your project,<br><em>live.</em></h1>
+    <div class="page-hero__row">
+      <p class="lead" data-reveal data-delay=".2">Enter the tracking code from your confirmation and the property ZIP. See your stage, what’s next and who to call. Day or night, no chasing.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight" style="padding-top:0">
+  <div class="wrap">
+    <div class="tracker">
+      <form class="tracker__form" data-track-form novalidate data-reveal>
+        <span class="label label--sun">Project lookup</span>
+        <div class="field"><label for="t-code">Tracking code</label><input class="input" id="t-code" name="code" placeholder="LI-7K3QD" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+        <div class="field"><label for="t-zip">Property ZIP</label><input class="input" id="t-zip" name="zip" placeholder="92399" inputmode="numeric" maxlength="5"></div>
+        <p class="field__error" data-track-error aria-live="polite"></p>
+        <button class="btn btn--sun" type="submit" data-magnetic><span>Check status</span><svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="divider"></div>
+        <p class="muted" style="font-size:15px">Want to see how it works? <button type="button" class="link-arrow" data-demo style="color:var(--sun)"><span>View a sample project</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></p>
+        <p class="muted" style="font-size:15px">Lost your code? Call <a href="{{phoneHref}}" style="color:var(--sun)">{{phone}}</a>.</p>
+      </form>
+
+      <div class="tracker__result" aria-live="polite">
+        <div class="tracker__empty" data-track-empty>
+          <span class="label">Where every project stands</span>
+          <h2 class="h-3">Six stages. Always visible.</h2>
+          <div class="proj__meter" aria-hidden="true" style="margin:0"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p>Consultation · Engineering &amp; design · Permitting · Installation · Inspection · Permission to operate</p>
+        </div>
+
+        <div class="proj" data-proj>
+          <div class="proj__head">
+            <div>
+              <span class="label" data-p-ref>LI-00000</span>
+              <h2 class="h-2 mt-s" data-p-title>Your project</h2>
+            </div>
+            <span class="proj__status"><span class="pulse-dot"></span><span data-p-status>On track</span></span>
+          </div>
+          <div class="proj__meter" data-p-meter aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="row-between"><span class="label" data-p-stage>Stage 1 of 6</span><span class="label" data-p-updated>Updated today</span></div>
+          <ol class="proj__stages" data-p-stages></ol>
+          <div class="proj__note" data-p-note>
+            <span class="label label--blue">From your project team</span>
+            <p data-p-note-text></p>
+            <a class="link-arrow" href="{{phoneHref}}" style="color:var(--blue-2)"><span>Call your team · {{phone}}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{> cta}}
