@@ -252,7 +252,7 @@ ${scripts.map((s) => `<script src="${base}assets/js/${s}" defer></script>`).join
 }
 
 /** Inner page hero, shared by every page except home. */
-export function phero({ crumbs = [], title, lead = "", media = "", mediaAlt = "", caption = "", meta = [], buttons = "", base = "", long = false, side = "" }) {
+export function phero({ crumbs = [], title, lead = "", media = "", mediaAlt = "", mediaPos = "", caption = "", meta = [], buttons = "", base = "", long = false, side = "" }) {
   const lines = title.map((t) => `<span class="line"><span>${t}</span></span>`).join("");
   return `<section class="phero">
   ${rootLines}
@@ -264,7 +264,7 @@ export function phero({ crumbs = [], title, lead = "", media = "", mediaAlt = ""
         ${lead ? `<p class="lead fade-in">${lead}</p>` : ""}
         ${buttons ? `<div class="btn-row fade-in">${buttons}</div>` : ""}
       </div>
-      ${media ? `<figure class="phero-media">${img(media, { alt: mediaAlt, sizes: "(max-width: 1024px) 100vw, 40vw", eager: true, base })}${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>` : side}
+      ${media ? `<figure class="phero-media">${img(media, { alt: mediaAlt, sizes: "(max-width: 1024px) 100vw, 40vw", eager: true, base, style: mediaPos ? `object-position:${mediaPos}` : "" })}${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>` : side}
     </div>
     ${meta.length ? `<div class="phero-meta fade-in">${meta.map((m) => `<span>${m}</span>`).join("")}</div>` : ""}
   </div>
@@ -290,7 +290,7 @@ export const testimonials = [
   },
 ];
 
-export const tCard = (t, i = 0, style = "") => `<article class="card t-card" data-reveal style="--d:${i * 0.08}s;${style}">
+export const tCard = (t, i = 0, style = "") => `<article class="card t-card${strip(t.text).length < 360 ? " is-short" : ""}" data-reveal style="--d:${i * 0.08}s;${style}">
   <span class="q" aria-hidden="true">“</span>
   <blockquote>${t.text}</blockquote>
   <div class="t-who"><span class="avatar ${t.tone}">${t.initial}</span><div><b>${t.name}</b><span>Coaching client</span></div></div>

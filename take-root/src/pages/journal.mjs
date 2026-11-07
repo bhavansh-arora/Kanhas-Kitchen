@@ -27,7 +27,7 @@ ${phero({
       </div>
     </a>
     ${sh("02", "All entries", `${rest.length} more`)}
-    <div class="posts">${rest.map((p, i) => postCard(p, "", i)).join("")}</div>
+    <div class="posts posts--4">${rest.map((p, i) => postCard(p, "", i)).join("")}</div>
   </div>
 </section>
 `;
@@ -64,7 +64,7 @@ ${phero({
   <div class="wrap">
     ${sh("→", "Keep reading", "From the journal")}
     <div class="posts">${[prev, next].map((q, j) => postCard(q, base, j)).join("")}
-      <a class="card card--forest" href="../journal.html" style="display:flex;flex-direction:column;justify-content:space-between;min-height:320px;--d:.16s" data-reveal>
+      <a class="card card--forest card-split journal-card" href="../journal.html" style="--d:.16s" data-reveal>
         <span class="mono">The journal</span>
         <div><h3 class="h3">All <em>${posts.length} entries</em></h3><p style="margin-top:10px">Stories and reflections on boundaries, balance, letting go and finding your footing.</p></div>
         <div class="card-foot"><span></span>${arrowDot}</div>

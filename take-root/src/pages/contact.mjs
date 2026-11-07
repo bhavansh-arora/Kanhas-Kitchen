@@ -11,13 +11,15 @@ ${phero({
   crumbs: ["Contact"],
   title: ["Talk to <em>me.</em>"],
   lead: "Questions, feedback, or just not sure where to start? Send a note and I’ll respond personally as soon as possible.",
+  buttons: btn("Write to me", "#message", "btn--clay") + btn("Book a free call", "work-with-me.html", "btn--ghost-light"),
   media: "adrienne-cafe",
+  mediaPos: "50% 56%",
   mediaAlt: "Adrienne at a café table with her laptop",
   caption: "<span>Replies from Adrienne</span><span>Personally</span>",
   meta: [SITE.email, "Raleigh, NC area", "Sessions held virtually"],
 })}
 
-<section class="section">
+<section class="section" id="message" style="scroll-margin-top:40px">
   <div class="wrap">
     ${sh("01", "Send a message", "Private &amp; confidential")}
     <div class="contact-grid">
@@ -62,7 +64,7 @@ ${phero({
             <div class="contact-line"><span>Based in</span><b>Raleigh, NC · virtual</b></div>
           </div>
         </div>
-        <a class="card card--forest" href="work-with-me.html" style="display:block;--d:.14s" data-reveal>
+        <a class="card card--forest contact-grow" href="work-with-me.html" style="--d:.14s" data-reveal>
           <div class="card-top"><span class="mono">Rather talk?</span><span class="arrow-dot">${icons.arrow}</span></div>
           <h3 class="h3" style="margin-top:48px">Book a free <em>First Step</em> call.</h3>
           <p style="margin-top:10px">Thirty minutes, on video, no pressure — the quickest way to see if coaching is a fit.</p>

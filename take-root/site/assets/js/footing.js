@@ -31,7 +31,7 @@
     const [lx, ly] = pt(i, 12.6);
     const anchor = Math.abs(lx - C) < 8 ? "middle" : lx > C ? "start" : "end";
     const t = el("text", { class: "lbl", x: lx, y: ly + 4, "text-anchor": anchor });
-    t.textContent = inp.dataset.label.split(" & ")[0];
+    t.textContent = inp.dataset.short || inp.dataset.label.split(" & ")[0];
     svg.appendChild(t);
   });
   const shape = el("polygon", { class: "shape" });

@@ -131,7 +131,7 @@ ${marquee(["Clarity", "Confidence", "Courage", "Purpose", "Balance", "Growth"])}
     </div>
     <div class="bento">
       <a class="card card--img b-7 b-tall" href="work-with-me.html" data-reveal>
-        ${img("adrienne-laptop", { alt: "Adrienne on a video coaching call", sizes: "(max-width: 1024px) 100vw, 58vw", style: "object-position:50% 30%" })}
+        ${img("adrienne-laptop", { alt: "Adrienne on a video coaching call", sizes: "(max-width: 1024px) 100vw, 58vw", style: "object-position:50% 50%" })}
         <div class="card-top"><span class="mono">01 — Start here</span><span class="badge" style="background:var(--ember);color:var(--soil)">Free</span></div>
         <div class="card-foot">
           <div><h3 class="h3">A free 30-minute <em>First Step</em> call.</h3><p style="margin-top:10px;max-width:420px">An honest conversation to see if we’re a good fit. No pressure, no commitment.</p></div>
@@ -144,6 +144,11 @@ ${marquee(["Clarity", "Confidence", "Courage", "Purpose", "Balance", "Growth"])}
           <div class="price"><sup>$</sup>390<small>/ 3 sessions</small></div>
           <h3 class="h4" style="margin-top:18px">The 3-session <em>package</em></h3>
           <p style="margin-top:10px">Space and continuity to go deeper — discovering patterns, building clarity, and taking meaningful steps forward. Just $130 per session.</p>
+          <ul class="tick-list">
+            <li>Three 50-minute sessions</li>
+            <li>Momentum built week to week</li>
+            <li>Recurring Client tune-ups afterwards</li>
+          </ul>
         </div>
       </a>
       <a class="card b-4" href="coaching.html#pricing" data-reveal style="display:flex;flex-direction:column;justify-content:space-between">
@@ -175,9 +180,11 @@ ${marquee(["Clarity", "Confidence", "Courage", "Purpose", "Balance", "Growth"])}
           <div class="stack-top"><span class="step-pill">${s.pill}</span><span class="mono">${s.meta}</span></div>
           <h3>${s.h}</h3>
           <p>${s.p}</p>
-          <div class="chips">${s.chips.map((c) => `<span class="chip">${c}</span>`).join("")}</div>
-          ${i === 3 ? `<div style="margin-top:22px">${btn("Start with a free call", "work-with-me.html", "")}</div>` : ""}
-          <span class="stack-num" aria-hidden="true">0${i + 1}</span>
+          ${i === 3 ? `<div class="stack-cta">${btn("Start with a free call", "work-with-me.html", "")}</div>` : ""}
+          <div class="stack-foot">
+            <div class="chips">${s.chips.map((c) => `<span class="chip">${c}</span>`).join("")}</div>
+            <span class="stack-num" aria-hidden="true">0${i + 1}</span>
+          </div>
         </div>
         <div class="stack-media">${img(s.img, { alt: "", sizes: "(max-width: 860px) 100vw, 50vw", style: `object-position:${s.pos}` })}</div>
       </article>`).join("")}

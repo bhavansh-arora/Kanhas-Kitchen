@@ -20,7 +20,7 @@ ${phero({
     ${sh("01", "Book your time", "New or returning")}
     <div class="head-row">
       <h2 class="h2 balance" data-reveal>Are you a new or <em>returning</em> client?</h2>
-      <div data-reveal style="--d:.1s;justify-self:end">
+      <div class="seg-wrap" data-reveal style="--d:.1s">
         <div class="seg" role="tablist" aria-label="Client type">
           <span class="seg-thumb" aria-hidden="true"></span>
           <button type="button" role="tab" id="tab-new" aria-controls="panel-new" aria-selected="true" data-hash="new">New client</button>
@@ -84,14 +84,14 @@ ${phero({
   <div class="wrap">
     ${sh("02", "Not ready to book?", "That’s okay")}
     <div class="bento">
-      <a class="card card--img b-7" href="footing-check.html" style="min-height:420px" data-reveal>
+      <a class="card card--img b-7 card-min" href="footing-check.html" data-reveal>
         ${img("forest-path", { alt: "", sizes: "(max-width: 1024px) 100vw, 58vw" })}
         <div class="card-top"><span class="mono">Free · 2 minutes</span></div>
         <div class="card-foot"><div><h3 class="h3">Take the <em>Footing Check.</em></h3><p style="margin-top:10px;max-width:420px">A private, two-minute reflection across six areas of your life. Bring your results to our first call.</p></div>${`<span class="arrow-dot">${icons.arrow}</span>`}</div>
       </a>
-      <a class="card b-5" href="contact.html" style="display:flex;flex-direction:column;justify-content:space-between;min-height:420px" data-reveal>
+      <a class="card b-5 card-min card-split" href="contact.html" data-reveal>
         <div class="card-top"><div class="icon-badge">${icons.mail}</div><span class="arrow-dot">${icons.arrow}</span></div>
-        <div><h3 class="h3">Talk it through <em>first.</em></h3><p class="muted" style="margin-top:10px">Fill out the short contact form and I’ll reach out so we can talk it through before you book anything.</p></div>
+        <div><h3 class="h3">Talk it through <em>first.</em></h3><p class="muted" style="margin-top:10px">Fill out the short contact form and I’ll reach out so we can talk it through before you book anything.</p><p class="contact-hint">Or email <b>adrienne@takerootlifecoaching.com</b></p></div>
       </a>
     </div>
   </div>

@@ -34,14 +34,14 @@ ${phero({
         ${AREAS.map(([k, l, p, c]) => `<div class="slider" style="--c:${c}">
           <div class="slider-head"><label for="r-${k}"><i></i>${l}</label><output for="r-${k}" id="o-${k}">5</output></div>
           <p>${p}</p>
-          <input type="range" id="r-${k}" name="${k}" min="1" max="10" step="1" value="5" data-label="${l.replace("&amp;", "&")}">
+          <input type="range" id="r-${k}" name="${k}" min="1" max="10" step="1" value="5" data-label="${l.replace("&amp;", "&")}" data-short="${({ career: "Career", health: "Health", relationships: "People", purpose: "Purpose", daily: "Balance", growth: "Growth" })[k]}">
           <div class="scale-hint"><span>Struggling</span><span>Thriving</span></div>
         </div>`).join("")}
       </form>
       <aside class="card card--forest tool-result" aria-live="polite" data-reveal style="--d:.08s">
         <div class="card-top"><span class="mono">Your snapshot</span><span class="badge" data-badge>Live</span></div>
         <div class="wheel">
-          <svg viewBox="-62 -34 524 468" role="img" aria-label="Wheel chart of your six scores" data-wheel></svg>
+          <svg viewBox="-80 -34 560 468" role="img" aria-label="Wheel chart of your six scores" data-wheel></svg>
           <div class="wheel-center"><b data-avg>5.0</b><span>Average</span></div>
         </div>
         <div class="insight">

@@ -17,6 +17,7 @@ ${phero({
   lead: "Coaching isn’t about being told what to do — it’s about finally having the space to figure out what you actually want.",
   buttons: btn("Book a free call", "work-with-me.html", "btn--clay") + btn("See pricing", "#pricing", "btn--ghost-light"),
   media: "adrienne-laptop",
+  mediaPos: "50% 46%",
   mediaAlt: "Adrienne in a virtual coaching session",
   caption: "<span>Sessions held virtually</span><span>50 minutes</span>",
   meta: ["Free First Step call", "Single session · $150", "3-session package · $390", "100% virtual"],
