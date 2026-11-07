@@ -124,7 +124,7 @@
   $$(".ftr__card").forEach(function (card) {
     gsap.fromTo(card, { "--rise": "45%" }, { "--rise": "-8%", ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "top 20%", scrub: true } });
     var giant = card.querySelector(".ftr__giant span");
-    if (giant) gsap.fromTo(giant, { yPercent: 45 }, { yPercent: 14, ease: "none", scrollTrigger: { trigger: giant, start: "top bottom", end: "bottom bottom", scrub: true } });
+    if (giant) gsap.fromTo(giant, { yPercent: 40 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: giant, start: "top bottom", end: "bottom bottom", scrub: true } });
   });
 
   window.addEventListener("load", function () { ST.refresh(); if (IT.positionNotes) IT.positionNotes(); });
