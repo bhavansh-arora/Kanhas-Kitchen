@@ -730,7 +730,7 @@ html:not(.js) .acc__panel { height: auto; }
 .service__media { grid-column: 2 / span 5; }
 .service__media .frame { aspect-ratio: 5 / 6; }
 .service__body { grid-column: 8 / -1; display: flex; flex-direction: column; gap: 24px; position: sticky; top: calc(var(--header-h) + 32px); }
-.service:nth-child(even) .service__media { grid-column: 7 / span 5; order: 3; }
+.service:nth-child(even) .service__media { grid-column: 8 / span 5; order: 3; }
 .service:nth-child(even) .service__body { grid-column: 2 / span 5; order: 2; }
 .ticks { display: grid; gap: 14px; }
 .ticks li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; color: var(--text-2); }
@@ -1035,3 +1035,117 @@ fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
   .hero__foot .label { font-size: 10.5px; letter-spacing: .1em; }
   .hero__foot > :first-child { max-width: 24ch; }
 }
+
+/* ==========================================================================
+   Precision pass: headings sized to their columns, masks that never clip
+   descenders, consistent breathing room under display type.
+   ========================================================================== */
+
+/* SplitText line masks: room for italic ascenders/descenders without shifting layout */
+.split-mask-line-mask { padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
+
+/* Headings that live in half-width or narrower columns */
+.service__body .h-2,
+.feature__body .h-2,
+.faq__head .h-2,
+.tl-step__head .h-2 { font-size: clamp(32px, 4.3vw, 66px); }
+.step-card--end .h-2 { font-size: clamp(32px, 3.3vw, 54px); }
+
+/* Display type on phones: the longest word must fit the screen */
+@media (max-width: 480px) {
+  .h-1 { font-size: 10.2vw; }
+  .h-mega { font-size: 13.4vw; }
+  .h-2 { font-size: 9.4vw; }
+  .service__body .h-2, .feature__body .h-2, .faq__head .h-2, .tl-step__head .h-2 { font-size: 9.4vw; }
+}
+
+/* Space under display headings with italic descenders */
+.band__row { margin-top: clamp(28px, 3.4vw, 64px); }
+.bill-display { padding-top: .06em; line-height: .9; }
+.calc__inputs .bill-display { font-size: clamp(56px, 6.2vw, 104px); }
+
+/* Closed accordion answers are hidden from keyboard and screen readers too */
+.acc__panel { visibility: hidden; transition: visibility 0s .7s; }
+.acc.is-open .acc__panel { visibility: visible; transition-delay: 0s; }
+html:not(.js) .acc__panel { visibility: visible; }
+@media (max-width: 960px) { .tl-step { grid-template-columns: 44px minmax(0, 1fr); } }
+@media (max-width: 480px) { .tl-step__head .h-2 { font-size: 7.4vw; } }
+
+/* Idle page curtain never shows, even when mobile toolbars resize the viewport */
+.curtain { visibility: hidden; }
+.is-returning .curtain { visibility: visible; }
+
+/* Testimonials: all quotes share one grid cell; height = longest quote, no dead space */
+.quotes__stage { display: grid; min-height: 0; }
+.quote, .quote.is-active { position: relative; inset: auto; grid-area: 1 / 1; }
+
+/* Responsive helpers */
+.show-mobile { display: none; }
+@media (max-width: 760px) { .show-mobile { display: inline; } }
+
+.partner--more { border-style: dashed; color: var(--text-3); }
+
+/* Estimator cells: tight label/value pairs on small screens */
+@media (max-width: 960px) {
+  .estimator__out { min-height: 0; gap: 10px; padding: 18px 20px; }
+  .estimator__out.is-wide { gap: 12px; }
+}
+@media (max-width: 480px) {
+  .estimator__right { grid-template-columns: 1fr 1fr; }
+  .estimator__val { font-size: 26px; }
+  .estimator__out.is-wide .estimator__val { font-size: 44px; }
+}
+.check > span { flex: 1; min-width: 0; }
+
+.tl-step__head .h-2 { font-size: clamp(30px, 3.9vw, 58px); }
+@media (max-width: 480px) { .tl-step__head .h-2 { font-size: 7.4vw; } }
+
+/* ---------- Precision pass 2 ---------- */
+/* Balanced headings: no single orphaned word on the last line */
+.h-1, .h-2, .h-3, .h-4, .lead, .quote blockquote { text-wrap: balance; }
+.body-lg, .prose p, .cap p, .trio__card p { text-wrap: pretty; }
+
+/* Service rows: text centered beside its photo, rows aligned to the page edges */
+.service { align-items: center; }
+.service__index { align-self: start; }
+.service__body { position: static; }
+
+/* Contact: card column matches the form height, map fills the rest */
+.contact { align-items: stretch; }
+.contact__cards { display: flex; flex-direction: column; }
+.contact__cards .map-card { flex: 1 1 300px; }
+
+/* Tracker: empty state matches the lookup card */
+.tracker__result { align-self: stretch; }
+.tracker__empty { height: 100%; align-content: center; }
+.proj.is-visible + .tracker__empty, .tracker__result:has(.proj.is-visible) .tracker__empty { display: none; }
+
+/* Process cards without the horizontal scroller: closing card spans the row */
+.hscroll:not(.is-pinned) .step-card--end { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto auto; column-gap: var(--gap); align-items: end; }
+.hscroll:not(.is-pinned) .step-card--end > .label { grid-column: 1 / -1; }
+.hscroll:not(.is-pinned) .step-card--end > .btn { grid-column: 2; grid-row: 2 / span 2; align-self: end; }
+@media (max-width: 760px) {
+  .hscroll:not(.is-pinned) .step-card--end { grid-template-columns: 1fr; }
+  .hscroll:not(.is-pinned) .step-card--end > .btn { grid-column: 1; grid-row: auto; justify-self: start; }
+}
+
+/* Privacy: summary panel beside the text */
+.legal { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+.legal .prose { grid-column: 1 / span 7; grid-row: 1; max-width: none; }
+.legal__aside { grid-column: 9 / -1; grid-row: 1; position: sticky; top: calc(var(--header-h) + 32px); gap: 20px; }
+.legal__aside .ticks li { font-size: 15.5px; }
+@media (max-width: 960px) {
+  .legal .prose, .legal__aside { grid-column: 1 / -1; grid-row: auto; position: static; }
+}
+
+.stage-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--gap); border-top: 1px solid var(--line); }
+.stage-list li { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--text); font-weight: 550; font-stretch: 106%; }
+@media (max-width: 480px) { .stage-list { grid-template-columns: 1fr; } }
+
+/* Funnel nav: the primary button never runs past the screen edge */
+.fstep__nav .btn { min-width: 0; }
+@media (max-width: 480px) {
+  .fstep__nav { flex-wrap: wrap; }
+  .fstep__nav .btn { flex: 1 1 auto; justify-content: space-between; }
+}
+@media (max-width: 1023px) { .funnel__aside { margin-top: clamp(24px, 5vw, 40px); } }

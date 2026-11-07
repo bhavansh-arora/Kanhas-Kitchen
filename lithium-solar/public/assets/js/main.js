@@ -52,12 +52,12 @@
     if (returning || reduce || !pre) {
       if (pre) pre.remove();
       gsap.set(curtain, { yPercent: 0, y: 0 });
-      gsap.to(curtain, { yPercent: -100, duration: reduce ? 0 : 0.95, ease: 'expo.inOut', delay: 0.05, onComplete: function () { gsap.set(curtain, { yPercent: 100 }); } });
+      gsap.to(curtain, { yPercent: -100, duration: reduce ? 0 : 0.95, ease: 'expo.inOut', delay: 0.05, onComplete: function () { gsap.set(curtain, { yPercent: 100, visibility: 'hidden' }); } });
       setTimeout(ready, reduce ? 0 : 380);
       return;
     }
 
-    gsap.set(curtain, { yPercent: 100 });
+    gsap.set(curtain, { yPercent: 100, visibility: 'hidden' });
     if (lenis) lenis.stop();
     var count = $('[data-preload-count]', pre);
     var o = { v: 0 };
@@ -94,9 +94,9 @@
       if (url.pathname === location.pathname && url.hash) return;
       e.preventDefault();
       closeMenu();
-      gsap.fromTo(curtain, { yPercent: 100 }, { yPercent: 0, duration: 0.75, ease: 'expo.inOut', onComplete: function () { location.href = url.href; } });
+      gsap.fromTo(curtain, { yPercent: 100, visibility: 'visible' }, { yPercent: 0, duration: 0.75, ease: 'expo.inOut', onComplete: function () { location.href = url.href; } });
     });
-    window.addEventListener('pageshow', function (e) { if (e.persisted) gsap.set(curtain, { yPercent: 100 }); });
+    window.addEventListener('pageshow', function (e) { if (e.persisted) gsap.set(curtain, { yPercent: 100, visibility: 'hidden' }); });
   }
 
   /* ---------- Header ---------- */
@@ -216,7 +216,7 @@
           el.classList.add('is-split');
           if (played) return;
           var anim = gsap.from(self.lines, {
-            yPercent: 115,
+            yPercent: 135,
             rotate: 2.5,
             transformOrigin: '0% 100%',
             duration: 1.35,

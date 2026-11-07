@@ -186,7 +186,7 @@
       $('[data-step-name]').textContent = next.getAttribute('data-name');
       $('[data-bar]').style.width = ((n - 1) / TOTAL * 100 + 100 / TOTAL / 2) + '%';
       $('[data-back]').hidden = n === 1;
-      $('[data-next-label]').textContent = n === TOTAL ? 'Book my free assessment' : 'Continue';
+      $('[data-next-label]').textContent = n === TOTAL ? 'Book free assessment' : 'Continue';
       if (window.gsap && !reduce && prev !== next) {
         gsap.fromTo(next.children, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.05, ease: 'expo.out', clearProps: 'transform' });
       }
