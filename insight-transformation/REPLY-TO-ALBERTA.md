@@ -18,7 +18,7 @@ Thank you for being open to this. Instead of a list of ideas, I thought it would
 
 **[PREVIEW LINK]**
 
-Everything in it comes from your current site: your words, your photos, your logo and your Level I–III structure. I've given it a calm, editorial look, a bit like a well-designed magazine, so your message and your photo lead, and it works beautifully on phones and tablets. There are small orange numbered dots on the pages. Click any of them for a short note on what changed and why.
+It's built from your current site: your words, your photos, your logo and your Level I–III structure. I've given it a warm, premium look built around your own message, "clear the fog": soft morning light breaking through mist, with your purple carried through in an elegant way. It works beautifully on phones and tablets. There are small orange numbered dots on the pages. Click any of them for a short note on what changed and why.
 
 The ideas that I think matter most for turning visitors into booked calls:
 
@@ -30,7 +30,7 @@ The ideas that I think matter most for turning visitors into booked calls:
 
 **4. One clear next step, everywhere.** Every page leads to your free get-to-know-you session. On phones, a small booking bar follows the visitor down the page, so booking is always one tap away.
 
-**5. Your philosophy, made visible.** Your ontology training is what sets you apart, so the site shows it: existence, consciousness and bliss become three overlapping circles on the About page, and Knowledge, Awareness and Joy each get their own space on the home page. A "Wishing → Action" switch shows, in your own language, the shift from wishing and wanting to action.
+**5. Your philosophy, made visible.** Your ontology training is what sets you apart, so the site shows it: existence, consciousness and bliss become three overlapping circles on the About page, and Knowledge, Awareness and Joy unfold as a journey "from fog to light" on the home page. A "Wishing → Action" switch shows, in your own language, the shift from wishing and wanting to action.
 
 **6. Louisa and Rebecca, front and center.** Their stories get real space as large pull-quotes, with each full testimonial one tap away.
 
