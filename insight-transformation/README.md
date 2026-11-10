@@ -38,7 +38,7 @@ cd insight-transformation && python3 -m http.server 8080
 ## Tech notes
 
 - Motion uses GSAP + ScrollTrigger and Lenis, all vendored in `assets/vendor/`. Every effect is optional: without JS, or with "reduce motion" turned on, all content stays visible and usable.
-- Design: "from fog to light" — Bodoni Moda (headings) and Manrope (text) from Google Fonts; warm ivory with deep plum bands, Alberta's violet for accents and her sunrise orange for small details. Colours live as variables at the top of `assets/css/main.css`.
+- Design: bold — Inter Tight (headlines and text) with Instrument Serif italic accents, from Google Fonts; deep indigo, coral and sunshine yellow on warm cream. Colours live as variables at the top of `assets/css/main.css`.
 - Landscape photos are public domain / CC0 from Wikimedia Commons (see `assets/img/PHOTO-CREDITS.txt`).
 - Images are optimised WebP in `assets/img/`. The share image is `assets/img/og.jpg`.
 - `404.html` uses `<base href="/">`, so it assumes the site is served from the domain root.

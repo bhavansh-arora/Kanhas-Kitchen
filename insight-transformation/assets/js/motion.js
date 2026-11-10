@@ -57,6 +57,30 @@
     gsap.fromTo(img, { yPercent: -6 }, { yPercent: 6, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
   });
 
+  /* Hero: headline, portrait and photo tile drift apart as you scroll away */
+  var hero = document.querySelector("[data-hero]");
+  if (hero) {
+    gsap.to(hero.querySelector(".hero__title"), { yPercent: -18, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    gsap.to(hero.querySelector(".hero__arch"), { yPercent: 8, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    var tile = hero.querySelector(".hero__tile");
+    if (tile) gsap.to(tile, { yPercent: -40, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+  }
+
+  /* Gandhi lines slide in from alternating sides */
+  $$(".gandhi p").forEach(function (line, i) {
+    gsap.fromTo(line, { xPercent: i % 2 ? 10 : -10 }, { xPercent: 0, ease: "none", scrollTrigger: { trigger: line, start: "top bottom", end: "top 55%", scrub: 0.6 } });
+  });
+
+  /* Big CTA headline scales up into view */
+  var big = document.querySelector(".bigcta h2");
+  if (big) gsap.fromTo(big, { scale: .84 }, { scale: 1, ease: "none", scrollTrigger: { trigger: big, start: "top bottom", end: "center 55%", scrub: 0.6 } });
+
+  /* Marquee leans with scroll speed */
+  $$(".mq__track").forEach(function (track) {
+    var skew = gsap.quickTo(track, "skewX", { duration: 0.5, ease: "power3" });
+    ST.create({ trigger: track, start: "top bottom", end: "bottom top", onUpdate: function (self) { skew(gsap.utils.clamp(-10, 10, self.getVelocity() / -220)); } });
+  });
+
   /* About: the three circles drift together */
   var onto = document.querySelector("[data-onto]");
   if (onto) {

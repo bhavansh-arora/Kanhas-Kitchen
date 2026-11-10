@@ -18,7 +18,7 @@ Thank you for being open to this. Instead of a list of ideas, I thought it would
 
 **[PREVIEW LINK]**
 
-It's built from your current site: your words, your photos, your logo and your Level I–III structure. I've given it a warm, premium look built around your own message, "clear the fog": soft morning light breaking through mist, with your purple carried through in an elegant way. It works beautifully on phones and tablets. There are small orange numbered dots on the pages. Click any of them for a short note on what changed and why.
+It's built from your current site: your words, your photos, your logo and your Level I–III structure. I've given it a bold, energetic look built around your own message, "clear the fog, find your joy": confident headlines, warm sunrise colours and imagery of light breaking through mist. It works beautifully on phones and tablets. There are small orange numbered dots on the pages. Click any of them for a short note on what changed and why.
 
 The ideas that I think matter most for turning visitors into booked calls:
 
