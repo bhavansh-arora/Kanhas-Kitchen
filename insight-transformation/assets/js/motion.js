@@ -60,10 +60,9 @@
   /* Hero: headline, portrait and photo tile drift apart as you scroll away */
   var hero = document.querySelector("[data-hero]");
   if (hero) {
-    gsap.to(hero.querySelector(".hero__title"), { yPercent: -18, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
-    gsap.to(hero.querySelector(".hero__arch"), { yPercent: 8, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
-    var tile = hero.querySelector(".hero__tile");
-    if (tile) gsap.to(tile, { yPercent: -40, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    var ht = hero.querySelector(".vhero__title"), hi = hero.querySelector(".vhero__img img");
+    if (ht) gsap.to(ht, { yPercent: -14, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    if (hi) gsap.fromTo(hi, { scale: 1.06 }, { scale: 1.16, yPercent: 6, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
   }
 
   /* Gandhi lines slide in from alternating sides */
