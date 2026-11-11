@@ -119,7 +119,7 @@
   });
 
   /* Photos reveal upward from a clip and settle from a zoom */
-  $$(".tile--photo img, .pstep__img img, .meet__img .arch img, .tabpanel__media img, .who__img img, .process__img img, .jcard__img img").forEach(function (img) {
+  $$(".tile--photo img, .signs__img img, .meet__img .arch img, .tabpanel__media img, .who__img img, .process__img img, .jcard__img img").forEach(function (img) {
     gsap.fromTo(img, { clipPath: "inset(100% 0% 0% 0%)", scale: 1.3 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1, duration: 1.5, ease: "expo.out", clearProps: "transform", scrollTrigger: { trigger: img.parentElement, start: "top 88%" } });
   });
 
@@ -127,7 +127,7 @@
   [[".ptiles", ".ptile"], [".bento", ".tile"], [".qtiles", ".qtile"], [".plans", ".plan"], [".values", ".value"], [".who", ".who__card"], [".outcomes", ".outcome"]].forEach(function (pair) {
     $$(pair[0]).forEach(function (wrap) {
       var items = $$(pair[1], wrap); items.forEach(settle);
-      gsap.from(items, { y: 70, rotate: function (i) { return i % 2 ? 1.5 : -1.5; }, opacity: 0, duration: 1.1, ease: "power3.out", stagger: 0.07, clearProps: "transform,opacity", scrollTrigger: { trigger: wrap, start: "top 85%" } });
+      gsap.from(items, { y: 70, opacity: 0, duration: 1.1, ease: "power3.out", stagger: 0.07, clearProps: "transform,opacity", scrollTrigger: { trigger: wrap, start: "top 85%" } });
     });
   });
 
@@ -154,6 +154,38 @@
     });
   }
 
+  /* Word band: two rows of giant words slide in opposite directions */
+  var band = document.querySelector("[data-wordband]");
+  if (band) {
+    gsap.fromTo(band.querySelector(".wordband__row--a"), { xPercent: 0 }, { xPercent: -28, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.4 } });
+    gsap.fromTo(band.querySelector(".wordband__row--b"), { xPercent: -28 }, { xPercent: 0, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.4 } });
+    gsap.fromTo(band.querySelector(".wordband__img img"), { yPercent: -12 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: true } });
+    gsap.fromTo(band, { clipPath: "inset(8% 6% 8% 6% round 34px)" }, { clipPath: "inset(0% 0% 0% 0% round 34px)", ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "top 35%", scrub: 0.6 } });
+  }
+
+  /* "Is this you?": each line brightens as it reaches the middle of the screen */
+  var signs = document.querySelector("[data-signs]");
+  if (signs) {
+    signs.classList.add("is-live");
+    $$(".sign", signs).forEach(function (li) {
+      ST.create({ trigger: li, start: "top 62%", end: "bottom 38%", toggleClass: { targets: li, className: "is-on" } });
+      gsap.from(li.querySelector("p"), { x: 40, duration: 1, ease: "power3.out", scrollTrigger: { trigger: li, start: "top 88%" } });
+    });
+  }
+
+  /* "How it works": the path draws itself, stops light up, photos swing in */
+  var route = document.querySelector("[data-route]");
+  if (route) {
+    var fill = route.querySelector(".route__line i");
+    gsap.to(fill, { scaleY: 1, ease: "none", scrollTrigger: { trigger: route, start: "top 60%", end: "bottom 60%", scrub: 0.5 } });
+    $$(".stop", route).forEach(function (stop, i) {
+      ST.create({ trigger: stop, start: "top 60%", onEnter: function () { stop.classList.add("is-on"); }, onLeaveBack: function () { stop.classList.remove("is-on"); } });
+      var dir = i % 2 ? -1 : 1;
+      gsap.from(stop.querySelector(".stop__media"), { x: 80 * dir, rotate: 6 * dir, opacity: 0, duration: 1.3, ease: "power4.out", scrollTrigger: { trigger: stop, start: "top 80%" } });
+      gsap.from(stop.querySelector(".stop__body"), { x: -50 * dir, opacity: 0, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: stop, start: "top 80%" } });
+    });
+  }
+
   /* Meet: stats count and rise */
   $$(".meet__stats div, .tile__big").forEach(function (el, i) {
     gsap.from(el, { y: 40, opacity: 0, duration: 1, ease: "power3.out", delay: (i % 3) * 0.08, scrollTrigger: { trigger: el, start: "top 90%" } });
@@ -170,7 +202,7 @@
       var mx = gsap.quickTo(himg, "x", { duration: 1.2, ease: "power3" }), my = gsap.quickTo(himg, "y", { duration: 1.2, ease: "power3" });
       hcard.addEventListener("mousemove", function (e) { var r = hcard.getBoundingClientRect(); mx(((e.clientX - r.left) / r.width - 0.5) * -24); my(((e.clientY - r.top) / r.height - 0.5) * -16); });
     }
-    $$(".tile, .qtile, .mc, .ptile").forEach(function (card) {
+    $$(".tile--photo, .qtile--accent").forEach(function (card) {
       var rx = gsap.quickTo(card, "rotationX", { duration: 0.6, ease: "power3" }), ry = gsap.quickTo(card, "rotationY", { duration: 0.6, ease: "power3" });
       gsap.set(card, { transformPerspective: 900 });
       card.addEventListener("mousemove", function (e) { var r = card.getBoundingClientRect(); ry(((e.clientX - r.left) / r.width - 0.5) * 7); rx(((e.clientY - r.top) / r.height - 0.5) * -7); });
