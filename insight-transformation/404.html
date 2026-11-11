@@ -22,7 +22,8 @@
 <link rel="stylesheet" href="assets/css/main.css">
 <script>
 (function(){var h=document.documentElement;h.classList.remove("no-js");h.classList.add("js");
-try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering");s.removeItem("it-enter");}}catch(e){}})();
+try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering");s.removeItem("it-enter");}
+else if(h.getAttribute("data-page")==="home"&&!s.getItem("it-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){h.classList.add("is-loading");}}catch(e){}})();
 </script>
 </head>
 <body>
@@ -42,7 +43,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
 <div class="menu" id="menu" data-menu aria-label="Site menu">
   <nav class="menu__links" aria-label="Mobile"><a href="index.html"><small>I</small>Home</a><a href="about.html"><small>II</small>About</a><a href="coaching.html"><small>III</small>Coaching</a><a href="find-your-level.html"><small>IV</small>Find your level</a><a href="contact.html"><small>V</small>Contact</a></nav>
   <div class="menu__foot">
-    <a class="btn btn--block" href="contact.html"><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <a class="btn btn--block" href="contact.html" data-magnetic><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     <p>Virtual &amp; by phone &middot; <a class="mail" href="mailto:hello@insighttransform.com">hello@insighttransform.com</a></p>
   </div>
 </div>
@@ -52,7 +53,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
   <div class="wrap">
     <p class="kicker intro-fade" style="--i:0">404 &middot; Page not found</p>
     <h1 class="phero__title js-lines"><span class="line"><span style="--i:1">This path is</span></span><span class="line"><span style="--i:2">a little <em class="it">foggy.</em></span></span></h1>
-    <div class="btn-row intro-fade" style="--i:3"><a class="btn " href="index.html"><span>Back to home</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="link-arrow" href="contact.html">Book a free session <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a></div>
+    <div class="btn-row intro-fade" style="--i:3"><a class="btn " href="index.html" data-magnetic><span>Back to home</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="link-arrow" href="contact.html">Book a free session <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a></div>
   </div>
 </section>
 </main>
@@ -71,7 +72,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
     <p class="kicker" data-reveal>Your next chapter</p>
     <h2 id="ftr-h" data-reveal style="--d:.05s">Ready to <em class="it">begin?</em></h2>
     <p data-reveal style="--d:.1s">What actions are you taking? Let&rsquo;s clear your path toward your destiny &mdash; starting with a free, no-pressure conversation.</p>
-    <div data-reveal style="--d:.15s"><a class="btn btn--light" href="contact.html"><span>Book your free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+    <div data-reveal style="--d:.15s"><a class="btn btn--light" href="contact.html" data-magnetic><span>Book your free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     <a class="mail" href="mailto:hello@insighttransform.com" data-reveal style="--d:.2s">hello@insighttransform.com</a>
   </div>
 </section>
@@ -105,6 +106,8 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
   <p><b>Free get-to-know-you session</b><span>Virtual or by phone</span></p>
   <a class="mbar__btn" href="contact.html">Book &rarr;</a>
 </div>
+<div class="progress" aria-hidden="true"><i></i></div>
+<div class="cursor" aria-hidden="true"><span>View</span></div>
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>

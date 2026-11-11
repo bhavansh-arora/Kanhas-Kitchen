@@ -21,12 +21,19 @@
 <link rel="stylesheet" href="assets/css/main.css">
 <script>
 (function(){var h=document.documentElement;h.classList.remove("no-js");h.classList.add("js");
-try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering");s.removeItem("it-enter");}}catch(e){}})();
+try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering");s.removeItem("it-enter");}
+else if(h.getAttribute("data-page")==="home"&&!s.getItem("it-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){h.classList.add("is-loading");}}catch(e){}})();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Insight Transformational Coaching","alternateName":"Insight Transformation","url":"https://insighttransform.com/","email":"hello@insighttransform.com","image":"https://insighttransform.com/assets/img/og.jpg","description":"Life coaching for women ready to step into their purpose. Three coaching levels, available virtually and by phone.","founder":{"@type":"Person","name":"Alberta McKnight","jobTitle":"Life Coach"},"areaServed":"Virtual","makesOffer":[{"@type":"Offer","name":"Level I \u2013 Knowledge"},{"@type":"Offer","name":"Level II \u2013 Awareness"},{"@type":"Offer","name":"Level III \u2013 Joy"}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="preloader" aria-hidden="true">
+  <div class="preloader__top"><span>Insight Transformational Coaching</span><span>Clarity &middot; Focus &middot; Ease &middot; Grace</span></div>
+  <div class="preloader__words"><span>Clear</span><span>the</span><span>fog.</span><span class="it">Find your joy.</span></div>
+  <div class="preloader__count"><span>Clearing the path</span><b data-count>0</b></div>
+  <div class="preloader__bar"><i></i></div>
+</div>
 <div class="curtain" aria-hidden="true"><img class="curtain__word" src="assets/brand/mark-ivory.png" alt="" width="64" height="64"></div>
 <header class="hdr" data-hdr>
   <div class="hdr__bar">
@@ -42,7 +49,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
 <div class="menu" id="menu" data-menu aria-label="Site menu">
   <nav class="menu__links" aria-label="Mobile"><a href="index.html" aria-current="page"><small>I</small>Home</a><a href="about.html"><small>II</small>About</a><a href="coaching.html"><small>III</small>Coaching</a><a href="find-your-level.html"><small>IV</small>Find your level</a><a href="contact.html"><small>V</small>Contact</a></nav>
   <div class="menu__foot">
-    <a class="btn btn--block" href="contact.html"><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <a class="btn btn--block" href="contact.html" data-magnetic><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
     <p>Virtual &amp; by phone &middot; <a class="mail" href="mailto:hello@insighttransform.com">hello@insighttransform.com</a></p>
   </div>
 </div>
@@ -51,7 +58,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
 <section class="vhero" data-hero>
   <div class="vhero__card">
     <figure class="vhero__img intro-reveal"><img src="assets/img/alberta-wide.webp" srcset="assets/img/alberta-wide-sm.webp 900w, assets/img/alberta-wide.webp 1800w" sizes="(max-width: 720px) 100vw, 70vw" alt="Alberta McKnight, life coach, smiling outdoors" width="1800" height="1200" fetchpriority="high"></figure>
-    <a class="vhero__mini intro-pop" style="--i:2" href="contact.html">
+    <a class="vhero__mini intro-pop" style="--i:2" href="contact.html" data-cursor="Book">
       <img src="assets/img/alberta-square.webp" alt="" width="64" height="64">
       <span><small>Free &middot; Virtual or phone</small><b>Get-to-know-you session with Alberta</b></span>
       <i><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></i>
@@ -65,8 +72,8 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
           <p class="vhero__lede">I&rsquo;m Alberta McKnight, a life coach who walks alongside women ready to step into their purpose &mdash; and helps clear every block between the dream and the action that makes it real.</p>
         </div>
         <div class="btn-row" data-note="One clear next step::Every page leads to the same action &mdash; a free get-to-know-you session &mdash; and undecided visitors get a quiz instead.">
-          <a class="btn " href="contact.html"><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-          <a class="btn btn--ghost" href="find-your-level.html"><span>Find your level</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <a class="btn " href="contact.html" data-magnetic><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <a class="btn btn--ghost" href="find-your-level.html" data-magnetic><span>Find your level</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
         </div>
       </div>
       <div class="vhero__base intro-fade" style="--i:5"><span>Virtual &amp; by phone &middot; Wherever you are</span><span class="hide-sm">Scroll to begin &darr;</span></div>
@@ -97,12 +104,12 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
     <div class="meta" data-reveal="fade"><span>(03) &mdash; Ways to work together</span><span>Level I &middot; II &middot; III</span></div>
     <div class="shead__row shead--tight"><h2 class="h2" data-reveal>Three levels, <em class="it">one path to joy.</em></h2><p class="shead__aside" data-reveal>Each level builds on the one before it, and every journey begins with a free get-to-know-you session &mdash; virtually or by phone.</p></div>
     <div class="bento" data-note="Packages at a glance::Level I to III are laid out so visitors can place themselves before they get in touch.">
-      <a class="tile tile--photo t-a" href="coaching.html#level-1" data-reveal>
+      <a class="tile tile--photo t-a" href="coaching.html#level-1" data-reveal data-cursor="Explore">
         <img src="assets/img/level-1.webp" alt="" width="848" height="565" loading="lazy">
         <span class="tile__go"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
         <div class="tile__cap"><p class="tile__k">01 &mdash; Knowledge &middot; Foundational</p><h3>Get started, <em class="it">then take action.</em></h3><p class="tile__tags"><span>Identify changes</span><span>First steps</span><span>A small project</span></p></div>
       </a>
-      <a class="tile tile--photo t-b" href="coaching.html#level-2" data-reveal style="--d:.08s">
+      <a class="tile tile--photo t-b" href="coaching.html#level-2" data-reveal style="--d:.08s" data-cursor="Explore">
         <img src="assets/img/level-2.webp" alt="" width="848" height="565" loading="lazy">
         <span class="tile__go"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
         <div class="tile__cap"><p class="tile__k">02 &mdash; Awareness &middot; Action</p><h3>Put in the work, <em class="it">break through.</em></h3></div>
@@ -112,12 +119,12 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
         <p class="tile__big">3<em class="it">levels</em></p>
         <p>Level II includes everything in Level I. Level III includes both.</p>
       </div>
-      <a class="tile tile--photo t-d" href="coaching.html#level-3" data-reveal style="--d:.08s">
+      <a class="tile tile--photo t-d" href="coaching.html#level-3" data-reveal style="--d:.08s" data-cursor="Explore">
         <img src="assets/img/level-3.webp" alt="" width="823" height="582" loading="lazy">
         <span class="tile__go"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
         <div class="tile__cap"><p class="tile__k">03 &mdash; Joy &middot; Transformation</p><h3>Stay the course, <em class="it">complete a lifelong goal.</em></h3></div>
       </a>
-      <a class="tile tile--accent t-e" href="contact.html" data-reveal style="--d:.16s">
+      <a class="tile tile--accent t-e" href="contact.html" data-reveal style="--d:.16s" data-cursor="Book">
         <span class="tile__go"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
         <p class="tile__k">Start here</p>
         <h3>A free <em class="it">get-to-know-you</em> session.</h3>
@@ -134,7 +141,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
       <div class="method__intro" data-reveal>
         <h2 class="h2">Three stages to <em class="it">lasting joy.</em></h2>
         <p>My coach training is grounded in ontology &mdash; the study of being and becoming. Our work centers on three characteristics, and each one brings more of you into view.</p>
-        <a class="btn " href="contact.html"><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="btn " href="contact.html" data-magnetic><span>Book a free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
       </div>
       <div class="method__cards"><article class="mc" data-reveal style="--d:0.0s">
         <p class="mc__step"><span>Stage 01 / 03</span><span>Knowledge</span></p>
@@ -187,7 +194,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
     <div class="shead__row shead--tight"><h2 class="h2" data-reveal>From first hello to <em class="it">first breakthrough.</em></h2><p class="shead__aside" data-reveal>Simple and personal. You always know what&rsquo;s next, and you&rsquo;re never doing the work alone.</p></div>
     <div class="psteps"><article class="pstep" data-reveal>
         <div class="pstep__body"><div class="pstep__top"><span class="chip">Free &middot; Virtual or phone</span><small>Step 1 of 3</small></div>
-          <h3 class="h3">Book your <em class="it">free session.</em></h3><p>A relaxed get-to-know-you conversation about where you are and what you&rsquo;d love to change.</p><a class="btn " href="contact.html"><span>Book your free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><span class="pstep__n">01</span></div>
+          <h3 class="h3">Book your <em class="it">free session.</em></h3><p>A relaxed get-to-know-you conversation about where you are and what you&rsquo;d love to change.</p><a class="btn " href="contact.html" data-magnetic><span>Book your free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><span class="pstep__n">01</span></div>
         <div class="pstep__img"><img src="assets/img/alberta-wide-sm.webp" alt="" width="900" height="600" loading="lazy"></div>
       </article><article class="pstep" data-reveal>
         <div class="pstep__body"><div class="pstep__top"><span class="chip">Levels I &ndash; III</span><small>Step 2 of 3</small></div>
@@ -205,7 +212,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
     <div class="meta" data-reveal="fade"><span>(07) &mdash; Meet your coach</span><span>Alberta McKnight</span></div>
     <div class="meet">
       <div class="meet__img" data-reveal><div class="arch"><img src="assets/img/alberta-tall.webp" alt="Alberta McKnight smiling" width="1000" height="1333" loading="lazy"></div><a class="badge meet__badge" href="contact.html" aria-label="Book your free session">
-      <svg class="ring" viewBox="0 0 112 112" aria-hidden="true"><defs><path id="ring725" d="M56,56 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#ring725" textLength="274" lengthAdjust="spacing">Free session &#9670; No pressure &#9670; </textPath></text></svg>
+      <svg class="ring" viewBox="0 0 112 112" aria-hidden="true"><defs><path id="ring757" d="M56,56 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs><text><textPath href="#ring757" textLength="274" lengthAdjust="spacing">Free session &#9670; No pressure &#9670; </textPath></text></svg>
       <img src="assets/brand/mark-ivory.png" alt="" width="40" height="40">
     </a></div>
       <div data-reveal style="--d:.1s">
@@ -213,7 +220,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
         <p class="lead" style="margin-top:22px">I support women to step into their purpose and live a life of joy by taking authentic action toward their dreams. My coach training is based on ontology &mdash; the study of being and becoming &mdash; and my focus is to help you take your vision from wishing and wanting to reality.</p>
         <blockquote class="meet__q">&ldquo;A coach does not tell you what to do, but supports you in clearing the fog from your path.&rdquo;</blockquote>
         <dl class="meet__stats"><div><dt>3</dt><dd>coaching levels</dd></div><div><dt>Free</dt><dd>first session</dd></div><div><dt>Virtual</dt><dd>or by phone</dd></div></dl>
-        <div class="btn-row" style="margin-top:30px"><a class="btn " href="about.html"><span>Read my story</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="link-arrow" href="contact.html">Book a free session <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a></div>
+        <div class="btn-row" style="margin-top:30px"><a class="btn " href="about.html" data-magnetic><span>Read my story</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><a class="link-arrow" href="contact.html">Book a free session <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></a></div>
       </div>
     </div>
   </div>
@@ -249,7 +256,7 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
     <p class="kicker" data-reveal>Your next chapter</p>
     <h2 id="ftr-h" data-reveal style="--d:.05s">Ready to <em class="it">begin?</em></h2>
     <p data-reveal style="--d:.1s">What actions are you taking? Let&rsquo;s clear your path toward your destiny &mdash; starting with a free, no-pressure conversation.</p>
-    <div data-reveal style="--d:.15s"><a class="btn btn--light" href="contact.html"><span>Book your free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+    <div data-reveal style="--d:.15s"><a class="btn btn--light" href="contact.html" data-magnetic><span>Book your free session</span><span class="btn__ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     <a class="mail" href="mailto:hello@insighttransform.com" data-reveal style="--d:.2s">hello@insighttransform.com</a>
   </div>
 </section>
@@ -283,6 +290,8 @@ try{var s=sessionStorage;if(s.getItem("it-enter")){h.classList.add("is-entering"
   <p><b>Free get-to-know-you session</b><span>Virtual or by phone</span></p>
   <a class="mbar__btn" href="contact.html">Book &rarr;</a>
 </div>
+<div class="progress" aria-hidden="true"><i></i></div>
+<div class="cursor" aria-hidden="true"><span>View</span></div>
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/lenis.min.js" defer></script>

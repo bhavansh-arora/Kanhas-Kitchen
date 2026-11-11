@@ -89,6 +89,95 @@
     });
   }
 
+  var desktop = window.matchMedia("(min-width: 1025px)").matches;
+  var settle = function (el) { el.removeAttribute("data-reveal"); el.classList.add("is-in"); };
+
+  /* Scroll progress bar */
+  var bar = document.querySelector(".progress i");
+  if (bar) gsap.to(bar, { scaleX: 1, ease: "none", scrollTrigger: { trigger: document.documentElement, start: "top top", end: "bottom bottom", scrub: 0.3 } });
+
+  /* Section headings rise word by word from behind a mask */
+  function maskWords(el) {
+    Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+      if (node.nodeType === 3) {
+        var frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          var o = document.createElement("span"), i = document.createElement("span");
+          o.className = "wm"; i.textContent = part; o.appendChild(i); frag.appendChild(o);
+        });
+        el.replaceChild(frag, node);
+      } else if (node.nodeType === 1 && node.tagName !== "BR") maskWords(node);
+    });
+  }
+  $$(".section h2.h2, .method__intro h2, .bigcta h2, .qtile--accent h3").forEach(function (h) {
+    if (h.closest("[data-words]")) return;
+    settle(h);
+    maskWords(h);
+    gsap.from($$(".wm > span", h), { yPercent: 115, rotate: 4, duration: 1.1, ease: "power4.out", stagger: 0.045, scrollTrigger: { trigger: h, start: "top 86%" } });
+  });
+
+  /* Photos reveal upward from a clip and settle from a zoom */
+  $$(".tile--photo img, .pstep__img img, .meet__img .arch img, .tabpanel__media img, .who__img img, .process__img img, .jcard__img img").forEach(function (img) {
+    gsap.fromTo(img, { clipPath: "inset(100% 0% 0% 0%)", scale: 1.3 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1, duration: 1.5, ease: "expo.out", clearProps: "transform", scrollTrigger: { trigger: img.parentElement, start: "top 88%" } });
+  });
+
+  /* Card groups cascade in */
+  [[".ptiles", ".ptile"], [".bento", ".tile"], [".qtiles", ".qtile"], [".plans", ".plan"], [".values", ".value"], [".who", ".who__card"], [".outcomes", ".outcome"]].forEach(function (pair) {
+    $$(pair[0]).forEach(function (wrap) {
+      var items = $$(pair[1], wrap); items.forEach(settle);
+      gsap.from(items, { y: 70, rotate: function (i) { return i % 2 ? 1.5 : -1.5; }, opacity: 0, duration: 1.1, ease: "power3.out", stagger: 0.07, clearProps: "transform,opacity", scrollTrigger: { trigger: wrap, start: "top 85%" } });
+    });
+  });
+
+  /* Inline photo pills pop in with the statement */
+  $$(".pill").forEach(function (p) {
+    gsap.from(p, { scale: 0, rotate: -12, duration: 1, ease: "back.out(2.2)", scrollTrigger: { trigger: p, start: "top 82%" } });
+  });
+
+  /* Method: cards drift at different speeds, letters rise */
+  var mcards = $$(".mc");
+  mcards.forEach(function (c, i) {
+    settle(c);
+    gsap.from(c.querySelector(".mc__letter"), { yPercent: 70, opacity: 0, duration: 1.2, ease: "power4.out", scrollTrigger: { trigger: c, start: "top 82%" } });
+    if (desktop) gsap.fromTo(c, { y: 60 + i * 50 }, { y: 0, ease: "none", scrollTrigger: { trigger: c.parentElement, start: "top bottom", end: "top 25%", scrub: 0.8 } });
+  });
+
+  /* How it works: stacking cards shrink as the next one slides over */
+  if (desktop) {
+    var steps = $$(".pstep");
+    steps.forEach(function (card, i) {
+      settle(card);
+      var next = steps[i + 1]; if (!next) return;
+      gsap.to(card, { scale: 0.94 - (steps.length - i - 2) * 0.02, ease: "none", scrollTrigger: { trigger: next, start: "top bottom", end: "top 30%", scrub: true } });
+    });
+  }
+
+  /* Meet: stats count and rise */
+  $$(".meet__stats div, .tile__big").forEach(function (el, i) {
+    gsap.from(el, { y: 40, opacity: 0, duration: 1, ease: "power3.out", delay: (i % 3) * 0.08, scrollTrigger: { trigger: el, start: "top 90%" } });
+  });
+
+  /* Footer wordmark lifts into place */
+  var word = document.querySelector(".ftr__word");
+  if (word) gsap.fromTo(word, { yPercent: 55, opacity: .2 }, { yPercent: 0, opacity: 1, ease: "none", scrollTrigger: { trigger: word, start: "top bottom", end: "bottom bottom", scrub: 0.6 } });
+
+  /* Pointer-led depth: hero photo follows the mouse, cards tilt */
+  if (fine) {
+    var hcard = document.querySelector(".vhero__card"), himg = document.querySelector(".vhero__img");
+    if (hcard && himg) {
+      var mx = gsap.quickTo(himg, "x", { duration: 1.2, ease: "power3" }), my = gsap.quickTo(himg, "y", { duration: 1.2, ease: "power3" });
+      hcard.addEventListener("mousemove", function (e) { var r = hcard.getBoundingClientRect(); mx(((e.clientX - r.left) / r.width - 0.5) * -24); my(((e.clientY - r.top) / r.height - 0.5) * -16); });
+    }
+    $$(".tile, .qtile, .mc, .ptile").forEach(function (card) {
+      var rx = gsap.quickTo(card, "rotationX", { duration: 0.6, ease: "power3" }), ry = gsap.quickTo(card, "rotationY", { duration: 0.6, ease: "power3" });
+      gsap.set(card, { transformPerspective: 900 });
+      card.addEventListener("mousemove", function (e) { var r = card.getBoundingClientRect(); ry(((e.clientX - r.left) / r.width - 0.5) * 7); rx(((e.clientY - r.top) / r.height - 0.5) * -7); });
+      card.addEventListener("mouseleave", function () { rx(0); ry(0); });
+    });
+  }
+
   window.addEventListener("load", function () { ST.refresh(); if (IT.positionNotes) IT.positionNotes(); });
   if (document.fonts) document.fonts.ready.then(function () { ST.refresh(); });
   ST.addEventListener("refresh", function () { if (IT.positionNotes) IT.positionNotes(); });

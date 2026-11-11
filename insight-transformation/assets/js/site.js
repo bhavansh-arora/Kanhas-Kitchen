@@ -31,7 +31,7 @@
     var words = $$(".preloader__words span", pre);
     var t0 = performance.now(), MIN = 1700, MAX = 3600, shown = 0, fontsOk = false, imgOk = false;
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsOk = true; });
-    var heroImg = $(".hero__arch img");
+    var heroImg = $(".vhero__img img");
     if (!heroImg || heroImg.complete) imgOk = true;
     else { heroImg.addEventListener("load", function () { imgOk = true; }); heroImg.addEventListener("error", function () { imgOk = true; }); }
     (function tick(now) {
