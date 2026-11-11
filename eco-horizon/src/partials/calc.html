@@ -1,0 +1,41 @@
+    <div class="calc" data-calc data-reveal data-note-title="Grant and savings calculator" data-note="Built on the actual SEAI residential, SEAI Non-Domestic Microgen and TAMS 3 rules from your Grants page. Visitors get a figure before giving any contact details. Then 'Get my exact figures' carries their system size straight into the quote form, so they never retype it.">
+      <div class="calc__controls">
+        <div>
+          <p class="field-label">What are we powering?</p>
+          <div class="seg" role="group" aria-label="Property type">
+            <button type="button" data-mode-btn="home" aria-pressed="true">Home</button>
+            <button type="button" data-mode-btn="business" aria-pressed="false">Business</button>
+            <button type="button" data-mode-btn="farm" aria-pressed="false">Farm</button>
+          </div>
+        </div>
+        <div>
+          <p class="field-label"><span>System size</span><output data-size-out>4 kWp</output></p>
+          <input class="range" type="range" min="0" max="1000" step="1" value="500" data-size aria-label="System size in kilowatt-peak">
+          <div class="range-scale" data-scale><span>2 kWp</span><span>12 kWp</span></div>
+          <div class="presets" data-presets></div>
+        </div>
+        <label class="switch" data-battery-wrap>
+          <span><b>Add a home battery</b><small>5 kWh+ unlocks an extra €600 SEAI grant</small></span>
+          <input type="checkbox" data-battery checked>
+          <span class="switch__ui" aria-hidden="true"></span>
+        </label>
+        <p class="calc__note">Illustrative estimate. Assumes 900 kWh per kWp a year, current average Irish import and export rates, 3% yearly price rises and 0.5% panel degradation. Grants are subject to scheme rules and approval. We confirm your exact figures in your free consultation.</p>
+      </div>
+      <div class="calc__out" aria-live="polite">
+        <div class="calc__big">
+          <div><small>Back in year one</small><b data-out="year1">€0</b></div>
+          <div class="side"><small>25-year value</small><b data-out="life">€0</b></div>
+        </div>
+        <div class="calc__bar" data-out="bar" aria-hidden="true"><i style="background:#fdb813"></i><i style="background:#f05323"></i><i style="background:#0b130f"></i></div>
+        <div class="calc__rows">
+          <div><i style="background:#fdb813"></i><span><b>Grant</b><small data-out="scheme">SEAI</small></span><strong data-out="grant">€0</strong></div>
+          <div><i style="background:#f05323"></i><span><b>Bill savings</b><small>Year one, power you use yourself</small></span><strong data-out="self">€0</strong></div>
+          <div><i style="background:#0b130f"></i><span><b>Export income</b><small>Year one, Clean Export Guarantee</small></span><strong data-out="export">€0</strong></div>
+          <div><i style="background:#a6e36e"></i><span><b>Clean power generated</b><small>Per year · <span data-out="co2">0 t</span> CO₂ avoided</small></span><strong data-out="gen">0 kWh</strong></div>
+        </div>
+        <div class="calc__foot">
+          <p>Want the exact figure for your roof? We'll model it in a free design.</p>
+          <a class="btn btn--ink" href="quote.html?type=home" data-calc-cta>Get my exact figures <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span></a>
+        </div>
+      </div>
+    </div>

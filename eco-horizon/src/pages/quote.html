@@ -1,0 +1,221 @@
+<!--
+title: Get a Free Solar Quote | Homes, Business & Farms | Eco Horizon
+description: Get a free, no-obligation solar quote from Eco Horizon in about 60 seconds. Tailored for homes, businesses and farms, with grant estimate included.
+nav: quote
+scripts: quote
+bodyClass: page-quote
+-->
+<section class="page-hero" aria-labelledby="ph-title" style="padding-bottom:clamp(40px,5vw,64px)">
+  <div class="page-hero__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb" data-hero><a href="index.html">Home</a><span aria-hidden="true">/</span><span>Free quote</span></nav>
+    <h1 class="d-1 page-hero__title" id="ph-title" data-hero style="--d:.1s">Your free quote, <em>in 60 seconds.</em></h1>
+    <div class="page-hero__row">
+      <p class="lead" data-hero style="--d:.25s">Five quick steps, built for your home, business or farm. A specialist from Eco Horizon reviews every request personally and comes back with a tailored design, grant figure and fixed price.</p>
+      <div class="specs" data-hero style="--d:.4s"><span><small>Cost</small>Free</span><span><small>Obligation</small>None</span><span><small>Rating</small>★ 5/5 · 67 reviews</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--flush-top" aria-label="Quote form">
+  <div class="wrap">
+    <div class="funnel">
+      <form class="funnel__main" data-funnel data-endpoint="" novalidate data-note-title="A quote form that adapts to the customer" data-note="Five short steps instead of one long form. Each step asks only what matters for a home, a business or a farm. It saves progress if someone gets interrupted, shows a live estimate as they go, and records which ad or page sent them. Plug in your CRM or inbox address and it's live." data-note-pos="tr">
+        <div class="funnel__progress">
+          <small data-step-label>Step 1 of 5</small>
+          <div class="funnel__track" aria-hidden="true"><i data-progress></i></div>
+          <small data-step-name>Property</small>
+        </div>
+
+        <div class="funnel__steps">
+          <!-- 1 -->
+          <fieldset class="step is-active" data-step="1" data-name="Property" style="border:0;margin:0;min-width:0">
+            <legend class="d-3 step__q">What are we powering?</legend>
+            <p class="step__hint">Pick one and we'll tailor the next questions to it.</p>
+            <div class="options options--3">
+              <label class="option"><input type="radio" name="type" value="home" required><span class="option__ui"><svg><use href="#i-home"/></svg><b>My home</b><small>Panels, battery &amp; EV charging</small><span class="chip chip--sun">Up to €2,400 grant</span></span></label>
+              <label class="option"><input type="radio" name="type" value="business"><span class="option__ui"><svg><use href="#i-building"/></svg><b>My business</b><small>Offices, retail, industrial, schools</small><span class="chip chip--sun">Up to €325,200</span></span></label>
+              <label class="option"><input type="radio" name="type" value="farm"><span class="option__ui"><svg><use href="#i-farm"/></svg><b>My farm</b><small>Sheds, parlours &amp; ground mounts</small><span class="chip chip--sun">60% TAMS 3</span></span></label>
+            </div>
+            <p class="field__err" data-err style="margin-top:14px">Choose one to continue.</p>
+          </fieldset>
+
+          <!-- 2 -->
+          <fieldset class="step" data-step="2" data-name="Details" style="border:0;margin:0;min-width:0">
+            <div data-for="home">
+              <h2 class="d-3 step__q">Tell us about your home.</h2>
+              <p class="step__hint">Helps us size your system before we visit.</p>
+              <p class="field-label">House type</p>
+              <div class="options">
+                <label class="option option--row"><input type="radio" name="home_type" value="Detached"><span class="option__ui"><svg><use href="#i-home"/></svg><b>Detached</b></span></label>
+                <label class="option option--row"><input type="radio" name="home_type" value="Semi-detached"><span class="option__ui"><svg><use href="#i-home"/></svg><b>Semi-detached</b></span></label>
+                <label class="option option--row"><input type="radio" name="home_type" value="Terraced"><span class="option__ui"><svg><use href="#i-home"/></svg><b>Terraced</b></span></label>
+                <label class="option option--row"><input type="radio" name="home_type" value="Bungalow"><span class="option__ui"><svg><use href="#i-home"/></svg><b>Bungalow</b></span></label>
+              </div>
+              <p class="field-label mt-m">Average electricity bill (per month)</p>
+              <div class="options">
+                <label class="option option--row"><input type="radio" name="bill" value="Under €100"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>Under €100</b></span></label>
+                <label class="option option--row"><input type="radio" name="bill" value="€100–€200"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>€100–€200</b></span></label>
+                <label class="option option--row"><input type="radio" name="bill" value="€200–€300"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>€200–€300</b></span></label>
+                <label class="option option--row"><input type="radio" name="bill" value="€300+"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>€300+</b></span></label>
+              </div>
+            </div>
+            <div data-for="business">
+              <h2 class="d-3 step__q">Tell us about your business.</h2>
+              <p class="step__hint">So we can bring the right proposal to your first meeting.</p>
+              <p class="field-label">Type of premises</p>
+              <div class="options">
+                <label class="option option--row"><input type="radio" name="biz_type" value="Office"><span class="option__ui"><svg><use href="#i-building"/></svg><b>Office</b></span></label>
+                <label class="option option--row"><input type="radio" name="biz_type" value="Retail / hospitality"><span class="option__ui"><svg><use href="#i-building"/></svg><b>Retail / hospitality</b></span></label>
+                <label class="option option--row"><input type="radio" name="biz_type" value="Industrial"><span class="option__ui"><svg><use href="#i-building"/></svg><b>Industrial</b></span></label>
+                <label class="option option--row"><input type="radio" name="biz_type" value="School / community"><span class="option__ui"><svg><use href="#i-users"/></svg><b>School / community</b></span></label>
+              </div>
+              <p class="field-label mt-m">Annual electricity spend</p>
+              <div class="options">
+                <label class="option option--row"><input type="radio" name="spend" value="Under €10k"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>Under €10k</b></span></label>
+                <label class="option option--row"><input type="radio" name="spend" value="€10k–€50k"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>€10k–€50k</b></span></label>
+                <label class="option option--row"><input type="radio" name="spend" value="€50k–€150k"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>€50k–€150k</b></span></label>
+                <label class="option option--row"><input type="radio" name="spend" value="€150k+"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>€150k+</b></span></label>
+              </div>
+            </div>
+            <div data-for="farm">
+              <h2 class="d-3 step__q">Tell us about your farm.</h2>
+              <p class="step__hint">We'll check TAMS 3 and SEAI and recommend the better route.</p>
+              <p class="field-label">Main enterprise</p>
+              <div class="options">
+                <label class="option option--row"><input type="radio" name="enterprise" value="Dairy"><span class="option__ui"><svg><use href="#i-farm"/></svg><b>Dairy</b></span></label>
+                <label class="option option--row"><input type="radio" name="enterprise" value="Beef / sheep"><span class="option__ui"><svg><use href="#i-farm"/></svg><b>Beef / sheep</b></span></label>
+                <label class="option option--row"><input type="radio" name="enterprise" value="Tillage"><span class="option__ui"><svg><use href="#i-farm"/></svg><b>Tillage</b></span></label>
+                <label class="option option--row"><input type="radio" name="enterprise" value="Pig / poultry / other"><span class="option__ui"><svg><use href="#i-farm"/></svg><b>Pig, poultry, other</b></span></label>
+              </div>
+              <p class="field-label mt-m">Where would the panels go?</p>
+              <div class="options">
+                <label class="option option--row"><input type="radio" name="mount" value="Shed / parlour roof"><span class="option__ui"><svg><use href="#i-panel"/></svg><b>Shed or parlour roof</b></span></label>
+                <label class="option option--row"><input type="radio" name="mount" value="Ground-mounted"><span class="option__ui"><svg><use href="#i-panel"/></svg><b>Ground-mounted</b></span></label>
+                <label class="option option--row"><input type="radio" name="mount" value="Not sure"><span class="option__ui"><svg><use href="#i-spark"/></svg><b>Not sure yet</b></span></label>
+              </div>
+            </div>
+            <p class="field__err" data-err style="margin-top:14px">Please answer both questions.</p>
+          </fieldset>
+
+          <!-- 3 -->
+          <fieldset class="step" data-step="3" data-name="Interests" style="border:0;margin:0;min-width:0">
+            <legend class="d-3 step__q">What are you interested in?</legend>
+            <p class="step__hint">Pick as many as you like.</p>
+            <div class="options">
+              <label class="option option--row"><input type="checkbox" name="interests" value="Solar panels"><span class="option__ui"><svg><use href="#i-panel"/></svg><b>Solar panels</b></span></label>
+              <label class="option option--row"><input type="checkbox" name="interests" value="Battery storage"><span class="option__ui"><svg><use href="#i-battery"/></svg><b>Battery storage</b></span></label>
+              <label class="option option--row"><input type="checkbox" name="interests" value="EV charger"><span class="option__ui"><svg><use href="#i-car"/></svg><b>EV charger</b></span></label>
+              <label class="option option--row"><input type="checkbox" name="interests" value="Grant help"><span class="option__ui"><svg><use href="#i-file"/></svg><b>Grant help</b></span></label>
+              <label class="option option--row"><input type="checkbox" name="interests" value="Finance options"><span class="option__ui"><svg><use href="#i-euro"/></svg><b>Finance options</b></span></label>
+              <label class="option option--row"><input type="checkbox" name="interests" value="Upgrade existing system"><span class="option__ui"><svg><use href="#i-wrench"/></svg><b>Upgrade a system</b></span></label>
+            </div>
+            <p class="field__err" data-err style="margin-top:14px">Pick at least one.</p>
+          </fieldset>
+
+          <!-- 4 -->
+          <fieldset class="step" data-step="4" data-name="Location" style="border:0;margin:0;min-width:0">
+            <legend class="d-3 step__q">Where and when?</legend>
+            <p class="step__hint">Your Eircode lets us check your roof or site on satellite before we call.</p>
+            <div class="fields">
+              <div class="field full">
+                <label for="f-eircode">Eircode or address <span>*</span></label>
+                <input class="input" id="f-eircode" name="eircode" autocomplete="postal-code" placeholder="e.g. R32 WT18" required>
+                <p class="field__err">Add an Eircode or address so we can assess the site.</p>
+              </div>
+            </div>
+            <p class="field-label mt-m">When are you hoping to install?</p>
+            <div class="options">
+              <label class="option option--row"><input type="radio" name="timeframe" value="As soon as possible"><span class="option__ui"><svg><use href="#i-bolt"/></svg><b>As soon as possible</b></span></label>
+              <label class="option option--row"><input type="radio" name="timeframe" value="Within 3 months"><span class="option__ui"><svg><use href="#i-clock"/></svg><b>Within 3 months</b></span></label>
+              <label class="option option--row"><input type="radio" name="timeframe" value="3–6 months"><span class="option__ui"><svg><use href="#i-clock"/></svg><b>3–6 months</b></span></label>
+              <label class="option option--row"><input type="radio" name="timeframe" value="Just researching"><span class="option__ui"><svg><use href="#i-sun"/></svg><b>Just researching</b></span></label>
+            </div>
+            <p class="field__err" data-err style="margin-top:14px">Choose a timeframe.</p>
+            <label class="option mt-m" style="display:block">
+              <input type="file" name="files" multiple accept="image/*,.pdf" data-files>
+              <span class="option__ui" style="flex-direction:row;align-items:center;border-style:dashed"><svg><use href="#i-upload"/></svg><span><b style="font-family:var(--f-body);font-size:15.5px;font-weight:600;letter-spacing:0">Add photos or plans (optional)</b><br><small data-files-label>Roof, meter box or a recent bill. Speeds up your quote.</small></span></span>
+            </label>
+          </fieldset>
+
+          <!-- 5 -->
+          <fieldset class="step" data-step="5" data-name="Contact" style="border:0;margin:0;min-width:0">
+            <legend class="d-3 step__q">Where should we send your quote?</legend>
+            <p class="step__hint">A real person from Eco Horizon reviews every request. We'll never share your details.</p>
+            <div class="fields">
+              <div class="field"><label for="f-name">Full name <span>*</span></label><input class="input" id="f-name" name="name" autocomplete="name" required><p class="field__err">Please add your name.</p></div>
+              <div class="field"><label for="f-phone">Phone <span>*</span></label><input class="input" id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required><p class="field__err">Please add a valid phone number.</p></div>
+              <div class="field"><label for="f-email">Email <span>*</span></label><input class="input" id="f-email" name="email" type="email" autocomplete="email" required><p class="field__err">Please add a valid email.</p></div>
+              <div class="field" data-biz-only><label for="f-company">Company</label><input class="input" id="f-company" name="company" autocomplete="organization"></div>
+              <div class="field"><label for="f-time">Best time to call</label><select class="input" id="f-time" name="best_time"><option>Any time</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+              <div class="field full"><label for="f-msg">Anything else? (optional)</label><textarea class="input" id="f-msg" name="message" placeholder="Roof direction, shading, existing system, questions…"></textarea></div>
+              <label class="field full" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer">
+                <input type="checkbox" name="consent" required style="width:20px;height:20px;margin-top:2px;accent-color:#f9a125;flex:none">
+                <span class="small muted">I agree to Eco Horizon contacting me about my quote. <span class="field__err" style="display:none">Please tick to continue.</span></span>
+              </label>
+            </div>
+            <input type="hidden" name="source">
+            <input type="hidden" name="landing_page">
+            <input type="hidden" name="utm">
+          </fieldset>
+
+          <!-- Done -->
+          <div class="done step" data-step="done" tabindex="-1">
+            <div class="done__badge"><svg><use href="#i-check"/></svg></div>
+            <h2 class="d-2">Thanks, <em data-done-name>there.</em></h2>
+            <p class="lead" style="margin:20px auto 0;text-align:center">Your request is with the Eco Horizon team. A solar specialist will be in touch shortly with next steps.</p>
+            <div class="timeline-mini">
+              <div><small>NEXT</small><b>We review your site</b><p>Using your Eircode and photos, before we call.</p></div>
+              <div><small>THEN</small><b>Free consultation</b><p>On site or by video, at a time that suits you.</p></div>
+              <div><small>AFTER</small><b>Design &amp; fixed price</b><p>With your grant figure and installation timeline.</p></div>
+            </div>
+            <div class="btn-row mt-m" style="justify-content:center">
+              <a class="btn btn--ghost" href="index.html">Back to home <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap-nav" style="padding:0 clamp(20px,3vw,40px) clamp(24px,3vw,40px)" data-nav-bar>
+          <div class="step__nav" style="margin-top:0">
+            <button class="back-btn is-placeholder" type="button" data-back disabled><svg><use href="#i-back"/></svg>Back</button>
+            <button class="btn btn--sun" type="button" data-next>Continue <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span></button>
+          </div>
+        </div>
+      </form>
+
+      <aside class="funnel__aside">
+        <div class="summary" aria-live="polite">
+          <p class="label">Your quote so far</p>
+          <h3 class="mt-s" data-sum-title>Let's start with your property</h3>
+          <dl data-sum-list></dl>
+          <div class="summary__est" data-sum-est hidden>
+            <small>Early estimate</small>
+            <b data-est-grant>€0</b>
+            <p data-est-text></p>
+          </div>
+        </div>
+        <ul class="assure">
+          <li><svg><use href="#i-shield"/></svg><span><b>No obligation.</b> A tailored quote, not a sales script.</span></li>
+          <li><svg><use href="#i-file"/></svg><span><b>Grant handled.</b> SEAI and TAMS 3 applications filed for you.</span></li>
+          <li><svg><use href="#i-users"/></svg><span><b>Local experts.</b> Designed and installed by our own crew from Co. Laois.</span></li>
+          <li><svg><use href="#i-star"/></svg><span><b>5/5 from 67 reviews</b> on Google &amp; Trustpilot.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="talk" aria-labelledby="talk-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label">Prefer to talk?</p>
+      <h2 class="d-2" id="talk-title" data-split>Real people, <em>right here.</em></h2>
+      <p class="sec-head__note" data-reveal>Call, email or call in. Our solar specialists respond promptly with clear, professional guidance.</p>
+    </div>
+    <div class="contact-cards">
+      <a class="contact-card" href="tel:+353578756595" data-reveal><svg><use href="#i-phone"/></svg><small>Call us</small><b>(057) 875 6595</b></a>
+      <a class="contact-card" href="mailto:info@ecohorizon.ie" data-reveal style="--d:.1s"><svg><use href="#i-mail"/></svg><small>Email us</small><b>info@ecohorizon.ie</b></a>
+      <a class="contact-card" href="https://maps.google.com/?q=Eco+Horizon+Mountrath+R32+WT18" target="_blank" rel="noopener" data-reveal style="--d:.2s"><svg><use href="#i-pin"/></svg><small>Visit us</small><b>Derrough, Mountrath, Co. Laois R32 WT18</b></a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <meta name="theme-color" content="#07100c">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:image" content="assets/img/hero-horizon.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Fraunces:ital,opsz,wght@1,9..144,300..400&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Eco Horizon",
+    "description": "Irish solar PV installation company for homes, businesses and farms.",
+    "telephone": "+353 57 875 6595",
+    "email": "info@ecohorizon.ie",
+    "foundingDate": "2015",
+    "address": { "@type": "PostalAddress", "streetAddress": "Derrough", "addressLocality": "Mountrath", "addressRegion": "Co. Laois", "postalCode": "R32 WT18", "addressCountry": "IE" },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5", "reviewCount": "67" },
+    "sameAs": ["https://www.facebook.com/ecohorizon.ie/", "https://www.instagram.com/ecohorizon.ie/", "https://www.linkedin.com/company/11246207/"]
+  }
+  </script>
+</head>
+<body class="{{bodyClass}}" data-page="{{page}}">
+{{> icons}}
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="ticker" aria-label="Current offers">
+    <div class="ticker__track">
+      <span>SEAI home grant <b>up to €1,800</b> + €600 for batteries</span>
+      <span>Business &amp; farm grants <b>up to €325,200</b></span>
+      <span>TAMS 3 · <b>60% funding</b> for farm solar</span>
+      <span><b>0% VAT</b> on residential solar PV</span>
+      <span>Rated <b>5/5</b> from 67 reviews</span>
+      <span><b>30-year</b> product &amp; performance warranty</span>
+    </div>
+    <div class="ticker__track" aria-hidden="true">
+      <span>SEAI home grant <b>up to €1,800</b> + €600 for batteries</span>
+      <span>Business &amp; farm grants <b>up to €325,200</b></span>
+      <span>TAMS 3 · <b>60% funding</b> for farm solar</span>
+      <span><b>0% VAT</b> on residential solar PV</span>
+      <span>Rated <b>5/5</b> from 67 reviews</span>
+      <span><b>30-year</b> product &amp; performance warranty</span>
+    </div>
+  </div>
+  <div class="nav-bar">
+    <div class="wrap">
+      <a class="logo" href="index.html" aria-label="Eco Horizon home">{{> logo}}</a>
+      <nav aria-label="Main">
+        <ul class="nav">
+          <li>
+            <button class="nav__link" type="button" aria-expanded="false" aria-controls="mega-solutions" data-nav="solutions">Solutions <svg><use href="#i-chev"/></svg></button>
+            <div class="mega" id="mega-solutions">
+              <a class="mega__card" href="homes.html"><img src="assets/img/eh-residential-02.webp" alt="" loading="lazy"><div><b>Homes</b><small>Panels, batteries &amp; EV charging. SEAI grant handled.</small></div></a>
+              <a class="mega__card" href="business.html"><img src="assets/img/eh-commercial-02.webp" alt="" loading="lazy"><div><b>Business</b><small>Roof &amp; ground arrays from 7 kWp to 1 MWp.</small></div></a>
+              <a class="mega__card" href="farms.html"><img src="assets/img/eh-agri-sheep.webp" alt="" loading="lazy"><div><b>Farms</b><small>TAMS 3 &amp; SEAI routes, built for rural sites.</small></div></a>
+              <div class="mega__side">
+                <div>
+                  <p class="label">Not sure yet?</p>
+                  <p class="d-4 mt-s">Get a tailored quote in about 60 seconds.</p>
+                </div>
+                <p>Five quick taps. No obligation. A real person from Eco Horizon calls you back.</p>
+                <a class="btn btn--sun btn--sm btn--block" href="quote.html">Start my quote <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span></a>
+              </div>
+            </div>
+          </li>
+          <li><a class="nav__link" href="technology.html" data-nav="technology">Technology</a></li>
+          <li><a class="nav__link" href="grants.html" data-nav="grants">Grants</a></li>
+          <li><a class="nav__link" href="about.html" data-nav="about">About</a></li>
+          <li><a class="nav__link" href="about.html#reviews">Reviews</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-phone" href="tel:+353578756595"><svg><use href="#i-phone"/></svg><span>(057) 875 6595</span></a>
+        <a class="btn btn--sun btn--sm" href="quote.html" data-magnetic>Free quote <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span></a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="menu-btn__lines" aria-hidden="true"></span><span class="menu-btn__text">Menu</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-label="Menu">
+  <ul class="mobile-menu__list">
+    <li><a href="index.html" data-nav="index"><span>01</span>Home</a></li>
+    <li><a href="homes.html" data-nav="homes"><span>02</span>Solar for homes</a></li>
+    <li><a href="business.html" data-nav="business"><span>03</span>Business solar</a></li>
+    <li><a href="farms.html" data-nav="farms"><span>04</span>Farm solar</a></li>
+    <li><a href="grants.html" data-nav="grants"><span>05</span>Grants</a></li>
+    <li><a href="technology.html" data-nav="technology"><span>06</span>Technology</a></li>
+    <li><a href="about.html" data-nav="about"><span>07</span>About &amp; reviews</a></li>
+    <li><a href="quote.html" data-nav="quote"><span>08</span>Get a quote</a></li>
+  </ul>
+  <div class="mobile-menu__foot">
+    <a class="btn btn--sun btn--block" href="quote.html">Start my free quote <span class="btn__icon"><svg><use href="#i-arrow"/></svg></span></a>
+    <a href="tel:+353578756595">(057) 875 6595</a>
+    <a href="mailto:info@ecohorizon.ie">info@ecohorizon.ie</a>
+    <span>Derrough, Mountrath, Co. Laois R32 WT18</span>
+  </div>
+</div>
+
+<main id="main">
+{{content}}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-intro">
+        <a class="logo" href="index.html" aria-label="Eco Horizon home">{{> logo}}</a>
+        <p>An Irish solar PV company designing, installing and standing behind world-leading solar technology since 2015.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/ecohorizon.ie/" aria-label="Facebook" rel="noopener" target="_blank"><svg><use href="#i-fb"/></svg></a>
+          <a href="https://www.instagram.com/ecohorizon.ie/" aria-label="Instagram" rel="noopener" target="_blank"><svg><use href="#i-ig"/></svg></a>
+          <a href="https://www.linkedin.com/company/11246207/" aria-label="LinkedIn" rel="noopener" target="_blank"><svg><use href="#i-in"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="homes.html">Solar for homes</a></li>
+          <li><a href="business.html">Commercial solar</a></li>
+          <li><a href="farms.html">Agri solar</a></li>
+          <li><a href="technology.html#battery">Battery storage</a></li>
+          <li><a href="technology.html#ev">EV charging</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Eco Horizon</a></li>
+          <li><a href="about.html#reviews">Reviews</a></li>
+          <li><a href="grants.html">Grants guide</a></li>
+          <li><a href="technology.html">Technology</a></li>
+          <li><a href="quote.html">Get a quote</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Talk to us</h4>
+        <ul>
+          <li><a href="tel:+353578756595">(057) 875 6595</a></li>
+          <li><a href="mailto:info@ecohorizon.ie">info@ecohorizon.ie</a></li>
+          <li><a href="https://maps.google.com/?q=Eco+Horizon+Mountrath+R32+WT18" target="_blank" rel="noopener">Derrough, Mountrath,<br>Co. Laois R32 WT18</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-word" aria-hidden="true">Eco <span>Horizon</span></div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> Eco Horizon Ltd. All rights reserved.</span>
+      <nav aria-label="Footer">
+        <a href="quote.html">Contact</a>
+        <a href="preview-pack.html">Concept by Code Bunny</a>
+        <a href="#top" data-to-top>Back to top ↑</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<nav class="mobile-bar" aria-label="Quick actions">
+  <a href="tel:+353578756595"><svg><use href="#i-phone"/></svg>Call</a>
+  <a href="quote.html">Get my free quote <svg><use href="#i-arrow"/></svg></a>
+</nav>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+  {{scripts}}
+<script src="assets/js/preview-notes.js" defer></script>
+</body>
+</html>
