@@ -29,7 +29,7 @@
   if (html.classList.contains("is-loading") && pre) {
     var countEl = $("[data-count]", pre);
     var words = $$(".preloader__words span", pre);
-    var t0 = performance.now(), MIN = 1700, MAX = 3600, shown = 0, fontsOk = false, imgOk = false;
+    var t0 = performance.now(), MIN = 1150, MAX = 3000, shown = 0, fontsOk = false, imgOk = false;
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsOk = true; });
     var heroImg = $(".vhero__img img");
     if (!heroImg || heroImg.complete) imgOk = true;
@@ -49,18 +49,27 @@
       if (store) store.setItem("it-seen", "1");
       var done = function () { html.classList.remove("is-loading"); if (IT.lenis) IT.lenis.start(); };
       if (pre.animate) {
-        var a = pre.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], { duration: 1000, easing: "cubic-bezier(.76,0,.24,1)", fill: "forwards" });
-        setTimeout(intro, 380);
-        a.onfinish = done;
+        pre.classList.add("is-out");
+        setTimeout(function () {
+          var a = pre.animate([
+            { transform: "translateY(0)", borderRadius: "0 0 0 0 / 0 0 0 0" },
+            { transform: "translateY(-100%)", borderRadius: "0 0 50% 50% / 0 0 16vh 16vh" }
+          ], { duration: 850, easing: "cubic-bezier(.76,0,.24,1)", fill: "forwards" });
+          setTimeout(intro, 300);
+          a.onfinish = done;
+        }, 220);
       } else { done(); intro(); }
     }
   } else if (html.classList.contains("is-entering")) {
     var cur = $(".curtain");
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        if (cur) cur.classList.add("is-leaving");
-        setTimeout(intro, 250);
-        setTimeout(function () { html.classList.remove("is-entering"); if (cur) cur.classList.remove("is-leaving"); }, 850);
+        setTimeout(function () {
+          if (cur) cur.classList.add("is-leaving");
+          html.classList.remove("is-entering");
+          setTimeout(intro, 220);
+          setTimeout(function () { if (cur) cur.classList.remove("is-leaving"); }, 900);
+        }, 80);
       });
     });
   } else {
@@ -85,7 +94,7 @@
     closeMenu();
     if (store) store.setItem("it-enter", "1");
     curtain.classList.add("is-covering");
-    setTimeout(function () { location.href = url.href; }, 440);
+    setTimeout(function () { location.href = url.href; }, 520);
   });
   window.addEventListener("pageshow", function (e) {
     if (e.persisted && curtain) { curtain.classList.remove("is-covering"); html.classList.remove("is-entering"); }

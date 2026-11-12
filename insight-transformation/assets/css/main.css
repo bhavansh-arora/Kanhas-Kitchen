@@ -1575,3 +1575,24 @@ img { content-visibility: visible; }
   .ftr__base > :first-child, .ftr__base > :last-child, .ftr__credit { justify-self: center; }
   .ftr__credit { order: 2; } .ftr__base > :last-child { order: 3; }
 }
+
+/* ==========================================================================
+   v13 — minimal loader + curved-edge page transition
+   ========================================================================== */
+.preloader { justify-content: center; align-items: center; padding: 0; background: var(--plum); }
+.preloader::before { display: none; }
+.pl2 { display: grid; justify-items: center; gap: 22px; }
+.pl2__mark { width: 72px; height: 72px; opacity: 0; transform: translateY(10px); animation: pl2in .9s var(--ease) .1s forwards; }
+.pl2__line { position: relative; width: 140px; height: 1px; background: var(--line-dark); overflow: hidden; opacity: 0; animation: pl2in .8s var(--ease) .3s forwards; }
+.pl2__line i { position: absolute; inset: 0; background: var(--lilac); transform: scaleX(var(--p, 0)); transform-origin: left; }
+.pl2__name { font-size: .6rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--on-dark-soft); opacity: 0; animation: pl2in .8s var(--ease) .45s forwards; }
+@keyframes pl2in { to { opacity: 1; transform: none; } }
+.preloader.is-out .pl2 { opacity: 0; transform: translateY(-24px); transition: opacity .35s var(--ease), transform .5s var(--ease); }
+
+.curtain { top: -14vh; bottom: -14vh; border-radius: 50% 50% 0 0 / 14vh 14vh 0 0; }
+.curtain .curtain__word { width: 52px; height: 52px; }
+.curtain.is-covering { border-radius: 0; transition: transform .5s var(--ease-io), border-radius .5s var(--ease-io); }
+.is-entering .curtain { border-radius: 0; }
+.curtain.is-leaving { border-radius: 0 0 50% 50% / 0 0 14vh 14vh; transform: translateY(-100%); transition: transform .65s var(--ease-io), border-radius .65s var(--ease-io); }
+.curtain.is-leaving .curtain__word { opacity: 0; transform: translateY(-20px); transition: opacity .25s, transform .4s var(--ease); }
+.curtain.is-leaving { visibility: visible; }
