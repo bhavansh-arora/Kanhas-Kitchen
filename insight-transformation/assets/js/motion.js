@@ -126,7 +126,7 @@
   });
 
   /* Card groups cascade in */
-  [[".ptiles", ".ptile"], [".bento", ".tile"], [".qtiles", ".qtile"], [".plans", ".plan"], [".values", ".value"], [".who", ".who__card"], [".outcomes", ".outcome"]].forEach(function (pair) {
+  [[".ptiles", ".ptile"], [".bento", ".tile"], [".qtiles", ".qtile"], [".plans", ".plan"], [".values", ".value"], [".who", ".who__card"], [".outcomes", ".outcome"], [".feels", ".feel"], [".exps", ".exp"], [".hsteps", ".hstep"], [".helps__list", "li"]].forEach(function (pair) {
     $$(pair[0]).forEach(function (wrap) {
       var items = $$(pair[1], wrap); items.forEach(settle);
       gsap.from(items, { y: 70, opacity: 0, duration: 1.1, ease: "power3.out", stagger: 0.07, clearProps: "transform,opacity", scrollTrigger: { trigger: wrap, start: "top 85%" } });
