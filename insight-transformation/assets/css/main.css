@@ -1515,3 +1515,33 @@ img { content-visibility: visible; }
   .feels, .exps { grid-template-columns: 1fr; }
   .bigq__img { width: 68px; height: 68px; }
 }
+
+/* ==========================================================================
+   v12 — floating pill header + separated quote lines
+   ========================================================================== */
+.hdr { background: transparent; box-shadow: none; padding: 10px 12px 0; pointer-events: none; }
+.hdr.is-scrolled { box-shadow: none; }
+.hdr__bar { pointer-events: auto; max-width: calc(var(--max) + var(--gutter) * 2); height: 64px; padding: 0 8px 0 18px; border-radius: 999px; background: #fdf9f4; border: 1px solid rgba(21, 19, 31, .08); box-shadow: 0 14px 34px -18px rgba(22, 19, 44, .35); transition: box-shadow .4s var(--ease); }
+.hdr.is-scrolled .hdr__bar { box-shadow: 0 18px 40px -16px rgba(22, 19, 44, .45); }
+.hdr__cta { height: 48px; }
+.hdr__menu { width: 48px; height: 48px; }
+.hdr__menu span:nth-child(1) { top: 20px; } .hdr__menu span:nth-child(2) { top: 27px; }
+.menu-open .hdr__menu span:nth-child(1), .menu-open .hdr__menu span:nth-child(2) { top: 23.5px; }
+.menu { inset: 0; padding-top: calc(var(--hdr-h) + 40px); }
+.menu-open .hdr__bar { box-shadow: none; }
+.vhero { padding-top: 12px; }
+
+.gandhi p { margin-top: .42em; line-height: 1.05; }
+.gandhi p:first-of-type { margin-top: 0; }
+
+@media (max-width: 720px) {
+  .hdr { padding: 8px 8px 0; }
+  .hdr__bar { height: 60px; padding: 0 6px 0 14px; }
+  .hdr__menu { width: 46px; height: 46px; }
+  .hdr__menu span:nth-child(1) { top: 19px; } .hdr__menu span:nth-child(2) { top: 26px; }
+  .menu-open .hdr__menu span:nth-child(1), .menu-open .hdr__menu span:nth-child(2) { top: 22.5px; }
+  .gandhi p { margin-top: .6em; line-height: 1.08; }
+  .gandhi p:first-of-type { margin-top: 0; }
+}
+.menu .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.menu .btn .btn__ico { background: var(--violet); color: #fff; }
