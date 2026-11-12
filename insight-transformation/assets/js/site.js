@@ -64,12 +64,13 @@
     var cur = $(".curtain");
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
+        if (cur) cur.classList.add("is-filled");
         setTimeout(function () {
           if (cur) cur.classList.add("is-leaving");
           html.classList.remove("is-entering");
           setTimeout(intro, 380);
-          setTimeout(function () { if (cur) cur.classList.remove("is-leaving"); }, 1500);
-        }, 260);
+          setTimeout(function () { if (cur) cur.classList.remove("is-leaving", "is-filled"); }, 1500);
+        }, 560);
       });
     });
   } else {
@@ -93,11 +94,14 @@
     e.preventDefault();
     closeMenu();
     if (store) store.setItem("it-enter", "1");
+    var m = document.querySelector("main"), mid = (window.scrollY + window.innerHeight / 2) + "px";
+    if (m) m.style.transformOrigin = "50% " + mid;
+    html.classList.add("is-departing");
     curtain.classList.add("is-covering");
-    setTimeout(function () { location.href = url.href; }, 900);
+    setTimeout(function () { location.href = url.href; }, 1150);
   });
   window.addEventListener("pageshow", function (e) {
-    if (e.persisted && curtain) { curtain.classList.remove("is-covering"); html.classList.remove("is-entering"); }
+    if (e.persisted && curtain) { curtain.classList.remove("is-covering", "is-filled", "is-leaving"); html.classList.remove("is-entering", "is-departing"); }
   });
 
   /* ---------- Header ---------- */

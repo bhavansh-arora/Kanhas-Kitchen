@@ -1606,3 +1606,29 @@ img { content-visibility: visible; }
 .curtain.is-covering { transition: transform .85s var(--ease-io), border-radius .85s var(--ease-io); }
 .curtain.is-leaving { transition: transform 1.05s var(--ease-io), border-radius 1.05s var(--ease-io); }
 .curtain.is-leaving .curtain__word { transition: opacity .4s, transform .6s var(--ease); }
+
+/* ==========================================================================
+   v14 — page change matches the loader + outgoing page steps back
+   ========================================================================== */
+.curtain__in { display: grid; justify-items: center; gap: 22px; }
+.curtain .curtain__word { width: 72px; height: 72px; }
+.curtain__line { position: relative; width: 140px; height: 1px; background: var(--line-dark); overflow: hidden; opacity: 0; }
+.curtain__line i { position: absolute; inset: 0; background: var(--lilac); transform: scaleX(0); transform-origin: left; }
+.curtain__name { font-size: .6rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--on-dark-soft); opacity: 0; transform: translateY(10px); }
+.curtain.is-covering .curtain__line { opacity: 1; transition: opacity .6s var(--ease) .5s; }
+.curtain.is-covering .curtain__line i { transform: scaleX(.7); transition: transform 1s var(--ease) .55s; }
+.curtain.is-covering .curtain__name { opacity: 1; transform: none; transition: opacity .7s var(--ease) .65s, transform .8s var(--ease) .65s; }
+.is-entering .curtain__line, .is-entering .curtain__name { opacity: 1; transform: none; }
+.is-entering .curtain__line i { transform: scaleX(.7); }
+.curtain.is-filled .curtain__line i { transform: scaleX(1); transition: transform .45s var(--ease); }
+.curtain__in { transition: opacity .45s var(--ease), transform .7s var(--ease); }
+.curtain.is-leaving .curtain__in { opacity: 0; transform: translateY(-26px); }
+.curtain.is-leaving .curtain__line, .curtain.is-leaving .curtain__name { opacity: 1; transform: none; }
+.curtain.is-leaving .curtain__line i { transform: scaleX(1); }
+
+/* the page you're leaving steps back and dims */
+html.is-departing main, html.is-departing .ftr { transform: scale(.965) translateY(-14px); opacity: .5; transition: transform .9s var(--ease-io), opacity .9s var(--ease-io); }
+html.is-departing .hdr { opacity: 0; transform: translateY(-20px); transition: opacity .5s var(--ease), transform .6s var(--ease); }
+html.is-departing .mbar { transform: translateY(150%); }
+@media (prefers-reduced-motion: reduce) { html.is-departing main, html.is-departing .ftr { transform: none; opacity: 1; } }
+.is-entering .curtain .curtain__word, .curtain.is-leaving .curtain__word { opacity: 1; transform: none; }
