@@ -1557,3 +1557,9 @@ img { content-visibility: visible; }
 .wm { padding: .14em .08em .26em .04em; margin: -.14em -.08em -.26em -.04em; }
 .js-lines .line, .phero__title .line, .vhero__title .line { padding: .1em .08em .2em .02em; margin: -.1em -.08em -.2em -.02em; }
 .js-lines .line, .phero__title .line, .vhero__title .line { padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0; }
+/* Code Bunny credit */
+.ftr__base { align-items: center; }
+.ftr__credit { display: inline-flex; align-items: center; gap: 8px; }
+.cb-link { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--lilac); color: var(--ink) !important; font-weight: 700; letter-spacing: -.01em; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; transition: background .3s, color .3s; }
+.cb-link:hover { background: var(--violet); color: #fff !important; }
+@media (max-width: 720px) { .ftr__base { align-items: flex-start; gap: 14px; } }
