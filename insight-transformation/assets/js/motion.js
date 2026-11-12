@@ -9,11 +9,13 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   if (reduce || !gsap || !ST) return;
   gsap.registerPlugin(ST);
+  ST.config({ ignoreMobileResize: true });
+  gsap.config({ force3D: true });
 
   /* Smooth scrolling on desktop pointers */
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   if (fine && window.Lenis) {
-    var lenis = new window.Lenis({ duration: 1.1, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
+    var lenis = new window.Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true });
     IT.lenis = lenis;
     lenis.on("scroll", ST.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
@@ -160,7 +162,7 @@
     gsap.fromTo(band.querySelector(".wordband__row--a"), { xPercent: 0 }, { xPercent: -28, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.4 } });
     gsap.fromTo(band.querySelector(".wordband__row--b"), { xPercent: -28 }, { xPercent: 0, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: 0.4 } });
     gsap.fromTo(band.querySelector(".wordband__img img"), { yPercent: -12 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "bottom top", scrub: true } });
-    gsap.fromTo(band, { clipPath: "inset(8% 6% 8% 6% round 34px)" }, { clipPath: "inset(0% 0% 0% 0% round 34px)", ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "top 35%", scrub: 0.6 } });
+    gsap.fromTo(band, { scale: 0.92 }, { scale: 1, ease: "none", scrollTrigger: { trigger: band, start: "top bottom", end: "top 35%", scrub: 0.6 } });
   }
 
   /* "Is this you?": each line brightens as it reaches the middle of the screen */

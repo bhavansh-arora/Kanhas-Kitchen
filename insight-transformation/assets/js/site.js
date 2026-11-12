@@ -85,7 +85,7 @@
     closeMenu();
     if (store) store.setItem("it-enter", "1");
     curtain.classList.add("is-covering");
-    setTimeout(function () { location.href = url.href; }, 620);
+    setTimeout(function () { location.href = url.href; }, 440);
   });
   window.addEventListener("pageshow", function (e) {
     if (e.persisted && curtain) { curtain.classList.remove("is-covering"); html.classList.remove("is-entering"); }
