@@ -28,8 +28,8 @@
   var pre = $(".preloader");
   if (html.classList.contains("is-loading") && pre) {
     var countEl = $("[data-count]", pre);
-    var t0 = performance.now(), MIN = 2100, MAX = 3800, shown = 0, fontsOk = false, imgOk = false;
-    requestAnimationFrame(function () { pre.classList.add("is-in"); });
+    var words = $$(".preloader__words span", pre);
+    var t0 = performance.now(), MIN = 1700, MAX = 3600, shown = 0, fontsOk = false, imgOk = false;
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsOk = true; });
     var heroImg = $(".vhero__img img");
     if (!heroImg || heroImg.complete) imgOk = true;
@@ -41,33 +41,16 @@
       var p = Math.round(shown);
       if (countEl) countEl.textContent = p;
       pre.style.setProperty("--p", (shown / 100).toFixed(3));
-      pre.classList.toggle("is-a", p >= 18);
-      pre.classList.toggle("is-b", p >= 55);
+      words.forEach(function (w, i) { w.classList.toggle("is-lit", p >= (i + 1) * 30); });
       if (ready && p >= 100 && el > MIN) return leave();
       requestAnimationFrame(tick);
     })(t0);
     function leave() {
       if (store) store.setItem("it-seen", "1");
       var done = function () { html.classList.remove("is-loading"); if (IT.lenis) IT.lenis.start(); };
-      var canMask = window.CSS && (CSS.supports("mask-image", "radial-gradient(black, transparent)") || CSS.supports("-webkit-mask-image", "radial-gradient(black, transparent)"));
-      pre.classList.add("is-clearing");
-      if (canMask) {
-        /* the sun rises: a growing circle from the bottom centre opens the loader onto the hero */
-        var ring = document.createElement("div"); ring.className = "preloader__sunring"; document.body.appendChild(ring);
-        var maxR = Math.hypot(window.innerWidth / 2, window.innerHeight) + 40, D = 1250, s0 = 0;
-        var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
-        setTimeout(function () {
-          (function grow(now) {
-            if (!s0) s0 = now;
-            var t = Math.min(1, (now - s0) / D), r = ease(t) * maxR + "px";
-            pre.style.setProperty("--r", r); ring.style.setProperty("--r", r); ring.style.opacity = String(1 - t * t);
-            if (t > .28 && !IT.introDone) intro();
-            if (t < 1) requestAnimationFrame(grow); else { ring.remove(); done(); }
-          })(performance.now());
-        }, 350);
-      } else if (pre.animate) {
-        var a = pre.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, easing: "ease", fill: "forwards" });
-        setTimeout(intro, 250);
+      if (pre.animate) {
+        var a = pre.animate([{ transform: "translateY(0)" }, { transform: "translateY(-100%)" }], { duration: 1000, easing: "cubic-bezier(.76,0,.24,1)", fill: "forwards" });
+        setTimeout(intro, 380);
         a.onfinish = done;
       } else { done(); intro(); }
     }
@@ -75,17 +58,9 @@
     var cur = $(".curtain");
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        var go = function () {
-          if (go.done) return; go.done = true;
-          setTimeout(function () {
-            if (cur) cur.classList.add("is-leaving");
-            html.classList.remove("is-entering");
-            setTimeout(intro, 380);
-            setTimeout(function () { if (cur) cur.classList.remove("is-leaving"); }, 1100);
-          }, 220);
-        };
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
-        setTimeout(go, 600);
+        if (cur) cur.classList.add("is-leaving");
+        setTimeout(intro, 250);
+        setTimeout(function () { html.classList.remove("is-entering"); if (cur) cur.classList.remove("is-leaving"); }, 850);
       });
     });
   } else {
@@ -108,15 +83,9 @@
     if (url.pathname === location.pathname && url.search === location.search) return; // same page (hash links handled natively)
     e.preventDefault();
     closeMenu();
-    var names = { "": "Home", "index": "Home", "about": "About Alberta", "coaching": "Coaching", "find-your-level": "Find your level", "contact": "Let’s talk" };
-    var key = url.pathname.split("/").pop().replace(/\.html$/, "");
-    var label = names[key] || "Insight";
-    var lb = $("[data-curtain-label]", curtain); if (lb) lb.textContent = label;
-    if (store) { store.setItem("it-enter", "1"); store.setItem("it-label", label); }
-    curtain.classList.remove("is-leaving");
-    void curtain.offsetWidth;
+    if (store) store.setItem("it-enter", "1");
     curtain.classList.add("is-covering");
-    setTimeout(function () { location.href = url.href; }, 720);
+    setTimeout(function () { location.href = url.href; }, 440);
   });
   window.addEventListener("pageshow", function (e) {
     if (e.persisted && curtain) { curtain.classList.remove("is-covering"); html.classList.remove("is-entering"); }
