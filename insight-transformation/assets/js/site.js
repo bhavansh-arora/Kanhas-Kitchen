@@ -29,7 +29,7 @@
   if (html.classList.contains("is-loading") && pre) {
     var countEl = $("[data-count]", pre);
     var words = $$(".preloader__words span", pre);
-    var t0 = performance.now(), MIN = 1150, MAX = 3000, shown = 0, fontsOk = false, imgOk = false;
+    var t0 = performance.now(), MIN = 2000, MAX = 3600, shown = 0, fontsOk = false, imgOk = false;
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(function () { fontsOk = true; });
     var heroImg = $(".vhero__img img");
     if (!heroImg || heroImg.complete) imgOk = true;
@@ -54,10 +54,10 @@
           var a = pre.animate([
             { transform: "translateY(0)", borderRadius: "0 0 0 0 / 0 0 0 0" },
             { transform: "translateY(-100%)", borderRadius: "0 0 50% 50% / 0 0 16vh 16vh" }
-          ], { duration: 850, easing: "cubic-bezier(.76,0,.24,1)", fill: "forwards" });
-          setTimeout(intro, 300);
+          ], { duration: 1300, easing: "cubic-bezier(.76,0,.24,1)", fill: "forwards" });
+          setTimeout(intro, 500);
           a.onfinish = done;
-        }, 220);
+        }, 380);
       } else { done(); intro(); }
     }
   } else if (html.classList.contains("is-entering")) {
@@ -67,9 +67,9 @@
         setTimeout(function () {
           if (cur) cur.classList.add("is-leaving");
           html.classList.remove("is-entering");
-          setTimeout(intro, 220);
-          setTimeout(function () { if (cur) cur.classList.remove("is-leaving"); }, 900);
-        }, 80);
+          setTimeout(intro, 380);
+          setTimeout(function () { if (cur) cur.classList.remove("is-leaving"); }, 1500);
+        }, 260);
       });
     });
   } else {
@@ -94,7 +94,7 @@
     closeMenu();
     if (store) store.setItem("it-enter", "1");
     curtain.classList.add("is-covering");
-    setTimeout(function () { location.href = url.href; }, 520);
+    setTimeout(function () { location.href = url.href; }, 900);
   });
   window.addEventListener("pageshow", function (e) {
     if (e.persisted && curtain) { curtain.classList.remove("is-covering"); html.classList.remove("is-entering"); }

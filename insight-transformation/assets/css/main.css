@@ -1596,3 +1596,13 @@ img { content-visibility: visible; }
 .curtain.is-leaving { border-radius: 0 0 50% 50% / 0 0 14vh 14vh; transform: translateY(-100%); transition: transform .65s var(--ease-io), border-radius .65s var(--ease-io); }
 .curtain.is-leaving .curtain__word { opacity: 0; transform: translateY(-20px); transition: opacity .25s, transform .4s var(--ease); }
 .curtain.is-leaving { visibility: visible; }
+/* slower, calmer timing */
+.pl2__mark { animation-duration: 1.3s; animation-delay: .15s; }
+.pl2__line { animation-duration: 1.1s; animation-delay: .5s; }
+.pl2__name { animation-duration: 1.1s; animation-delay: .75s; }
+.preloader.is-out .pl2 { transition: opacity .55s var(--ease), transform .8s var(--ease); }
+.curtain .curtain__word { transition: opacity .6s var(--ease) .35s, transform .8s var(--ease) .35s; transform: translateY(14px); }
+.curtain.is-covering .curtain__word, .is-entering .curtain__word { transform: none; }
+.curtain.is-covering { transition: transform .85s var(--ease-io), border-radius .85s var(--ease-io); }
+.curtain.is-leaving { transition: transform 1.05s var(--ease-io), border-radius 1.05s var(--ease-io); }
+.curtain.is-leaving .curtain__word { transition: opacity .4s, transform .6s var(--ease); }
