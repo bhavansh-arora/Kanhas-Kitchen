@@ -1545,3 +1545,11 @@ img { content-visibility: visible; }
 }
 .menu .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 .menu .btn .btn__ico { background: var(--violet); color: #fff; }
+@media (max-width: 720px) {
+  .stop, .stop--l, .stop--r { grid-template-columns: 48px minmax(0, 1fr); column-gap: 14px; }
+  .stop__body, .stop__media { min-width: 0; max-width: 100%; }
+  .stop__dot { width: 48px; height: 48px; }
+  .route__line { left: 24px; }
+  .stop .btn { max-width: 100%; white-space: normal; }
+}
+@media (max-width: 380px) { .stop .btn { padding-left: 16px; font-size: .86rem; } }
