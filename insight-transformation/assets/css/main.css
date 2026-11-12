@@ -1553,3 +1553,6 @@ img { content-visibility: visible; }
   .stop .btn { max-width: 100%; white-space: normal; }
 }
 @media (max-width: 380px) { .stop .btn { padding-left: 16px; font-size: .86rem; } }
+/* give masked words room for ascenders, descenders and italic overhang */
+.wm { padding: .14em .08em .26em .04em; margin: -.14em -.08em -.26em -.04em; }
+.js-lines .line, .phero__title .line, .vhero__title .line { padding: .1em .08em .2em .02em; margin: -.1em -.08em -.2em -.02em; }
