@@ -7,6 +7,7 @@
         name: 'Vaishnavi Gardenia',
         blocks: ['A', 'B', 'C', 'D', 'E'],
         floors: 18,
+        groundFloor: true, // floor 0: flats 001–008
         unitsPerFloor: 8,
       },
       { id: 'pratham', name: 'Pratham', blocks: [], floors: 0, unitsPerFloor: 0 },

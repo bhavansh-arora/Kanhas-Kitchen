@@ -331,3 +331,9 @@ button.badge:hover { border-color: currentColor; }
 }
 .theme-seg button.active { background: var(--accent); color: #fff; }
 .contact-box { margin-top: 10px; }
+
+/* Houses */
+.house-link { color: inherit; text-decoration: none; }
+.house-link:hover { color: var(--accent-text); text-decoration: underline; }
+.warn-text { color: var(--warn); font-weight: 600; }
+td.nowrap { white-space: nowrap; }

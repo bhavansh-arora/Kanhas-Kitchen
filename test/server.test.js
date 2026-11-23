@@ -20,10 +20,33 @@ test('seeds default societies and serves the app', async () => {
     const state = await (await fetch(`${base}/api/state`)).json();
     assert.deepStrictEqual(state.societies.map((s) => s.name), ['Vaishnavi Gardenia', 'Pratham', 'PGL Apartments']);
     const vg = state.societies[0];
-    assert.deepStrictEqual([vg.blocks, vg.floors, vg.unitsPerFloor], [['A', 'B', 'C', 'D', 'E'], 18, 8]);
+    assert.deepStrictEqual([vg.blocks, vg.floors, vg.unitsPerFloor, vg.groundFloor], [['A', 'B', 'C', 'D', 'E'], 18, 8, true]);
     const html = await (await fetch(`${base}/`)).text();
     assert.match(html, /Kanha's Kitchen/);
     assert.strictEqual((await fetch(`${base}/../server.js`)).status, 404);
+  } finally {
+    server.close();
+  }
+});
+
+test('gives Vaishnavi Gardenia a ground floor, also in older data and restored backups', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kk-'));
+  const dataFile = path.join(dir, 'db.json');
+  const old = { orders: [], menu: [], societies: [{ id: 'vaishnavi-gardenia', name: 'Vaishnavi Gardenia', blocks: ['A'], floors: 18, unitsPerFloor: 8 }] };
+  fs.writeFileSync(dataFile, JSON.stringify(old));
+  const server = createServer({ dataFile });
+  await new Promise((r) => server.listen(0, r));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  try {
+    let state = await (await fetch(`${base}/api/state`)).json();
+    assert.strictEqual(state.societies[0].groundFloor, true);
+    // Turned off in Settings: stays off.
+    const json = { 'Content-Type': 'application/json' };
+    await fetch(`${base}/api/societies/vaishnavi-gardenia`, { method: 'PUT', headers: json, body: JSON.stringify({ ...state.societies[0], groundFloor: false }) });
+    state = await (await fetch(`${base}/api/state`)).json();
+    assert.strictEqual(state.societies[0].groundFloor, false);
+    state = await (await fetch(`${base}/api/import`, { method: 'POST', headers: json, body: JSON.stringify(old) })).json();
+    assert.strictEqual(state.societies[0].groundFloor, true);
   } finally {
     server.close();
   }

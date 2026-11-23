@@ -91,6 +91,7 @@ const Store = {
       S = saved || structuredClone(window.KK_DEFAULTS);
     }
     for (const k of ['orders', 'menu', 'societies']) if (!Array.isArray(S[k])) S[k] = [];
+    migrateSocieties(S.societies);
   },
   persistLocal() {
     try {
@@ -143,6 +144,7 @@ const Store = {
     if (this.mode === 'server') S = await this.api('POST', 'api/import', data);
     else {
       S = { orders: data.orders, menu: data.menu, societies: data.societies };
+      migrateSocieties(S.societies);
       this.persistLocal();
     }
   },
@@ -162,7 +164,14 @@ async function guarded(fn, okMsg) {
 // ---------- domain helpers ----------
 const societyById = (id) => S.societies.find((s) => s.id === id);
 const isGrid = (soc) => soc && soc.floors > 0 && soc.unitsPerFloor > 0;
-const flatNo = (floor, unit) => String(floor * 100 + unit);
+// Ground floor (floor 0) flats are numbered 001, 002, …; other floors 101, 1401, ….
+const flatNo = (floor, unit) => (floor === 0 ? '0' + pad(unit) : String(floor * 100 + unit));
+const firstFloor = (soc) => (soc?.groundFloor ? 0 : 1);
+const floorList = (soc) => Array.from({ length: soc.floors - firstFloor(soc) + 1 }, (_, i) => firstFloor(soc) + i);
+// Older saved data predates the ground floor: Vaishnavi Gardenia has one.
+function migrateSocieties(list) {
+  for (const s of list) if (s.id === 'vaishnavi-gardenia' && s.groundFloor === undefined) s.groundFloor = true;
+}
 const societyName = (id) => (id === OUTSIDE ? 'Outside' : societyById(id)?.name || 'Unknown society');
 
 function houseLabel(o) {
@@ -184,6 +193,36 @@ const itemsTotal = (items) => items.reduce((s, it) => s + num(it.price) * num(it
 const itemsText = (o) => (o.items?.length ? o.items.map((it) => `${it.name} × ${it.qty}`).join(', ') : 'Custom amount');
 const byDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || '').localeCompare(a.createdAt || '');
 const inRange = (o, from, to) => (!from || o.date >= from) && (!to || o.date <= to);
+
+// ---------- daily averages ----------
+const daysIncl = (a, b) => Math.round((parseYmd(b) - parseYmd(a)) / 864e5) + 1;
+// Number of days to average sales over in [from, to] (either may be ''): counted from the
+// first order ever (the kitchen wasn't running before that) up to today, or the last order
+// if some are booked ahead.
+function activeDays(from, to) {
+  let first = '',
+    last = '';
+  for (const o of S.orders) {
+    if (!o.date) continue;
+    if (!first || o.date < first) first = o.date;
+    if (!last || o.date > last) last = o.date;
+  }
+  if (!first) return 0;
+  const start = from && from > first ? from : first;
+  const cap = last > today() ? last : today();
+  const end = to && to < cap ? to : cap;
+  return end < start ? 0 : daysIncl(start, end);
+}
+function dailyAvg(orders, from, to) {
+  const days = activeDays(from, to);
+  const s = summarize(orders);
+  return { days, revenue: days ? Math.round(s.revenue / days) : 0, orders: days ? s.count / days : 0 };
+}
+const perDay = (d) => {
+  if (!d.days) return 'No orders yet';
+  const n = d.orders.toFixed(1).replace(/\.0$/, '');
+  return `${n} order${n === '1' ? '' : 's'}/day · over ${plural(d.days, 'day')}`;
+};
 
 function summarize(orders) {
   let revenue = 0,
@@ -214,7 +253,7 @@ function houseStats(orders) {
   const m = new Map();
   for (const o of orders) {
     const key = houseKey(o);
-    const cur = m.get(key) || { key, label: fullHouseLabel(o), orders: 0, revenue: 0, pending: 0, last: '' };
+    const cur = m.get(key) || { key, label: fullHouseLabel(o), sample: o, orders: 0, revenue: 0, pending: 0, last: '' };
     cur.orders += 1;
     cur.revenue += num(o.amount);
     if (!o.paid) cur.pending += num(o.amount);
@@ -234,7 +273,11 @@ function monthStats(orders, months) {
     if (o.paid) cur.received += num(o.amount);
     else cur.pending += num(o.amount);
   }
-  return months.map((k) => m.get(k));
+  return months.map((k) => {
+    const cur = m.get(k);
+    const days = activeDays(k + '-01', lastDayOfMonth(k));
+    return { ...cur, days, dailyAvg: days ? Math.round(cur.revenue / days) : 0 };
+  });
 }
 
 // Most recent name / phone saved for a house, so they never need typing twice.
@@ -260,6 +303,10 @@ const ui = {
   from: '',
   to: '',
   settingsTab: 'societies',
+  houseSearch: '',
+  houseSociety: '',
+  houseSort: 'recent',
+  houseMonth: '',
 };
 try {
   Object.assign(ui.qa, JSON.parse(localStorage.getItem('kk-ui-qa') || '{}'));
@@ -376,9 +423,15 @@ function columns(rows, { value, label, tip, currentKey }) {
 // ---------- router ----------
 const views = {};
 function currentView() {
-  const v = location.hash.replace('#', '') || 'dashboard';
+  const v = location.hash.replace('#', '').split('/')[0] || 'dashboard';
   return views[v] ? v : 'dashboard';
 }
+// Extra part of the address after the view, e.g. #houses/<house key>.
+const routeArg = () => {
+  const i = location.hash.indexOf('/');
+  return i < 0 ? '' : decodeURIComponent(location.hash.slice(i + 1));
+};
+const houseHref = (o) => '#houses/' + encodeURIComponent(houseKey(o));
 function render() {
   const v = currentView();
   $$('#nav a').forEach((a) => a.classList.toggle('active', a.dataset.view === v));
@@ -412,7 +465,7 @@ function orderTable(orders, { showDate = false } = {}) {
       .map(
         (o) => `<tr>
         ${showDate ? `<td class="num">${esc(shortDate(o.date))}</td>` : ''}
-        <td class="house">${esc(houseLabel(o))}<div class="muted small">${esc(
+        <td class="house"><a href="${houseHref(o)}" class="house-link" data-tip="All orders of this house">${esc(houseLabel(o))}</a><div class="muted small">${esc(
           o.society === OUTSIDE ? 'Outside' + (o.phone ? ' · ' + o.phone : '') : societyName(o.society)
         )}</div></td>
         <td><span class="items">${esc(itemsText(o))}</span>${o.notes ? `<div class="muted small">${esc(o.notes)}</div>` : ''}</td>
@@ -459,6 +512,10 @@ views.dashboard = () => {
   const pendingHouses = new Set(pending.map(houseKey)).size;
   const months = Array.from({ length: 12 }, (_, i) => monthsBack(mk, 11 - i));
   const ms = monthStats(S.orders, months);
+  const avgM = dailyAvg(month, mk + '-01', lastDayOfMonth(mk));
+  const avgP = dailyAvg(prevMonth, prevMk + '-01', lastDayOfMonth(prevMk));
+  const avgAll = dailyAvg(S.orders, '', '');
+  const firstDay = S.orders.reduce((m, o) => (o.date && (!m || o.date < m) ? o.date : m), '');
   let change = '';
   if (sP.revenue > 0) {
     const pct = Math.round(((sM.revenue - sP.revenue) / sP.revenue) * 100);
@@ -479,6 +536,12 @@ views.dashboard = () => {
     ${kpi('Received this month', inr(sM.received), `${inr(sM.pending)} still to collect`)}
     ${kpi('All pending dues', inr(summarize(pending).revenue), `${pendingHouses} house${pendingHouses === 1 ? '' : 's'} · <a href="#payments">view</a>`)}
   </div>
+  <div class="kpis">
+    ${kpi(`Daily average · ${monthLabel(mk, false)}`, inr(avgM.revenue), perDay(avgM))}
+    ${kpi(`Daily average · ${monthLabel(prevMk, false)}`, inr(avgP.revenue), perDay(avgP))}
+    ${kpi('Daily average · overall', inr(avgAll.revenue), avgAll.days ? `${perDay(avgAll)} since ${esc(shortDate(firstDay))}` : 'No orders yet')}
+    ${kpi(`Average order · ${monthLabel(mk, false)}`, inr(sM.count ? Math.round(sM.revenue / sM.count) : 0), `${plural(sM.count, 'order')} this month`)}
+  </div>
   <div class="card" style="margin-bottom:16px">
     <div class="card-head"><h2>Month-wise revenue</h2><span class="muted">Last 12 months · hover a bar for details</span></div>
     ${columns(ms, {
@@ -486,7 +549,7 @@ views.dashboard = () => {
       label: (r) => monthLabel(r.key, false),
       currentKey: mk,
       tip: (r) =>
-        `${monthLabel(r.key)}\nRevenue: ${inr(r.revenue)}\nOrders: ${r.orders}\nReceived: ${inr(r.received)}\nPending: ${inr(r.pending)}`,
+        `${monthLabel(r.key)}\nRevenue: ${inr(r.revenue)}\nDaily average: ${inr(r.dailyAvg)}\nOrders: ${r.orders}\nReceived: ${inr(r.received)}\nPending: ${inr(r.pending)}`,
     })}
   </div>
   <div class="grid-2" style="margin-bottom:16px">
@@ -591,7 +654,7 @@ function quickGrid(soc) {
   const qa = ui.qa;
   const blocks = soc.blocks.length ? soc.blocks : [''];
   if (!blocks.includes(qa.block)) qa.block = blocks[0];
-  if (!(qa.floor >= 1 && qa.floor <= soc.floors)) qa.floor = 1;
+  if (!(qa.floor >= firstFloor(soc) && qa.floor <= soc.floors)) qa.floor = 1;
   const floorsWithOrders = new Set(
     S.orders
       .filter((o) => o.society === soc.id && (o.block || '') === qa.block && o.date === ui.date)
@@ -616,7 +679,7 @@ function quickGrid(soc) {
             .join('')}</div></div>`
         : ''
     }
-    <div><div class="step-label">Floor</div><div class="floor-picker">${Array.from({ length: soc.floors }, (_, i) => i + 1)
+    <div><div class="step-label">Floor</div><div class="floor-picker">${floorList(soc)
       .map(
         (f) =>
           `<button class="${f === qa.floor ? 'active' : ''} ${floorsWithOrders.has(f) ? 'has-dot' : ''}" data-act="qa-floor" data-id="${f}">${f}</button>`
@@ -720,7 +783,7 @@ function paymentsPending() {
             .map(
               (g) => `<details class="group">
         <summary class="group-head">
-          <span><span class="who">${esc(g.label)}</span> <span class="muted small">${g.orders.length} order${g.orders.length > 1 ? 's' : ''}${g.phone ? ' · ' + esc(g.phone) : ''}</span></span>
+          <span><a class="who house-link" href="#houses/${encodeURIComponent(g.key)}">${esc(g.label)}</a> <span class="muted small">${g.orders.length} order${g.orders.length > 1 ? 's' : ''}${g.phone ? ' · ' + esc(g.phone) : ''}</span></span>
           <span class="row"><b class="num">${inr(g.due)}</b><button class="btn-sm btn-primary" data-act="pay-house" data-key="${esc(g.key)}">Mark all received</button></span>
         </summary>
         <div class="group-body">${orderTable(g.orders.sort(byDateDesc), { showDate: true })}</div>
@@ -790,6 +853,7 @@ views.analytics = () => {
   const [from, to, rangeName] = rangeDates();
   const orders = S.orders.filter((o) => inRange(o, from, to));
   const s = summarize(orders);
+  const avg = dailyAvg(orders, from, to);
   const prods = productStats(orders);
   const houses = houseStats(orders);
   const soc = new Map();
@@ -836,9 +900,9 @@ views.analytics = () => {
   </div>
   <div class="kpis">
     ${kpi('Revenue', inr(s.revenue), `${inr(s.received)} received`)}
-    ${kpi('Orders', s.count)}
+    ${kpi('Orders', s.count, `${plural(houses.length, 'house')} served`)}
+    ${kpi('Daily average', inr(avg.revenue), perDay(avg))}
     ${kpi('Average order', inr(s.count ? s.revenue / s.count : 0))}
-    ${kpi('Houses served', houses.length)}
   </div>
 
   <h2 style="margin:22px 0 10px">Products</h2>
@@ -877,7 +941,7 @@ views.analytics = () => {
         ? `<div class="table-wrap"><table><thead><tr><th>#</th><th>House</th><th class="right">Orders</th><th class="right">Revenue</th><th class="right">Pending</th><th>Last order</th></tr></thead><tbody>
       ${hByOrders
         .map(
-          (h, i) => `<tr><td class="muted">${i + 1}</td><td class="house">${esc(h.label)}</td><td class="right num">${h.orders}</td>
+          (h, i) => `<tr><td class="muted">${i + 1}</td><td class="house"><a href="#houses/${encodeURIComponent(h.key)}" class="house-link">${esc(h.label)}</a></td><td class="right num">${h.orders}</td>
           <td class="right num"><b>${inr(h.revenue)}</b></td><td class="right num">${h.pending ? inr(h.pending) : '—'}</td><td class="num">${esc(shortDate(h.last))}</td></tr>`
         )
         .join('')}</tbody></table></div>`
@@ -894,12 +958,13 @@ views.analytics = () => {
     <div class="card-head"><h2>Month-wise revenue</h2></div>
     ${
       ms.length
-        ? `${ms.length > 1 ? columns(ms, { value: (r) => r.revenue, label: (r) => monthLabel(r.key, ms.length > 12), currentKey: monthKey(today()), tip: (r) => `${monthLabel(r.key)}\nRevenue: ${inr(r.revenue)}\nOrders: ${r.orders}` }) : ''}
-      <div class="table-wrap" style="margin-top:14px"><table><thead><tr><th>Month</th><th class="right">Orders</th><th class="right">Revenue</th><th class="right">Received</th><th class="right">Pending</th></tr></thead><tbody>
+        ? `${ms.length > 1 ? columns(ms, { value: (r) => r.revenue, label: (r) => monthLabel(r.key, ms.length > 12), currentKey: monthKey(today()), tip: (r) => `${monthLabel(r.key)}\nRevenue: ${inr(r.revenue)}\nDaily average: ${inr(r.dailyAvg)}\nOrders: ${r.orders}` }) : ''}
+      <div class="table-wrap" style="margin-top:14px"><table><thead><tr><th>Month</th><th class="right">Orders</th><th class="right">Revenue</th><th class="right">Daily avg</th><th class="right">Received</th><th class="right">Pending</th></tr></thead><tbody>
       ${[...ms]
         .reverse()
         .map(
           (m) => `<tr><td><b>${esc(monthLabel(m.key))}</b></td><td class="right num">${m.orders}</td><td class="right num"><b>${inr(m.revenue)}</b></td>
+          <td class="right num" data-tip="${esc(m.days ? `${inr(m.revenue)} over ${plural(m.days, 'day')}` : '')}">${m.days ? inr(m.dailyAvg) : '—'}</td>
           <td class="right num">${inr(m.received)}</td><td class="right num">${inr(m.pending)}</td></tr>`
         )
         .join('')}</tbody></table></div>`
@@ -948,13 +1013,14 @@ views.settings = () => {
   <div class="page-head"><div><h1>Settings</h1><p>Societies, backups and exports.</p></div></div>
   <div class="card" style="margin-bottom:16px">
     <div class="card-head"><h2>Societies</h2><span class="muted">Set floors &amp; flats per floor to get the tap-to-pick grid. Leave 0 to type the flat number.</span></div>
-    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Blocks (comma separated)</th><th>Floors</th><th>Flats / floor</th><th class="right">Orders</th><th></th></tr></thead><tbody>
+    <div class="table-wrap"><table><thead><tr><th>Name</th><th>Blocks (comma separated)</th><th>Floors</th><th>Ground floor (0)</th><th>Flats / floor</th><th class="right">Orders</th><th></th></tr></thead><tbody>
     ${S.societies
       .map(
         (s) => `<tr>
         <td><input value="${esc(s.name)}" data-soc-field="name" data-id="${s.id}" aria-label="Society name"></td>
         <td><input value="${esc(s.blocks.join(', '))}" data-soc-field="blocks" data-id="${s.id}" placeholder="none" aria-label="Blocks"></td>
         <td><input type="number" min="0" max="200" value="${s.floors}" data-soc-field="floors" data-id="${s.id}" style="width:80px" aria-label="Floors"></td>
+        <td><label class="check"><input type="checkbox" data-soc-field="groundFloor" data-id="${s.id}" ${s.groundFloor ? 'checked' : ''}> Has floor 0</label></td>
         <td><input type="number" min="0" max="99" value="${s.unitsPerFloor}" data-soc-field="unitsPerFloor" data-id="${s.id}" style="width:80px" aria-label="Flats per floor"></td>
         <td class="right num">${counts.get(s.id) || 0}</td>
         <td class="right">${counts.get(s.id) ? '' : `<button class="btn-sm btn-ghost btn-danger" data-act="del-society" data-id="${s.id}">Delete</button>`}</td></tr>`
@@ -982,6 +1048,130 @@ views.settings = () => {
     <p class="muted small">${S.orders.length} orders · ${S.menu.length} menu items · ${S.societies.length} societies</p>
   </div>`;
 };
+
+// ---------- houses ----------
+views.houses = () => (routeArg() ? houseDetail(routeArg()) : housesList());
+
+function housesList() {
+  const q = ui.houseSearch.trim().toLowerCase();
+  let list = houseStats(S.orders).map((h) => ({ ...h, ...houseContact(h.key) }));
+  const total = list.length;
+  if (ui.houseSociety) list = list.filter((h) => h.sample.society === ui.houseSociety);
+  if (q) {
+    list = list.filter((h) =>
+      [h.label, houseLabel(h.sample), h.customer, h.phone].some((v) => (v || '').toLowerCase().replace(/\s/g, '').includes(q.replace(/\s/g, '')))
+    );
+  }
+  const sorts = {
+    recent: (a, b) => b.last.localeCompare(a.last),
+    house: (a, b) => a.label.localeCompare(b.label, undefined, { numeric: true }),
+    orders: (a, b) => b.orders - a.orders || b.revenue - a.revenue,
+    revenue: (a, b) => b.revenue - a.revenue,
+    pending: (a, b) => b.pending - a.pending,
+  };
+  list.sort(sorts[ui.houseSort] || sorts.recent);
+  const locs = [['', 'All'], ...S.societies.map((so) => [so.id, so.name]), [OUTSIDE, 'Outside']]
+    .map(([id, n]) => `<button class="chip ${ui.houseSociety === id ? 'active' : ''}" data-act="house-society" data-id="${id}">${esc(n)}</button>`)
+    .join('');
+  return `
+  <div class="page-head">
+    <div><h1>Houses</h1><p>${plural(total, 'house')} have ordered. Open a house to see or add its orders.</p></div>
+    <div class="row"><a class="btn btn-primary" href="#quick">+ Order for a new house</a></div>
+  </div>
+  <div class="card">
+    <div class="chips" style="margin-bottom:12px">${locs}</div>
+    <div class="row" style="justify-content:space-between;margin-bottom:12px">
+      <input id="house-search" type="search" placeholder="Search flat (e.g. C-1401), name or phone" value="${esc(ui.houseSearch)}" style="flex:1;min-width:200px">
+      <label class="row small">Sort <select id="house-sort">${[
+        ['recent', 'Last order'],
+        ['house', 'House number'],
+        ['orders', 'Most orders'],
+        ['revenue', 'Most revenue'],
+        ['pending', 'Most pending'],
+      ]
+        .map(([id, n]) => `<option value="${id}" ${ui.houseSort === id ? 'selected' : ''}>${n}</option>`)
+        .join('')}</select></label>
+    </div>
+    ${
+      list.length
+        ? `<div class="table-wrap"><table><thead><tr><th>House</th><th>Contact</th><th class="right">Orders</th><th class="right">Revenue</th><th class="right">Pending</th><th>Last order</th><th></th></tr></thead><tbody>
+      ${list
+        .map(
+          (h) => `<tr>
+          <td class="house"><a href="#houses/${encodeURIComponent(h.key)}" class="house-link">${esc(houseLabel(h.sample))}</a><div class="muted small">${esc(
+            h.sample.society === OUTSIDE ? 'Outside' : societyName(h.sample.society)
+          )}</div></td>
+          <td class="small">${esc([h.customer, h.phone].filter(Boolean).join(' · ')) || '<span class="muted">—</span>'}</td>
+          <td class="right num">${h.orders}</td>
+          <td class="right num"><b>${inr(h.revenue)}</b></td>
+          <td class="right num">${h.pending ? `<span class="warn-text">${inr(h.pending)}</span>` : '—'}</td>
+          <td class="num">${esc(shortDate(h.last))}</td>
+          <td class="right nowrap"><a class="btn btn-sm btn-ghost" href="#houses/${encodeURIComponent(h.key)}">View</a>
+            <button class="btn-sm" data-act="house-new-order" data-key="${esc(h.key)}">+ Order</button></td></tr>`
+        )
+        .join('')}</tbody></table></div>`
+        : `<div class="empty">${q || ui.houseSociety ? 'No matching house' : 'No orders yet — add one from Quick Add.'}</div>`
+    }
+  </div>`;
+}
+
+// A house's key back as location fields, for houses that have no orders left.
+function houseFromKey(key) {
+  const o = S.orders.filter((x) => houseKey(x) === key).sort(byDateDesc)[0];
+  if (o) return o;
+  const [society, block, flat] = key.split('|');
+  return society === OUTSIDE ? { society, customer: block } : { society, block, flat };
+}
+
+function presetFor(o) {
+  return o.society === OUTSIDE
+    ? { society: OUTSIDE, customer: o.customer || '', phone: o.phone || '', address: o.address || '' }
+    : { society: o.society, block: o.block || '', flat: o.flat || '' };
+}
+
+function houseDetail(key) {
+  const all = S.orders.filter((o) => houseKey(o) === key).sort(byDateDesc);
+  const h = houseFromKey(key);
+  const contact = h.society === OUTSIDE ? { customer: h.customer, phone: h.phone } : houseContact(key);
+  const months = [...new Set(all.map((o) => monthKey(o.date)))].sort().reverse();
+  if (ui.houseMonth && !months.includes(ui.houseMonth)) ui.houseMonth = '';
+  const orders = ui.houseMonth ? all.filter((o) => monthKey(o.date) === ui.houseMonth) : all;
+  const s = summarize(orders);
+  const pendingAll = all.filter((o) => !o.paid);
+  const prods = productStats(orders).sort((a, b) => b.qty - a.qty).slice(0, 6);
+  const contactLine = [contact.customer, contact.phone, h.society === OUTSIDE ? h.address : ''].filter(Boolean).join(' · ');
+  return `
+  <div class="page-head">
+    <div><p class="small"><a href="#houses">← All houses</a></p>
+      <h1>${esc(houseLabel(h))}</h1>
+      <p>${esc(h.society === OUTSIDE ? 'Outside order' : societyName(h.society))}${contactLine ? ' · ' + esc(contactLine) : ''}</p></div>
+    <div class="row">
+      ${pendingAll.length ? `<button data-act="pay-house" data-key="${esc(key)}">Mark all ${inr(summarize(pendingAll).revenue)} received</button>` : ''}
+      <button class="btn-primary" data-act="house-new-order" data-key="${esc(key)}">+ New order</button>
+    </div>
+  </div>
+  <div class="kpis">
+    ${kpi('Orders', s.count, all.length ? `first on ${esc(shortDate(all[all.length - 1].date))}` : '')}
+    ${kpi('Revenue', inr(s.revenue), `average order ${inr(s.count ? Math.round(s.revenue / s.count) : 0)}`)}
+    ${kpi('Received', inr(s.received))}
+    ${kpi('Pending', inr(s.pending), s.pending ? `${plural(orders.filter((o) => !o.paid).length, 'unpaid order')}` : 'All paid')}
+  </div>
+  ${
+    prods.length
+      ? `<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>Usually orders</h2><span class="muted">quantity ${ui.houseMonth ? 'in ' + esc(monthLabel(ui.houseMonth)) : 'all time'}</span></div>
+      <div class="prep-list">${prods.map((p) => `<div class="prep-item">${esc(p.name)} <b>× ${p.qty}</b></div>`).join('')}</div></div>`
+      : ''
+  }
+  <div class="card">
+    <div class="card-head"><h2>Orders</h2>
+      <select id="house-month" aria-label="Month">
+        <option value="">All time (${all.length})</option>
+        ${months.map((m) => `<option value="${m}" ${ui.houseMonth === m ? 'selected' : ''}>${esc(monthLabel(m))} (${all.filter((o) => monthKey(o.date) === m).length})</option>`).join('')}
+      </select>
+    </div>
+    ${orderTable(orders, { showDate: true })}
+  </div>`;
+}
 
 // ---------- order modal ----------
 let draft = null;
@@ -1014,6 +1204,10 @@ function openOrderModal(order, preset) {
     : newDraft(preset);
   if (!draft.paidOn) draft.paidOn = today();
   if (!draft.paymentMode) draft.paymentMode = 'UPI';
+  // The house the name / phone currently belong to. Editing keeps the order's own contact;
+  // a new order (null) picks up the house's saved contact on the first sync.
+  draft.contactKey = order ? houseKey(order) : null;
+  draft.origContact = order ? { key: houseKey(order), customer: order.customer || '', phone: order.phone || '' } : null;
   openModal(`
     <div class="modal-head"><h2>${order ? 'Edit order' : 'New order'}</h2><button class="btn-ghost" data-act="close-modal" aria-label="Close">✕</button></div>
     <form id="order-form" autocomplete="off">
@@ -1087,11 +1281,12 @@ function renderLocFields() {
       <label class="field">Phone<input name="phone" value="${esc(draft.phone)}" inputmode="tel"></label>
       <label class="field" style="grid-column:1/-1">Address<input name="address" value="${esc(draft.address)}"></label></div>`;
   } else if (isGrid(soc)) {
-    const f = Math.floor(num(draft.flat) / 100);
-    const u = num(draft.flat) % 100;
+    // No flat yet: preselect floor 1, flat 1.
+    const f = draft.flat ? Math.floor(num(draft.flat) / 100) : 1;
+    const u = draft.flat ? num(draft.flat) % 100 : 1;
     html = `<div class="form-grid">
       ${soc.blocks.length ? `<label class="field">Block<select name="block">${soc.blocks.map((b) => `<option ${draft.block === b ? 'selected' : ''}>${esc(b)}</option>`).join('')}</select></label>` : ''}
-      <label class="field">Floor<select name="floor">${Array.from({ length: soc.floors }, (_, i) => i + 1).map((x) => `<option ${x === f ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
+      <label class="field">Floor<select name="floor">${floorList(soc).map((x) => `<option value="${x}" ${x === f ? 'selected' : ''}>${x === 0 ? '0 (ground)' : x}</option>`).join('')}</select></label>
       <label class="field">Flat<select name="unit">${Array.from({ length: soc.unitsPerFloor }, (_, i) => i + 1)
         .map((x) => `<option value="${x}" ${x === u ? 'selected' : ''}>${x}</option>`)
         .join('')}</select></label></div>${contactBlock()}`;
@@ -1135,7 +1330,7 @@ function syncLocation() {
     Object.assign(draft, { block: '', flat: '', customer: val('customer').trim(), phone: val('phone').trim(), address: val('address').trim() });
   } else if (isGrid(soc)) {
     draft.block = soc.blocks.length ? val('block') : '';
-    draft.flat = flatNo(num(val('floor')) || 1, num(val('unit')) || 1);
+    draft.flat = flatNo(val('floor') === '' ? 1 : num(val('floor')), num(val('unit')) || 1);
     draft.customer = val('customer').trim();
     draft.phone = val('phone').trim();
   } else {
@@ -1145,9 +1340,13 @@ function syncLocation() {
     draft.phone = val('phone').trim();
   }
   if (draft.society !== OUTSIDE) {
-    // New order: fill in the name / phone this house used before, unless they were typed here.
-    if (!draft.id && !draft.contactTouched && draft.flat) {
-      const c = houseContact(houseKey(draft));
+    // When the house changes (new or edited order), switch to that house's saved name / phone.
+    // Going back to the edited order's original house restores its own contact.
+    const key = houseKey(draft);
+    if (key !== draft.contactKey) {
+      draft.contactKey = key;
+      const o = draft.origContact;
+      const c = o && o.key === key ? o : draft.flat ? houseContact(key, draft.id) : { customer: '', phone: '' };
       draft.customer = c.customer;
       draft.phone = c.phone;
       form.elements.customer.value = c.customer;
@@ -1230,7 +1429,7 @@ async function saveDraft() {
   if (draft.society === OUTSIDE ? !draft.customer : !draft.flat) return toast(draft.society === OUTSIDE ? 'Enter the customer name' : 'Enter the flat number', true);
   if (!draft.items.length && !(draft.amount > 0)) return toast('Add at least one item or enter an amount', true);
 
-  const { contactTouched, ...doc } = draft;
+  const { contactKey, origContact, ...doc } = draft;
   doc.delivered = Boolean(doc.delivered);
   if (!doc.delivered) delete doc.deliveredAt;
   else if (!doc.deliveredAt) doc.deliveredAt = new Date().toISOString();
@@ -1367,6 +1566,11 @@ const actions = {
     const o = S.orders.find((x) => x.id === el.dataset.id);
     openOrderModal(null, { date: ui.date, society: OUTSIDE, customer: o.customer, phone: o.phone || '', address: o.address || '' });
   },
+  'house-society': (el) => {
+    ui.houseSociety = el.dataset.id;
+    render();
+  },
+  'house-new-order': (el) => openOrderModal(null, { date: today(), ...presetFor(houseFromKey(el.dataset.key)) }),
   'pay-tab': (el) => {
     ui.payTab = el.dataset.id;
     render();
@@ -1535,6 +1739,12 @@ document.addEventListener('change', async (e) => {
   } else if (t.id === 'order-society') {
     ui.orderSociety = t.value;
     render();
+  } else if (t.id === 'house-sort') {
+    ui.houseSort = t.value;
+    render();
+  } else if (t.id === 'house-month') {
+    ui.houseMonth = t.value;
+    render();
   } else if (t.id === 'pay-month' && t.value) {
     ui.payMonth = t.value;
     render();
@@ -1560,7 +1770,8 @@ document.addEventListener('change', async (e) => {
     const s = societyById(t.dataset.id);
     const field = t.dataset.socField;
     let value = t.value.trim();
-    if (field === 'blocks') value = value.split(',').map((b) => b.trim().toUpperCase()).filter(Boolean);
+    if (field === 'groundFloor') value = t.checked;
+    else if (field === 'blocks') value = value.split(',').map((b) => b.trim().toUpperCase()).filter(Boolean);
     else if (field !== 'name') value = Math.max(0, Math.floor(num(value)));
     if (field === 'name' && !value) return render();
     await guarded(() => Store.save('societies', { ...s, [field]: value }), 'Saved');
@@ -1587,17 +1798,16 @@ document.addEventListener('change', async (e) => {
 
 document.addEventListener('input', (e) => {
   const t = e.target;
-  if (t.id === 'pay-search') {
-    ui.paySearch = t.value;
+  if (t.id === 'pay-search' || t.id === 'house-search') {
+    ui[t.id === 'pay-search' ? 'paySearch' : 'houseSearch'] = t.value;
     const pos = t.selectionStart;
     render();
-    const n = $('#pay-search');
+    const n = $('#' + t.id);
     n.focus();
     n.setSelectionRange(pos, pos);
     return;
   }
   if (!draft || !$('#order-form')?.contains(t)) return;
-  if (t.name === 'customer' || t.name === 'phone') draft.contactTouched = true;
   if (t.matches('[data-item-price]')) {
     const row = t.closest('.item-row');
     if (row.dataset.idx !== undefined) {

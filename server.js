@@ -23,6 +23,11 @@ const MIME = {
   '.webmanifest': 'application/manifest+json',
 };
 
+// Data saved before the ground floor existed: Vaishnavi Gardenia has flats 001–008 on floor 0.
+function migrate(db) {
+  for (const s of db.societies) if (s && s.id === 'vaishnavi-gardenia' && s.groundFloor === undefined) s.groundFloor = true;
+}
+
 function createStore(file) {
   let db;
   if (fs.existsSync(file)) {
@@ -31,6 +36,7 @@ function createStore(file) {
     db = structuredClone(DEFAULTS);
   }
   for (const col of COLLECTIONS) if (!Array.isArray(db[col])) db[col] = structuredClone(DEFAULTS[col]);
+  migrate(db);
 
   function save() {
     fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -68,6 +74,7 @@ function createStore(file) {
         if (!Array.isArray(next[col])) throw new Error(`Backup is missing "${col}"`);
       }
       db = { orders: next.orders, menu: next.menu, societies: next.societies };
+      migrate(db);
       save();
     },
   };

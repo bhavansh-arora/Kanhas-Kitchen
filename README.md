@@ -4,21 +4,23 @@ A small web panel for logging daily orders, tracking payments and seeing revenue
 
 ## Features
 
-- **Dashboard**: today's revenue, this month's revenue compared with last month, money received, pending dues, a month-wise revenue chart for the last 12 months, top products and top houses.
+- **Dashboard**: today's revenue, this month's revenue compared with last month, money received, pending dues, the daily average sale (this month, last month and overall), a month-wise revenue chart for the last 12 months, top products and top houses.
+  - Daily averages are counted from the first order ever logged up to today, so days before the kitchen started don't pull the average down.
 - **Quick Add**: pick a society and then a house.
-  - **Vaishnavi Gardenia**: blocks A–E, floors 1–18, flats 1–8 on each floor. Floor 14 shows 1401–1408, and so on.
+  - **Vaishnavi Gardenia**: blocks A–E, floors 0–18, flats 1–8 on each floor. Floor 0 (ground) shows 001–008, floor 14 shows 1401–1408, and so on.
   - **Pratham** and **PGL Apartments**: type the flat number, or tap a recent house. You can set up blocks and floors for these in Settings to get the same tap-to-pick grid.
   - **Outside order**: customer name, phone and address for anyone outside these apartments.
-- **Order form**: tap + / − on menu items and the price fills in from the menu. You can change a price for one order, add an item that isn't on the menu (and save it to the menu), repeat a house's last order, or type the amount manually.
+- **Order form**: changing the house (block, floor, flat or society) switches the name and phone to that house's saved contact, both for new orders and when editing. Tap + / − on menu items and the price fills in from the menu. You can change a price for one order, add an item that isn't on the menu (and save it to the menu), repeat a house's last order, or type the amount manually.
 - **Daily Orders**: a day-by-day log with previous/next day buttons, the day's totals, an "items to prepare" count, a filter by society, and delivery tracking (Delivered / Not delivered on each order, a "To deliver" filter and "Mark all delivered").
+- **Houses**: every house that has ordered, with its contact, number of orders, revenue, pending dues and last order. Search by flat, name or phone, filter by society, and sort. Open a house to see all its orders (filter by month), what it usually orders, mark its dues received, or add a new order for it. Clicking a house anywhere in the panel opens this page.
 - **Payments**: pending dues grouped by house, with "Mark all received" (UPI, Cash, …) and the date. There is also a log of payments received each month, split by payment mode.
 - **Analytics** (this month, last month, last 3 months, this year, all time or a custom range):
   - products ranked by quantity sold and by revenue
   - houses ranked by number of orders and by revenue
   - revenue by society
-  - month-wise revenue table
+  - daily average sale for the range, and per month in the month-wise revenue table
 - **Menu**: add dishes and edit their prices. Past orders keep the price they were logged at.
-- **Settings**: edit societies, choose Light / Dark / Match device appearance (light by default, saved per device), download or restore a JSON backup, and export orders as CSV.
+- **Settings**: edit societies (blocks, floors, whether there is a ground floor 0, flats per floor), choose Light / Dark / Match device appearance (light by default, saved per device), download or restore a JSON backup, and export orders as CSV.
 
 ## Running it
 
